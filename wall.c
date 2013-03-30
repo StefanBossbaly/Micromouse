@@ -15,31 +15,31 @@ void nav_init(struct nav_array *array)
     int i;
     for(i = 0; i < (array->length * array->width); i++)
     {
-        struct nav_cell *cell = array->cells[i];
-        cell->north = 0;
-        cell->south = 0;
-        cell->east = 0;
-        cell->west = 0;
-        cell->flood_num = -1;
+        struct nav_cell cell = array->cells[i];
+        cell.north = 0;
+        cell.south = 0;
+        cell.east = 0;
+        cell.west = 0;
+        cell.flood_num = -1;
     }
 }
 
-nav_cell *nav_get_cell(struct nav_array *array, pos_t *position)
+struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
 {
     if (! nav_is_pos_in_bounds(array, position))
         return 0;
     
     int index = (position->column * array->width) + position->row;
-    return array->cells[index];
+    return &array->cells[index];
 }
 
-nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
+struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
 {
     if (! nav_is_in_bounds(array, row, column))
         return 0;
     
     int index = (row * array->width) + column;
-    return array->cells[index];
+    return &array->cells[index];
 }
 
 void nav_reset_visited(struct nav_array *array)
@@ -47,8 +47,8 @@ void nav_reset_visited(struct nav_array *array)
     int i;
     for(i = 0; i < (array->length * array->width); i++)
     {
-        struct nav_cell *cell = array->cells[i];
-        cell->flood_num = -1;
+        struct nav_cell cell = array->cells[i];
+        cell.flood_num = -1;
     }
 }
 
@@ -71,15 +71,10 @@ void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num)
     struct nav_cell *cell =  nav_get_cell(array, row, column);
     
     //North
-    if (nav_is_in_bounds(array, row, column))
-    {
-        struct nav_cell *north_cell =  
-    }
     
     //East
     
     //South
     
     //West
-    
 }
