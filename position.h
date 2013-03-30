@@ -1,7 +1,7 @@
 #ifndef POSITION_H
 #define	POSITION_H
 
-enum
+typedef enum
 {
     north,
     south,
