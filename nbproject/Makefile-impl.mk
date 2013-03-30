@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=MircoMouse
+PROJECTNAME=Micromouse
 
 # Active Configuration
 DEFAULTCONF=Debug

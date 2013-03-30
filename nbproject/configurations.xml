@@ -16,6 +16,7 @@
                    projectFiles="true">
       <itemPath>main.c</itemPath>
       <itemPath>position.c</itemPath>
+      <itemPath>wall.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -35,6 +36,8 @@
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
       </compileType>
@@ -44,6 +47,8 @@
       </item>
       <item path="position.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="wall.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="wall.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -51,6 +56,8 @@
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -71,6 +78,8 @@
       <item path="position.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="position.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="wall.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="wall.h" ex="false" tool="3" flavor2="0">
       </item>
