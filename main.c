@@ -9,6 +9,20 @@
 #include <stdlib.h>
 #include "wall.h"
 
+void print_nav(struct nav_array *nav)
+{
+    int i,j;
+    for (i = 0; i < nav->width; i++)
+    {
+        for (j = 0; j < nav->length; j++)
+        {
+            struct nav_cell *cell = nav_get_cell(nav, i, j);
+            printf("%i ", cell->flood_num);
+        }
+        printf("\n");
+    }
+}
+
 int main(int argc, char** argv) {
     struct nav_cell cells[256];
     struct nav_array nav;
@@ -16,18 +30,14 @@ int main(int argc, char** argv) {
     nav.length = 16;
     nav.width = 16;
     
-    nav.cells[0].flood_num = -1;
-    
     nav_init(&nav);
+    print_nav(&nav);
     
+    nav_flood(&nav);
+    print_nav(&nav);
     
-    int i;
-    
-    for (i = 0; i < 256; i++)
-    {
-        struct nav_cell cell = nav.cells[i];
-        printf("%i\n", cell.flood_num);
-    }
+    nav_reset_visited(&nav);
+    print_nav(&nav);
     
     return (EXIT_SUCCESS);
 }
