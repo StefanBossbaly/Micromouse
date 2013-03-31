@@ -56,7 +56,7 @@ void nav_reset_visited(struct nav_array *array)
 
 inline int nav_has_visited(struct nav_cell *cell)
 {
-    return (cell->flood_num != 0);
+    return (cell->flood_num != -1);
 }
 
 void nav_flood(struct nav_array *array)
