@@ -72,11 +72,49 @@ void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num)
 {
     struct nav_cell *cell =  nav_get_cell(array, row, column);
     
+    cell->flood_num = flood_num;
+    
     //North
+    if (nav_is_in_bounds(array, row + 1, column))
+    {
+        struct nav_cell *north = nav_get_cell(array, row + 1, column);
+        
+        if (!nav_has_visited(north))
+        {
+            nav_flood_rec(array, row + 1, column, flood_num + 1);
+        }
+    }
     
     //East
+    if (nav_is_in_bounds(array, row, column + 1))
+    {
+        struct nav_cell *east = nav_get_cell(array, row, column + 1);
+        
+        if (!nav_has_visited(east))
+        {
+            nav_flood_rec(array, row, column + 1, flood_num + 1);
+        }
+    }
     
     //South
+    if (nav_is_in_bounds(array, row - 1, column))
+    {
+        struct nav_cell *south = nav_get_cell(array, row - 1, column);
+        
+        if (!nav_has_visited(south))
+        {
+            nav_flood_rec(array, row - 1, column, flood_num + 1);
+        }
+    }
     
     //West
+    if (nav_is_in_bounds(array, row, column - 1))
+    {
+        struct nav_cell *west = nav_get_cell(array, row, column - 1);
+        
+        if (!nav_has_visited(west))
+        {
+            nav_flood_rec(array, row, column - 1, flood_num + 1);
+        }
+    }
 }
