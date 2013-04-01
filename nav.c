@@ -1,4 +1,4 @@
-#include "wall.h"
+#include "nav.h"
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {

@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "wall.h"
+#include "nav.h"
 
 void print_nav(struct nav_array *nav)
 {

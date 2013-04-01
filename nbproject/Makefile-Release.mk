@@ -36,8 +36,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/position.o \
-	${OBJECTDIR}/wall.o
+	${OBJECTDIR}/nav.o \
+	${OBJECTDIR}/position.o
 
 
 # C Compiler Flags
@@ -69,15 +69,15 @@ ${OBJECTDIR}/main.o: main.c
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
 
+${OBJECTDIR}/nav.o: nav.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/nav.o nav.c
+
 ${OBJECTDIR}/position.o: position.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/position.o position.c
-
-${OBJECTDIR}/wall.o: wall.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/wall.o wall.c
 
 # Subprojects
 .build-subprojects:
