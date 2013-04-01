@@ -15,7 +15,7 @@ typedef enum
     back,
     left,
     right
-} scalar;
+} facing;
 
 struct position
 {
@@ -68,9 +68,9 @@ direction position_left_adj_direciton(direction dir);
 /**
  * Converts the scalar value into a directional value
  * @param position the position of the mouse
- * @param scalar which facing we want
+ * @param facing which facing we want
  * @return the directional value of the facing
  */
-direction position_convert_to_direction(pos_t *position, scalar scalar);
+direction position_convert_to_direction(pos_t *position, facing facing);
 
 #endif	/* POSITION_H */

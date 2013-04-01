@@ -120,7 +120,7 @@ direction position_left_adj_direciton(direction dir)
     }
 }
 
-direction position_convert_to_direction(pos_t *position, scalar dir)
+direction position_convert_to_direction(pos_t *position, facing dir)
 {
     if (dir == front)
     {

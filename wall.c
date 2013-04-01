@@ -139,7 +139,7 @@ void nav_update_wall_cell(struct nav_cell *cell, direction dir)
     }   
 }
 
-void nav_update_wall(struct nav_array *array, pos_t *position, scalar dir)
+void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
 {
     struct nav_cell *cell = nav_get_cell_pos(array, position);
     
