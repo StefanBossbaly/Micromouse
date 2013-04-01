@@ -39,7 +39,7 @@ void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num);
 
 //Wall
 void nav_update_wall_cell(struct nav_cell *cell, direction dir);
-void nav_update_wall(struct nav_array *array, pos_t *position, scalar dir);
+void nav_update_wall(struct nav_array *array, pos_t *position, facing dir);
 
 #endif	/* WALL_H */
 
