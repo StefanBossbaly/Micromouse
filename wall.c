@@ -118,3 +118,57 @@ void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num)
         }
     }
 }
+
+void nav_update_wall_cell(struct nav_cell *cell, direction dir)
+{
+    if (dir == north)
+    {
+        cell->north = 1;
+    }
+    else if (dir == east)
+    {
+        cell->east = 1;
+    }
+    else if (dir == south)
+    {
+        cell->south = 1;
+    }
+    else
+    {
+        cell->west = 1;
+    }   
+}
+
+void nav_update_wall(struct nav_array *array, pos_t *position, scalar dir)
+{
+    struct nav_cell *cell = nav_get_cell_pos(array, position);
+    
+    //Convert the scalar to a direction
+    direction wall_dir = position_convert_to_direction(position, dir);
+    
+    //Update our nav cell
+    nav_update_wall_cell(cell, wall_dir);
+    
+    //Update coresponding cell
+    //TODO put this code somewhere else in its own subroutine
+    if (wall_dir == north && nav_is_in_bounds(array, position->row + 1, position->column))
+    {
+        struct nav_cell *cell = nav_get_cell(array, position->row + 1, position->column);
+        nav_update_wall_cell(cell, south);
+    }
+    else if (wall_dir == east && nav_is_in_bounds(array, position->row, position->column + 1))
+    {
+        struct nav_cell *cell = nav_get_cell(array, position->row, position->column + 1);
+        nav_update_wall_cell(cell, west);
+    }
+    else if (wall_dir == south && nav_is_in_bounds(array, position->row - 1, position->column))
+    {
+        struct nav_cell *cell = nav_get_cell(array, position->row - 1, position->column);
+        nav_update_wall_cell(cell, north);
+    }
+    else if (wall_dir == west && nav_is_in_bounds(array, position->row, position->column - 1))
+    {
+        struct nav_cell *cell = nav_get_cell(array, position->row, position->column - 1);
+        nav_update_wall_cell(cell, east);
+    } 
+}
