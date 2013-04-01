@@ -26,15 +26,51 @@ struct position
 
 typedef struct position pos_t;
 
+/**
+ * Rotates the direction in the position to the right
+ * @param position the position to be rotated
+ */
 void position_rotate_right(pos_t *position);
+
+/**
+ * Rotates the direction in the position to the left
+ * @param position the position to be rotated
+ */
 void position_rotate_left(pos_t *position);
+
+/**
+ * Moves the position forward to the direction it is facing
+ * @param position the position to be moved forward
+ */
 void position_move_forward(pos_t *position);
 
+/**
+ * Returns the direction that is 180 degrees to the given direction
+ * @param dir the given direction
+ * @return the direction that is 180 degrees to the given direction
+ */
 direction position_invert_direciton(direction dir);
+
+/**
+ * Returns the direction that is to the right of the given direction
+ * @param dir the given direction
+ * @return the direction that is to the right of the given direction
+ */
 direction position_right_adj_direciton(direction dir);
+
+/**
+ * Returns the direction that is to the left of the given direction
+ * @param dir the given direction
+ * @return the direction that is to the left of the given direction
+ */
 direction position_left_adj_direciton(direction dir);
 
+/**
+ * Converts the scalar value into a directional value
+ * @param position the position of the mouse
+ * @param scalar which facing we want
+ * @return the directional value of the facing
+ */
 direction position_convert_to_direction(pos_t *position, scalar scalar);
 
 #endif	/* POSITION_H */
-
