@@ -59,3 +59,83 @@ void position_move_forward(pos_t *position)
         position->column -= 1;
     }
 }
+
+direction position_invert_direciton(direction dir)
+{
+    if (dir == north)
+    {
+        return east;
+    }
+    else if (dir == east)
+    {
+        return south;
+    }
+    else if (dir == south)
+    {
+        return east;
+    }
+    else
+    {
+        return north;
+    }
+}
+
+direction position_right_adj_direciton(direction dir)
+{
+    if (dir == north)
+    {
+        return south;
+    }
+    else if (dir == east)
+    {
+        return west;
+    }
+    else if (dir == south)
+    {
+        return north;
+    }
+    else
+    {
+        return east;
+    }
+}
+
+direction position_left_adj_direciton(direction dir)
+{
+    if (dir == north)
+    {
+        return west;
+    }
+    else if (dir == east)
+    {
+        return north;
+    }
+    else if (dir == south)
+    {
+        return east;
+    }
+    else
+    {
+        return south;
+    }
+}
+
+direction position_convert_to_direction(pos_t *position, scalar dir)
+{
+    if (dir == front)
+    {
+        return position->direction;
+    }
+    else if (dir == back)
+    {
+        return position_invert_direciton(position->direction);
+    }
+    else if (dir == right)
+    {
+        position_right_adj_direciton(position->direction);
+    }
+    else
+    {
+        position_left_adj_direciton(position->direction);
+    }
+}
