@@ -9,6 +9,14 @@ typedef enum
     west
 } direction;
 
+typedef enum
+{
+    front,
+    back,
+    left,
+    right
+} scalar;
+
 struct position
 {
     int row;
@@ -21,6 +29,12 @@ typedef struct position pos_t;
 void position_rotate_right(pos_t *position);
 void position_rotate_left(pos_t *position);
 void position_move_forward(pos_t *position);
+
+direction position_invert_direciton(direction dir);
+direction position_right_adj_direciton(direction dir);
+direction position_left_adj_direciton(direction dir);
+
+direction position_convert_to_direction(pos_t *position, scalar scalar);
 
 #endif	/* POSITION_H */
 
