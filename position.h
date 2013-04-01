@@ -26,14 +26,13 @@ typedef enum
 /**
  * Used to keep track of the position of the mouse
  */
-struct position
+typedef struct
 {
     int row;
     int column;
     direction direction;
-};
+} pos_t;
 
-typedef struct position pos_t;
 
 /**
  * Rotates the direction in the position to the right
