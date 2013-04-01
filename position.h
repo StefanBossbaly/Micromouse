@@ -1,6 +1,9 @@
 #ifndef POSITION_H
 #define	POSITION_H
 
+/**
+ * Coordinate system direction
+ */
 typedef enum
 {
     north,
@@ -9,6 +12,9 @@ typedef enum
     west
 } direction;
 
+/**
+ * Facing direction relative to the mouse
+ */
 typedef enum
 {
     front,
@@ -17,6 +23,9 @@ typedef enum
     right
 } facing;
 
+/**
+ * Used to keep track of the position of the mouse
+ */
 struct position
 {
     int row;
