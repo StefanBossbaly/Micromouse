@@ -1,5 +1,5 @@
-#ifndef WALL_H
-#define	WALL_H
+#ifndef NAV_H
+#define	NAV_H
 
 #include "position.h"
 
@@ -41,5 +41,5 @@ void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num);
 void nav_update_wall_cell(struct nav_cell *cell, direction dir);
 void nav_update_wall(struct nav_array *array, pos_t *position, facing dir);
 
-#endif	/* WALL_H */
+#endif	/* NAV_H */
 

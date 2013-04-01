@@ -4,8 +4,8 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>nav.h</itemPath>
       <itemPath>position.h</itemPath>
-      <itemPath>wall.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,8 +15,8 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
+      <itemPath>nav.c</itemPath>
       <itemPath>position.c</itemPath>
-      <itemPath>wall.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -43,13 +43,13 @@
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="nav.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="nav.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="position.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="position.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="wall.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="wall.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -75,13 +75,13 @@
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="nav.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="nav.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="position.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="position.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="wall.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="wall.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
