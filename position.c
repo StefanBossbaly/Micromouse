@@ -64,26 +64,6 @@ direction position_invert_direciton(direction dir)
 {
     if (dir == north)
     {
-        return east;
-    }
-    else if (dir == east)
-    {
-        return south;
-    }
-    else if (dir == south)
-    {
-        return east;
-    }
-    else
-    {
-        return north;
-    }
-}
-
-direction position_right_adj_direciton(direction dir)
-{
-    if (dir == north)
-    {
         return south;
     }
     else if (dir == east)
@@ -97,6 +77,26 @@ direction position_right_adj_direciton(direction dir)
     else
     {
         return east;
+    }
+}
+
+direction position_right_adj_direciton(direction dir)
+{
+    if (dir == north)
+    {
+        return east;
+    }
+    else if (dir == east)
+    {
+        return south;
+    }
+    else if (dir == south)
+    {
+        return west;
+    }
+    else
+    {
+        return north;
     }
 }
 
