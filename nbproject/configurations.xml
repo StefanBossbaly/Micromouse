@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>memmgr.h</itemPath>
       <itemPath>nav.h</itemPath>
       <itemPath>position.h</itemPath>
     </logicalFolder>
@@ -15,6 +16,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
+      <itemPath>memmgr.c</itemPath>
       <itemPath>nav.c</itemPath>
       <itemPath>position.c</itemPath>
     </logicalFolder>
@@ -42,6 +44,10 @@
       <compileType>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="memmgr.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="memmgr.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nav.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -74,6 +80,10 @@
         </asmTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="memmgr.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="memmgr.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nav.c" ex="false" tool="0" flavor2="0">
       </item>

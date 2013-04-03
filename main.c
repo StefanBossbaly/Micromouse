@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "nav.h"
+#include "memmgr.h"
 
 void print_nav(struct nav_array *nav)
 {
@@ -41,6 +42,7 @@ void print_wall(struct nav_array *nav)
 }
 
 int main(int argc, char** argv) {
+    memmgr_init();
     struct nav_cell cells[256];
     struct nav_array nav;
     nav.cells = cells;
