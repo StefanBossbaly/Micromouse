@@ -48,7 +48,7 @@ struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
     if (! nav_is_pos_in_bounds(array, position))
         return 0;
     
-    int index = (position->column * array->width) + position->row;
+    int index = (position->row * array->width) + position->column;
     return &array->cells[index];
 }
 
@@ -185,22 +185,22 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
     //TODO put this code somewhere else in its own subroutine
     if (wall_dir == north && nav_is_in_bounds(array, position->row - 1, position->column))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row - 1, position->column);
-        nav_update_wall_cell(cell, south);
+        struct nav_cell *north_cell = nav_get_cell(array, position->row - 1, position->column);
+        nav_update_wall_cell(north_cell, south);
     }
     else if (wall_dir == east && nav_is_in_bounds(array, position->row, position->column + 1))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row, position->column + 1);
-        nav_update_wall_cell(cell, west);
+        struct nav_cell *east_cell = nav_get_cell(array, position->row, position->column + 1);
+        nav_update_wall_cell(east_cell, west);
     }
     else if (wall_dir == south && nav_is_in_bounds(array, position->row + 1, position->column))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row + 1, position->column);
-        nav_update_wall_cell(cell, north);
+        struct nav_cell *south_cell = nav_get_cell(array, position->row + 1, position->column);
+        nav_update_wall_cell(south_cell, north);
     }
     else if (wall_dir == west && nav_is_in_bounds(array, position->row, position->column - 1))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row, position->column - 1);
-        nav_update_wall_cell(cell, east);
+        struct nav_cell *west_cell = nav_get_cell(array, position->row, position->column - 1);
+        nav_update_wall_cell(west_cell, east);
     } 
 }
