@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "nav.h"
 #include "queue.h"
+#include "position.h"
 
 void print_nav(struct nav_array *nav)
 {
@@ -18,7 +19,7 @@ void print_nav(struct nav_array *nav)
         for (j = 0; j < nav->length; j++)
         {
             struct nav_cell *cell = nav_get_cell(nav, i, j);
-            printf("%i ", cell->flood_num);
+            printf("%02d ", cell->flood_num);
         }
         printf("\n");
     }
@@ -49,6 +50,26 @@ int main(int argc, char** argv) {
     nav.width = 16;
     
     nav_init(&nav);
+    
+    pos_t pos;
+    pos.row = 0;
+    pos.column = 0;
+    pos.direction = south;
+    
+    nav_update_wall(&nav, &pos, left);
+    pos.column = 1;
+    nav_update_wall(&nav, &pos, front);
+    
+    /*struct nav_cell *first = nav_get_cell(&nav, 0, 0);
+    struct nav_cell *second = nav_get_cell(&nav, 0, 1);
+    struct nav_cell *thrid = nav_get_cell(&nav, 1, 1);
+    
+    first->east = 1;
+    second->west = 1;
+    second->south = 1;
+    thrid->north = 1;*/
+    
+    print_wall(&nav);
     
     printf("========================\n");
     
