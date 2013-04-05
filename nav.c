@@ -1,4 +1,6 @@
 #include "nav.h"
+#include "queue.h"
+#include <stdio.h>
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
@@ -64,57 +66,60 @@ void nav_flood(struct nav_array *array)
     //Reset the nav array
     nav_reset_visited(array);
     
-    //Start at the beginning
-    nav_flood_rec(array, 0, 0, 0);
-}
-
-void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num)
-{
-    struct nav_cell *cell =  nav_get_cell(array, row, column);
+    //Declare our buffer on the stack
+    nav_queue_cell cells[256];
+    nav_queue queue;
     
-    cell->flood_num = flood_num;
+    nav_queue_init(&queue, cells, 256);
     
-    //North
-    if (nav_is_in_bounds(array, row + 1, column))
+    //Start at the first cell and queue it
+    struct nav_cell *first =  nav_get_cell(array, 0, 0);
+    
+    //Add it to the queue
+    nav_queue_enqueue(&queue, first, 0 , 0, 0);
+    
+    while(! nav_queue_empty(&queue))
     {
-        struct nav_cell *north = nav_get_cell(array, row + 1, column);
+        //Declare our buffer on the stack
+        nav_queue_cell current;
         
-        if (!nav_has_visited(north))
+        //Dequeue and fill our buffer
+        nav_queue_dequeue(&queue, &current);
+        
+        //Assign n to the flood number
+        current.cell->flood_num = current.n;
+        
+        //North
+        /*if (nav_is_in_bounds(array, current.row - 1, current.column))
         {
-            nav_flood_rec(array, row + 1, column, flood_num + 1);
+            struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
+            
+            if (! nav_has_visited(north_cell))
+            {
+                nav_queue_enqueue(&queue, north_cell, current.row - 1, current.column, current.n + 1);
+            }
+        }*/
+        
+        //East
+        if (nav_is_in_bounds(array, current.row, current.column + 1))
+        {
+            struct nav_cell *north_cell = nav_get_cell(array, current.row, current.column + 1);
+            
+            if (! nav_has_visited(north_cell))
+            {
+                nav_queue_enqueue(&queue, north_cell, current.row, current.column + 1, current.n + 1);
+            }
         }
-    }
-    
-    //East
-    if (nav_is_in_bounds(array, row, column + 1))
-    {
-        struct nav_cell *east = nav_get_cell(array, row, column + 1);
         
-        if (!nav_has_visited(east))
+        //South
+        if (nav_is_in_bounds(array, current.row + 1, current.column))
         {
-            nav_flood_rec(array, row, column + 1, flood_num + 1);
-        }
-    }
-    
-    //South
-    if (nav_is_in_bounds(array, row - 1, column))
-    {
-        struct nav_cell *south = nav_get_cell(array, row - 1, column);
-        
-        if (!nav_has_visited(south))
-        {
-            nav_flood_rec(array, row - 1, column, flood_num + 1);
-        }
-    }
-    
-    //West
-    if (nav_is_in_bounds(array, row, column - 1))
-    {
-        struct nav_cell *west = nav_get_cell(array, row, column - 1);
-        
-        if (!nav_has_visited(west))
-        {
-            nav_flood_rec(array, row, column - 1, flood_num + 1);
+            struct nav_cell *north_cell = nav_get_cell(array, current.row + 1, current.column);
+            
+            if (! nav_has_visited(north_cell))
+            {
+                nav_queue_enqueue(&queue, north_cell, current.row + 1, current.column, current.n + 1);
+            }
         }
     }
 }

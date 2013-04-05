@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "nav.h"
-#include "memmgr.h"
+#include "queue.h"
 
 void print_nav(struct nav_array *nav)
 {
@@ -42,29 +42,20 @@ void print_wall(struct nav_array *nav)
 }
 
 int main(int argc, char** argv) {
-    memmgr_init();
     struct nav_cell cells[256];
     struct nav_array nav;
     nav.cells = cells;
     nav.length = 16;
     nav.width = 16;
     
-    pos_t pos;
-    pos.column = 0;
-    pos.row = 0;
-    pos.direction = north;
-    
     nav_init(&nav);
+    
+    printf("========================\n");
+    
+    nav_flood(&nav);
     print_nav(&nav);
     
-    /*nav_flood(&nav);
-    print_nav(&nav);
-    
-    nav_reset_visited(&nav);
-    print_nav(&nav);*/
-    
-    nav_update_wall(&nav, &pos, right);
-    print_wall(&nav);
+    printf("========================\n");
     
     return (EXIT_SUCCESS);
 }
