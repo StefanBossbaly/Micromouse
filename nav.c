@@ -45,11 +45,7 @@ void nav_init(struct nav_array *array)
 
 struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
 {
-    if (! nav_is_pos_in_bounds(array, position))
-        return 0;
-    
-    int index = (position->row * array->width) + position->column;
-    return &array->cells[index];
+    return nav_get_cell(array, position->row, position->column);
 }
 
 struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
