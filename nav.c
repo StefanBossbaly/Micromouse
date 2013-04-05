@@ -2,6 +2,22 @@
 #include "queue.h"
 #include <stdio.h>
 
+void print_nav_l(struct nav_array *nav)
+{
+    int i,j;
+    for (i = 0; i < nav->width; i++)
+    {
+        for (j = 0; j < nav->length; j++)
+        {
+            struct nav_cell *cell = nav_get_cell(nav, i, j);
+            printf("%i ", cell->flood_num);
+        }
+        printf("\n");
+    }
+    
+    printf("\n");
+}
+
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
     return (position->column >= 0) && (position->row >= 0) && (position->column < array->width) && (position->row < array->length);
@@ -90,35 +106,46 @@ void nav_flood(struct nav_array *array)
         current.cell->flood_num = current.n;
         
         //North
-        /*if (nav_is_in_bounds(array, current.row - 1, current.column))
+        if (nav_is_in_bounds(array, current.row - 1, current.column))
         {
             struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
             
-            if (! nav_has_visited(north_cell))
+            if (!nav_has_visited(north_cell) && !nav_queue_is_queued(&queue, north_cell))
             {
                 nav_queue_enqueue(&queue, north_cell, current.row - 1, current.column, current.n + 1);
             }
-        }*/
+        }
         
         //East
         if (nav_is_in_bounds(array, current.row, current.column + 1))
         {
-            struct nav_cell *north_cell = nav_get_cell(array, current.row, current.column + 1);
+            struct nav_cell *east_cell = nav_get_cell(array, current.row, current.column + 1);
             
-            if (! nav_has_visited(north_cell))
+            if (!nav_has_visited(east_cell) && !nav_queue_is_queued(&queue, east_cell))
             {
-                nav_queue_enqueue(&queue, north_cell, current.row, current.column + 1, current.n + 1);
+                nav_queue_enqueue(&queue, east_cell, current.row, current.column + 1, current.n + 1);
             }
         }
         
         //South
         if (nav_is_in_bounds(array, current.row + 1, current.column))
         {
-            struct nav_cell *north_cell = nav_get_cell(array, current.row + 1, current.column);
+            struct nav_cell *south_cell = nav_get_cell(array, current.row + 1, current.column);
             
-            if (! nav_has_visited(north_cell))
+            if (!nav_has_visited(south_cell) && !nav_queue_is_queued(&queue, south_cell))
             {
-                nav_queue_enqueue(&queue, north_cell, current.row + 1, current.column, current.n + 1);
+                nav_queue_enqueue(&queue, south_cell, current.row + 1, current.column, current.n + 1);
+            }
+        }
+        
+        //West
+        if (nav_is_in_bounds(array, current.row , current.column - 1))
+        {
+            struct nav_cell *west_cell = nav_get_cell(array, current.row, current.column - 1);
+            
+            if (!nav_has_visited(west_cell) && !nav_queue_is_queued(&queue, west_cell))
+            {
+                nav_queue_enqueue(&queue, west_cell, current.row, current.column - 1, current.n + 1);
             }
         }
     }
