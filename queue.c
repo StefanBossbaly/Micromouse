@@ -1,5 +1,4 @@
 #include "queue.h"
-#include <stdio.h>
 
 void nav_queue_init(nav_queue *queue, nav_queue_cell *cells, int capicity)
 {
@@ -12,8 +11,9 @@ void nav_queue_enqueue(nav_queue *queue, struct nav_cell *cell, int row, int col
 { 
     if (queue->capicity < queue->current + 1)
     {
-        printf("Error");
+        return;
     }
+    
     nav_queue_cell *queue_cell = &queue->array[queue->current];
     queue_cell->cell = cell;
     queue_cell->row = row;
@@ -44,4 +44,15 @@ void nav_queue_dequeue(nav_queue *queue, nav_queue_cell *buffer)
 int nav_queue_empty(nav_queue *queue)
 {
     return (queue->current == 0);
+}
+
+int nav_queue_is_queued(nav_queue *queue, struct nav_cell *cell)
+{
+    int i;
+    for (i = 0; i < queue->current; i++){
+        if (queue->array[i].cell == cell)
+            return 1;
+    }
+    
+    return 0;
 }
