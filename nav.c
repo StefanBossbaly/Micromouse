@@ -106,7 +106,7 @@ void nav_flood(struct nav_array *array)
         current.cell->flood_num = current.n;
         
         //North
-        if (nav_is_in_bounds(array, current.row - 1, current.column))
+        if (!current.cell->north && nav_is_in_bounds(array, current.row - 1, current.column))
         {
             struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
             
@@ -117,7 +117,7 @@ void nav_flood(struct nav_array *array)
         }
         
         //East
-        if (nav_is_in_bounds(array, current.row, current.column + 1))
+        if (!current.cell->east && nav_is_in_bounds(array, current.row, current.column + 1))
         {
             struct nav_cell *east_cell = nav_get_cell(array, current.row, current.column + 1);
             
@@ -128,7 +128,7 @@ void nav_flood(struct nav_array *array)
         }
         
         //South
-        if (nav_is_in_bounds(array, current.row + 1, current.column))
+        if (!current.cell->south && nav_is_in_bounds(array, current.row + 1, current.column))
         {
             struct nav_cell *south_cell = nav_get_cell(array, current.row + 1, current.column);
             
@@ -139,7 +139,7 @@ void nav_flood(struct nav_array *array)
         }
         
         //West
-        if (nav_is_in_bounds(array, current.row , current.column - 1))
+        if (!current.cell->west && nav_is_in_bounds(array, current.row , current.column - 1))
         {
             struct nav_cell *west_cell = nav_get_cell(array, current.row, current.column - 1);
             
