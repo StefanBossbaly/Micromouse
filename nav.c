@@ -183,9 +183,9 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
     
     //Update coresponding cell
     //TODO put this code somewhere else in its own subroutine
-    if (wall_dir == north && nav_is_in_bounds(array, position->row + 1, position->column))
+    if (wall_dir == north && nav_is_in_bounds(array, position->row - 1, position->column))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row + 1, position->column);
+        struct nav_cell *cell = nav_get_cell(array, position->row - 1, position->column);
         nav_update_wall_cell(cell, south);
     }
     else if (wall_dir == east && nav_is_in_bounds(array, position->row, position->column + 1))
@@ -193,9 +193,9 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
         struct nav_cell *cell = nav_get_cell(array, position->row, position->column + 1);
         nav_update_wall_cell(cell, west);
     }
-    else if (wall_dir == south && nav_is_in_bounds(array, position->row - 1, position->column))
+    else if (wall_dir == south && nav_is_in_bounds(array, position->row + 1, position->column))
     {
-        struct nav_cell *cell = nav_get_cell(array, position->row - 1, position->column);
+        struct nav_cell *cell = nav_get_cell(array, position->row + 1, position->column);
         nav_update_wall_cell(cell, north);
     }
     else if (wall_dir == west && nav_is_in_bounds(array, position->row, position->column - 1))
