@@ -11,11 +11,15 @@ int nav_is_in_bounds(struct nav_array *array, int row, int column)
     return (row >= 0) && (column >=0) && (row < array->width) && (column < array->length);
 }
 
+inline int nav_size(struct nav_array *array)
+{
+    return (array->length * array->width);
+}
+
 void nav_init(struct nav_array *array)
 {
     int i;
-    int size = (array->length * array->width);
-    for(i = 0; i < size; i++)
+    for(i = 0; i < nav_size(array); i++)
     {
         struct nav_cell *cell = &array->cells[i];
         cell->north = 0;
@@ -43,8 +47,7 @@ struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
 void nav_reset_flood_num(struct nav_array *array)
 {
     int i;
-    int size = array->length * array->width;
-    for(i = 0; i < size; i++)
+    for(i = 0; i < nav_size(array); i++)
     {
         struct nav_cell *cell = &array->cells[i];
         cell->flood_num = -1;
