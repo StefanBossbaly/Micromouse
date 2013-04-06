@@ -6,6 +6,7 @@
 struct nav_cell
 {
     int flood_num;
+    int has_visited;
     int north;
     int south;
     int east;

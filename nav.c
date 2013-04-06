@@ -26,6 +26,7 @@ void nav_init(struct nav_array *array)
         cell->south = 0;
         cell->east = 0;
         cell->west = 0;
+        cell->has_visited = 0;
         cell->flood_num = -1;
     }
 }
