@@ -1,22 +1,5 @@
 #include "nav.h"
 #include "queue.h"
-#include <stdio.h>
-
-void print_nav_l(struct nav_array *nav)
-{
-    int i,j;
-    for (i = 0; i < nav->width; i++)
-    {
-        for (j = 0; j < nav->length; j++)
-        {
-            struct nav_cell *cell = nav_get_cell(nav, i, j);
-            printf("%i ", cell->flood_num);
-        }
-        printf("\n");
-    }
-    
-    printf("\n");
-}
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
