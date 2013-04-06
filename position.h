@@ -33,6 +33,13 @@ typedef struct
     direction direction;
 } pos_t;
 
+/**
+ * Checks to see if the two positions are equal
+ * @param pos1 the first position
+ * @param pos2 the second position
+ * @return true if the two positions are equal; false otherwise
+ */
+int position_equal(pos_t *pos1, pos_t *pos2);
 
 /**
  * Rotates the direction in the position to the right
