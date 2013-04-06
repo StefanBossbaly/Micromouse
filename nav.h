@@ -32,8 +32,8 @@ struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position);
 struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column);
 
 //Flood Stuff
-void nav_reset_visited(struct nav_array *array);
-inline int nav_has_visited(struct nav_cell *cell);
+void nav_reset_flood_num(struct nav_array *array);
+inline int nav_is_flooded(struct nav_cell *cell);
 void nav_flood(struct nav_array *array);
 void nav_flood_rec(struct nav_array *array, int row, int column, int flood_num);
 
