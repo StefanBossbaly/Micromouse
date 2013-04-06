@@ -22,6 +22,7 @@ struct nav_array
 //Other
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position);
 int nav_is_in_bounds(struct nav_array *array, int row, int column);
+inline int nav_size(struct nav_array *array);
 
 
 //Init
