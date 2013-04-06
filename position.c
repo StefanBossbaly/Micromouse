@@ -1,5 +1,10 @@
 #include "position.h"
 
+int position_equal(pos_t *pos1, pos_t *pos2)
+{
+    return (pos1->row == pos2->row) && (pos1->column == pos2->column) && (pos1->direction == pos2->direction);
+}
+
 void position_rotate_right(pos_t *position)
 {
     if (position->direction == north)
