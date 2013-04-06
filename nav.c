@@ -40,7 +40,7 @@ struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
     return &array->cells[index];
 }
 
-void nav_reset_visited(struct nav_array *array)
+void nav_reset_flood_num(struct nav_array *array)
 {
     int i;
     int size = array->length * array->width;
@@ -51,7 +51,7 @@ void nav_reset_visited(struct nav_array *array)
     }
 }
 
-inline int nav_has_visited(struct nav_cell *cell)
+inline int nav_is_flooded(struct nav_cell *cell)
 {
     return (cell->flood_num != -1);
 }
@@ -59,7 +59,7 @@ inline int nav_has_visited(struct nav_cell *cell)
 void nav_flood(struct nav_array *array)
 {
     //Reset the nav array
-    nav_reset_visited(array);
+    nav_reset_flood_num(array);
     
     //Declare our buffer on the stack
     nav_queue_cell cells[256];
@@ -89,7 +89,7 @@ void nav_flood(struct nav_array *array)
         {
             struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
             
-            if (!nav_has_visited(north_cell) && !nav_queue_is_queued(&queue, north_cell))
+            if (!nav_is_flooded(north_cell) && !nav_queue_is_queued(&queue, north_cell))
             {
                 nav_queue_enqueue(&queue, north_cell, current.row - 1, current.column, current.n + 1);
             }
@@ -100,7 +100,7 @@ void nav_flood(struct nav_array *array)
         {
             struct nav_cell *east_cell = nav_get_cell(array, current.row, current.column + 1);
             
-            if (!nav_has_visited(east_cell) && !nav_queue_is_queued(&queue, east_cell))
+            if (!nav_is_flooded(east_cell) && !nav_queue_is_queued(&queue, east_cell))
             {
                 nav_queue_enqueue(&queue, east_cell, current.row, current.column + 1, current.n + 1);
             }
@@ -111,7 +111,7 @@ void nav_flood(struct nav_array *array)
         {
             struct nav_cell *south_cell = nav_get_cell(array, current.row + 1, current.column);
             
-            if (!nav_has_visited(south_cell) && !nav_queue_is_queued(&queue, south_cell))
+            if (!nav_is_flooded(south_cell) && !nav_queue_is_queued(&queue, south_cell))
             {
                 nav_queue_enqueue(&queue, south_cell, current.row + 1, current.column, current.n + 1);
             }
@@ -122,7 +122,7 @@ void nav_flood(struct nav_array *array)
         {
             struct nav_cell *west_cell = nav_get_cell(array, current.row, current.column - 1);
             
-            if (!nav_has_visited(west_cell) && !nav_queue_is_queued(&queue, west_cell))
+            if (!nav_is_flooded(west_cell) && !nav_queue_is_queued(&queue, west_cell))
             {
                 nav_queue_enqueue(&queue, west_cell, current.row, current.column - 1, current.n + 1);
             }
