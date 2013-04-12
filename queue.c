@@ -9,12 +9,13 @@ void nav_queue_init(nav_queue *queue, nav_queue_cell *cells, int capicity)
 
 void nav_queue_enqueue(nav_queue *queue, struct nav_cell *cell, int row, int column, int n)
 { 
+    nav_queue_cell *queue_cell;
     if (queue->capicity < queue->current + 1)
     {
         return;
     }
     
-    nav_queue_cell *queue_cell = &queue->array[queue->current];
+    queue_cell = &queue->array[queue->current];
     queue_cell->cell = cell;
     queue_cell->row = row;
     queue_cell->column = column;
@@ -25,6 +26,7 @@ void nav_queue_enqueue(nav_queue *queue, struct nav_cell *cell, int row, int col
 
 void nav_queue_dequeue(nav_queue *queue, nav_queue_cell *buffer)
 {
+    int i;
     nav_queue_cell *queue_cell = &queue->array[0];
     
     buffer->cell = queue_cell->cell;
@@ -32,7 +34,6 @@ void nav_queue_dequeue(nav_queue *queue, nav_queue_cell *buffer)
     buffer->column = queue_cell->column;
     buffer->n = queue_cell->n;
     
-    int i;
     for (i = 0; i < queue->current; i++)
     {
         queue->array[i] = queue->array[i + 1];

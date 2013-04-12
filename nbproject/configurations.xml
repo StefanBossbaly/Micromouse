@@ -43,7 +43,7 @@
       </toolsSet>
       <compileType>
         <cTool>
-          <commandLine>-g</commandLine>
+          <commandLine>-ansi -pedantic</commandLine>
         </cTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">

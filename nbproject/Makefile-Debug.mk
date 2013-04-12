@@ -42,7 +42,7 @@ OBJECTFILES= \
 
 
 # C Compiler Flags
-CFLAGS=-g
+CFLAGS=-ansi -pedantic
 
 # CC Compiler Flags
 CCFLAGS=
@@ -68,22 +68,22 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -g -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/nav.o: nav.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -g -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/nav.o nav.c
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/nav.o nav.c
 
 ${OBJECTDIR}/position.o: position.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -g -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/position.o position.c
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/position.o position.c
 
 ${OBJECTDIR}/queue.o: queue.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -g -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/queue.o queue.c
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/queue.o queue.c
 
 # Subprojects
 .build-subprojects:
