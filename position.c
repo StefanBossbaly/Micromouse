@@ -137,10 +137,10 @@ direction position_convert_to_direction(pos_t *position, facing dir)
     }
     else if (dir == right)
     {
-        position_right_adj_direciton(position->direction);
+        return position_right_adj_direciton(position->direction);
     }
     else
     {
-        position_left_adj_direciton(position->direction);
+        return position_left_adj_direciton(position->direction);
     }
 }
