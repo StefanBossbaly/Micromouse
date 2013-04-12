@@ -20,25 +20,28 @@ struct nav_array
     int length;
 };
 
-//Other
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position);
 int nav_is_in_bounds(struct nav_array *array, int row, int column);
-inline int nav_size(struct nav_array *array);
+int nav_size(struct nav_array *array);
 
 
-//Init
+/*Init*/
 void nav_init(struct nav_array *array);
 
-//Getters
+/*Getters*/
 struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position);
 struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column);
 
-//Flood Stuff
+/*Flood Stuff*/
 void nav_reset_flood_num(struct nav_array *array);
-inline int nav_is_flooded(struct nav_cell *cell);
+int nav_is_flooded(struct nav_cell *cell);
 void nav_flood(struct nav_array *array);
 
-//Wall
+/*Exploration Stuff*/
+void nav_explore(struct nav_array *array);
+void nav_explore_rec(struct nav_array *array);
+
+/*Wall*/
 void nav_update_wall_cell(struct nav_cell *cell, direction dir);
 void nav_update_wall(struct nav_array *array, pos_t *position, facing dir);
 

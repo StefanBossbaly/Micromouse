@@ -45,13 +45,13 @@ void print_wall(struct nav_array *nav)
 int main(int argc, char** argv) {
     struct nav_cell cells[256];
     struct nav_array nav;
+    pos_t pos;
     nav.cells = cells;
     nav.length = 16;
     nav.width = 16;
     
     nav_init(&nav);
     
-    pos_t pos;
     pos.row = 0;
     pos.column = 0;
     pos.direction = south;

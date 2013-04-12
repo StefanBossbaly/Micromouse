@@ -11,7 +11,7 @@ int nav_is_in_bounds(struct nav_array *array, int row, int column)
     return (row >= 0) && (column >=0) && (row < array->width) && (column < array->length);
 }
 
-inline int nav_size(struct nav_array *array)
+int nav_size(struct nav_array *array)
 {
     return (array->length * array->width);
 }
@@ -38,10 +38,11 @@ struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
 
 struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
 {
+    int index;
     if (! nav_is_in_bounds(array, row, column))
         return 0;
     
-    int index = (row * array->width) + column;  
+    index = (row * array->width) + column;  
     return &array->cells[index];
 }
 
@@ -55,40 +56,41 @@ void nav_reset_flood_num(struct nav_array *array)
     }
 }
 
-inline int nav_is_flooded(struct nav_cell *cell)
+int nav_is_flooded(struct nav_cell *cell)
 {
     return (cell->flood_num != -1);
 }
 
 void nav_flood(struct nav_array *array)
 {
-    //Reset the nav array
-    nav_reset_flood_num(array);
-    
-    //Declare our buffer on the stack
+    /*Declare our buffer on the stack*/
     nav_queue_cell cells[256];
     nav_queue queue;
     
+    struct nav_cell *first;
+    
+    nav_reset_flood_num(array);
+    
     nav_queue_init(&queue, cells, 256);
     
-    //Start at the first cell and queue it
-    struct nav_cell *first =  nav_get_cell(array, 0, 0);
+    /*Start at the first cell and queue it*/
+    first =  nav_get_cell(array, 0, 0);
     
-    //Add it to the queue
+    /*Add it to the queue*/
     nav_queue_enqueue(&queue, first, 0 , 0, 0);
     
     while(! nav_queue_empty(&queue))
     {
-        //Declare our buffer on the stack
+        /*Declare our buffer on the stack*/
         nav_queue_cell current;
         
-        //Dequeue and fill our buffer
+        /*Dequeue and fill our buffer*/
         nav_queue_dequeue(&queue, &current);
         
-        //Assign n to the flood number
+        /*Assign n to the flood number*/
         current.cell->flood_num = current.n;
         
-        //North
+        /*North*/
         if (!current.cell->north && nav_is_in_bounds(array, current.row - 1, current.column))
         {
             struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
@@ -99,7 +101,7 @@ void nav_flood(struct nav_array *array)
             }
         }
         
-        //East
+        /*East*/
         if (!current.cell->east && nav_is_in_bounds(array, current.row, current.column + 1))
         {
             struct nav_cell *east_cell = nav_get_cell(array, current.row, current.column + 1);
@@ -110,7 +112,7 @@ void nav_flood(struct nav_array *array)
             }
         }
         
-        //South
+        /*South*/
         if (!current.cell->south && nav_is_in_bounds(array, current.row + 1, current.column))
         {
             struct nav_cell *south_cell = nav_get_cell(array, current.row + 1, current.column);
@@ -121,7 +123,7 @@ void nav_flood(struct nav_array *array)
             }
         }
         
-        //West
+        /*West*/
         if (!current.cell->west && nav_is_in_bounds(array, current.row , current.column - 1))
         {
             struct nav_cell *west_cell = nav_get_cell(array, current.row, current.column - 1);
@@ -158,14 +160,14 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
 {
     struct nav_cell *cell = nav_get_cell_pos(array, position);
     
-    //Convert the scalar to a direction
+    /*Convert the scalar to a direction*/
     direction wall_dir = position_convert_to_direction(position, dir);
     
-    //Update our nav cell
+    /*Update our nav cell*/
     nav_update_wall_cell(cell, wall_dir);
     
-    //Update coresponding cell
-    //TODO put this code somewhere else in its own subroutine
+    /*Update coresponding cell
+    TODO put this code somewhere else in its own subroutine*/
     if (wall_dir == north && nav_is_in_bounds(array, position->row - 1, position->column))
     {
         struct nav_cell *north_cell = nav_get_cell(array, position->row - 1, position->column);
