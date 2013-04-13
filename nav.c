@@ -3,17 +3,17 @@
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
-    return (position->column >= 0) && (position->row >= 0) && (position->column < array->width) && (position->row < array->length);
+    return (position->column >= 0) && (position->row >= 0) && (position->column < array->columns) && (position->row < array->rows);
 }
 
 int nav_is_in_bounds(struct nav_array *array, int row, int column)
 {
-    return (row >= 0) && (column >=0) && (row < array->width) && (column < array->length);
+    return (row >= 0) && (column >=0) && (row < array->columns) && (column < array->rows);
 }
 
 int nav_size(struct nav_array *array)
 {
-    return (array->length * array->width);
+    return (array->rows * array->columns);
 }
 
 void nav_init(struct nav_array *array)
@@ -40,10 +40,10 @@ struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
 struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
 {
     int index;
-    if (! nav_is_in_bounds(array, row, column))
-        return 0;
+    /*if (! nav_is_in_bounds(array, row, column))
+        return 0;*/
     
-    index = (row * array->width) + column;  
+    index = (row * array->columns) + column;  
     return &array->cells[index];
 }
 

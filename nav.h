@@ -16,8 +16,8 @@ struct nav_cell
 struct nav_array
 {
     struct nav_cell *cells;
-    int width;
-    int length;
+    int columns;
+    int rows;
 };
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position);
