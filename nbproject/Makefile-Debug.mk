@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/motor.o \
 	${OBJECTDIR}/nav.o \
 	${OBJECTDIR}/position.o \
 	${OBJECTDIR}/queue.o
@@ -69,6 +70,11 @@ ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/motor.o: motor.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/motor.o motor.c
 
 ${OBJECTDIR}/nav.o: nav.c 
 	${MKDIR} -p ${OBJECTDIR}

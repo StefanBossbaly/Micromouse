@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>motor.h</itemPath>
       <itemPath>nav.h</itemPath>
       <itemPath>position.h</itemPath>
       <itemPath>queue.h</itemPath>
@@ -16,6 +17,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
+      <itemPath>motor.c</itemPath>
       <itemPath>nav.c</itemPath>
       <itemPath>position.c</itemPath>
       <itemPath>queue.c</itemPath>
@@ -47,6 +49,10 @@
         </cTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="motor.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="motor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nav.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -83,6 +89,10 @@
         </asmTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="motor.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="motor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nav.c" ex="false" tool="0" flavor2="0">
       </item>
