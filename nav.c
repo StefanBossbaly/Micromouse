@@ -63,7 +63,7 @@ int nav_is_flooded(struct nav_cell *cell)
     return (cell->flood_num != -1);
 }
 
-void nav_flood(struct nav_array *array)
+void nav_flood(struct nav_array *array, pos_t *start)
 {
     /*Declare our buffer on the stack*/
     nav_queue_cell cells[256];
@@ -76,10 +76,10 @@ void nav_flood(struct nav_array *array)
     nav_queue_init(&queue, cells, 256);
     
     /*Start at the first cell and queue it*/
-    first =  nav_get_cell(array, 0, 0);
+    first =  nav_get_cell_pos(array, start);
     
     /*Add it to the queue*/
-    nav_queue_enqueue(&queue, first, 0 , 0, 0);
+    nav_queue_enqueue(&queue, first, start->row , start->column, 0);
     
     while(! nav_queue_empty(&queue))
     {

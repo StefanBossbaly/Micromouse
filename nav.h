@@ -35,7 +35,7 @@ struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column);
 /*Flood Stuff*/
 void nav_reset_flood_num(struct nav_array *array);
 int nav_is_flooded(struct nav_cell *cell);
-void nav_flood(struct nav_array *array);
+void nav_flood(struct nav_array *array, pos_t *start);
 
 /*Exploration Stuff*/
 void nav_explore(struct nav_array *array);
