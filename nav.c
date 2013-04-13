@@ -19,7 +19,8 @@ int nav_size(struct nav_array *array)
 void nav_init(struct nav_array *array)
 {
     int i;
-    for(i = 0; i < nav_size(array); i++)
+    int size = nav_size(array);
+    for(i = 0; i < size; i++)
     {
         struct nav_cell *cell = &array->cells[i];
         cell->north = 0;
@@ -49,7 +50,8 @@ struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
 void nav_reset_flood_num(struct nav_array *array)
 {
     int i;
-    for(i = 0; i < nav_size(array); i++)
+    int size = nav_size(array);
+    for(i = 0; i < size; i++)
     {
         struct nav_cell *cell = &array->cells[i];
         cell->flood_num = -1;
