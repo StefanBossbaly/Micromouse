@@ -8,7 +8,7 @@ int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 
 int nav_is_in_bounds(struct nav_array *array, int row, int column)
 {
-    return (row >= 0) && (column >=0) && (row < array->columns) && (column < array->rows);
+    return (row >= 0) && (column >=0) && (row < array->rows) && (column < array->columns);
 }
 
 int nav_size(struct nav_array *array)
