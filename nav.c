@@ -29,6 +29,8 @@ void nav_init(struct nav_array *array)
         cell->west = 0;
         cell->has_visited = 0;
         cell->flood_num = -1;
+        cell->row = i / array->columns;
+        cell->column = i % array->columns;
     }
 }
 
