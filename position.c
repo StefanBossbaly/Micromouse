@@ -149,3 +149,27 @@ direction position_convert_to_direction(pos_t *position, facing dir)
         return position_left_adj_direciton(position->direction);
     }
 }
+
+direction position_get_direction_to(pos_t *position, int row, int column)
+{
+    /*North*/
+    if (position->row - 1 == row && position->column == column)
+    {
+        return north;
+    }
+    /*East*/
+    else if (position->row == row && position->column + 1 == column)
+    {
+        return east;
+    }
+    /*South*/
+    else if (position->row + 1 == row && position->column == column)
+    {
+        return south;
+    }
+    /*West*/
+    else if (position->row == row && position->column - 1 == column)
+    {
+        return west;
+    }
+}
