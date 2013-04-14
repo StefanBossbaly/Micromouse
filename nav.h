@@ -11,6 +11,8 @@ struct nav_cell
     int south;
     int east;
     int west;
+    int row;
+    int column;
 };
 
 struct nav_array
