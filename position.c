@@ -54,11 +54,11 @@ void position_move_forward(pos_t *position)
 {
     if (position->direction == north)
     {
-        position->row += 1;
+        position->row -= 1;
     }
     else if (position->direction == south)
     {
-        position->row -= 1;
+        position->row += 1;
     }
     else if (position->direction == east)
     {
