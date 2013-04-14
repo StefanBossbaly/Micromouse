@@ -138,6 +138,75 @@ void nav_flood(struct nav_array *array, pos_t *start)
     }
 }
 
+void nav_driver_to_center(struct nav_array *array, pos_t *start)
+{
+    pos_t current;
+    int n = -1;
+    
+    current.row = start->row;
+    current.column = start->column;
+    current.direction = start->direction;
+    
+    n = nav_get_cell_pos(array, &current)->flood_num;
+    
+    while(1)
+    {
+        /*Get the next lowest neighbor*/
+        
+    }
+}
+
+struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int column)
+{
+    struct nav_cell *cell = nav_get_cell(array, row, column);
+    int target = cell->flood_num - 1;
+    
+    /*North*/
+    if (nav_is_in_bounds(array, row - 1, column))
+    {
+        struct nav_cell *north = nav_get_cell(array, row - 1, column);
+        
+        if (north->flood_num == target)
+        {
+           return north; 
+        }
+    }
+    /*East*/
+    else if (nav_is_in_bounds(array, row, column + 1))
+    {
+        struct nav_cell *east = nav_get_cell(array, row, column + 1);
+        
+        if (east->flood_num == target)
+        {
+           return east; 
+        }
+    }
+    /*South*/
+    else if (nav_is_in_bounds(array, row + 1, column))
+    {
+        struct nav_cell *south = nav_get_cell(array, row + 1, column);
+        
+        if (south->flood_num == target)
+        {
+           return south; 
+        }
+    }
+    /*West*/
+    else if (nav_is_in_bounds(array, row, column - 1))
+    {
+        struct nav_cell *west = nav_get_cell(array, row, column - 1);
+        
+        if (west->flood_num == target)
+        {
+           return west; 
+        }
+    }
+    else
+    {
+        /*We are screwed*/
+    }
+}
+
 void nav_update_wall_cell(struct nav_cell *cell, direction dir)
 {
     if (dir == north)
