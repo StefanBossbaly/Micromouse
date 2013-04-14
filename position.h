@@ -96,4 +96,5 @@ direction position_left_adj_direciton(direction dir);
  */
 direction position_convert_to_direction(pos_t *position, facing facing);
 
+direction position_get_direction_to(pos_t *position, int row, int column);
 #endif	/* POSITION_H */
