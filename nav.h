@@ -41,6 +41,10 @@ void nav_flood(struct nav_array *array, pos_t *start);
 void nav_explore(struct nav_array *array);
 void nav_explore_rec(struct nav_array *array);
 
+/*Driver*/
+void nav_driver_to_center(struct nav_array *array, pos_t *start);
+struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int column);
+
 /*Wall*/
 void nav_update_wall_cell(struct nav_cell *cell, direction dir);
 void nav_update_wall(struct nav_array *array, pos_t *position, facing dir);
