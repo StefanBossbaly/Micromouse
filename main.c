@@ -14,9 +14,9 @@
 void print_nav(struct nav_array *nav)
 {
     int i,j;
-    for (i = 0; i < nav->width; i++)
+    for (i = 0; i < nav->rows; i++)
     {
-        for (j = 0; j < nav->length; j++)
+        for (j = 0; j < nav->columns; j++)
         {
             struct nav_cell *cell = nav_get_cell(nav, i, j);
             printf("%02d ", cell->flood_num);
@@ -28,9 +28,9 @@ void print_nav(struct nav_array *nav)
 void print_wall(struct nav_array *nav)
 {
     int i,j;
-    for (i = 0; i < nav->width; i++)
+    for (i = 0; i < nav->rows; i++)
     {
-        for (j = 0; j < nav->length; j++)
+        for (j = 0; j < nav->columns; j++)
         {
             struct nav_cell *cell = nav_get_cell(nav, i, j);
             if (cell->north || cell->east || cell->south || cell->west)
@@ -42,38 +42,60 @@ void print_wall(struct nav_array *nav)
     }
 }
 
+void load_test_maze_walls(struct nav_array *nav, pos_t *pos)
+{
+    pos->row = 5;
+    pos->column = 2;
+    pos->direction = north;
+    
+    nav_update_wall(nav, pos, front);
+    
+    pos->column = 1;
+    pos->row = 4;
+    
+    nav_update_wall(nav, pos, left);
+    nav_update_wall(nav, pos, front);
+    
+    pos->column = 2;
+    nav_update_wall(nav, pos, front);
+    
+    pos->row = 3;
+    pos->column = 1;
+    nav_update_wall(nav, pos, left);
+    
+    pos->row = 2;
+    nav_update_wall(nav, pos, left);
+    nav_update_wall(nav, pos, front);
+    
+    pos->row = 1;
+    pos->column = 0;
+    nav_update_wall(nav, pos, front);
+    
+    pos->column = 1;
+    nav_update_wall(nav, pos, right);
+    
+    
+    pos->row = 5;
+    pos->column = 2;
+    pos->direction = north; 
+}
+
 int main(int argc, char** argv) {
-    struct nav_cell cells[256];
+    struct nav_cell cells[3*6];
     struct nav_array nav;
     pos_t pos;
+    
     nav.cells = cells;
-    nav.length = 16;
-    nav.width = 16;
+    nav.rows = 6;
+    nav.columns = 3;
     
     nav_init(&nav);
-    
-    pos.row = 0;
-    pos.column = 0;
-    pos.direction = south;
-    
-    nav_update_wall(&nav, &pos, left);
-    pos.column = 1;
-    nav_update_wall(&nav, &pos, front);
-    
-    /*struct nav_cell *first = nav_get_cell(&nav, 0, 0);
-    struct nav_cell *second = nav_get_cell(&nav, 0, 1);
-    struct nav_cell *thrid = nav_get_cell(&nav, 1, 1);
-    
-    first->east = 1;
-    second->west = 1;
-    second->south = 1;
-    thrid->north = 1;*/
     
     print_wall(&nav);
     
     printf("========================\n");
-    
-    nav_flood(&nav);
+    load_test_maze_walls(&nav, &pos);
+    nav_flood(&nav, &pos);
     print_nav(&nav);
     
     printf("========================\n");
