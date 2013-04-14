@@ -1,5 +1,6 @@
 #include "nav.h"
 #include "queue.h"
+#include "motor.h"
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
@@ -140,21 +141,27 @@ void nav_flood(struct nav_array *array, pos_t *start)
     }
 }
 
-void nav_driver_to_center(struct nav_array *array, pos_t *start)
+void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
 {
     pos_t current;
-    int n = -1;
     
     current.row = start->row;
     current.column = start->column;
     current.direction = start->direction;
     
-    n = nav_get_cell_pos(array, &current)->flood_num;
-    
-    while(1)
+    while(! position_equal_location(&current, target))
     {
         /*Get the next lowest neighbor*/
+        struct nav_cell *next_cell = nav_get_next_neighbor(array, current.row, current.column);
         
+        /*Get the direction to the next cell*/
+        direction dir = position_get_direction_to(&current, next_cell->row, next_cell->column);
+        
+        /*Turn to a direction*/
+        motor_turn_to_direction(&current, dir);
+        
+        /*Move forward*/
+        motor_move_foward(&current);
     }
 }
 
@@ -174,7 +181,7 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
         }
     }
     /*East*/
-    else if (nav_is_in_bounds(array, row, column + 1))
+    if (nav_is_in_bounds(array, row, column + 1))
     {
         struct nav_cell *east = nav_get_cell(array, row, column + 1);
         
@@ -184,7 +191,7 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
         }
     }
     /*South*/
-    else if (nav_is_in_bounds(array, row + 1, column))
+    if (nav_is_in_bounds(array, row + 1, column))
     {
         struct nav_cell *south = nav_get_cell(array, row + 1, column);
         
@@ -194,7 +201,7 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
         }
     }
     /*West*/
-    else if (nav_is_in_bounds(array, row, column - 1))
+    if (nav_is_in_bounds(array, row, column - 1))
     {
         struct nav_cell *west = nav_get_cell(array, row, column - 1);
         
@@ -202,10 +209,6 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
         {
            return west; 
         }
-    }
-    else
-    {
-        /*We are screwed*/
     }
 }
 
