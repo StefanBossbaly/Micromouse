@@ -44,7 +44,7 @@ void nav_explore(struct nav_array *array);
 void nav_explore_rec(struct nav_array *array);
 
 /*Driver*/
-void nav_driver_to_center(struct nav_array *array, pos_t *start);
+void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target);
 struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int column);
 
 /*Wall*/
