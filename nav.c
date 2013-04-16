@@ -82,60 +82,66 @@ void nav_flood(struct nav_array *array, pos_t *start)
     first =  nav_get_cell_pos(array, start);
     
     /*Add it to the queue*/
-    nav_queue_enqueue(&queue, first, start->row , start->column, 0);
+    nav_queue_enqueue(&queue, first, 0);
     
     while(! nav_queue_empty(&queue))
     {
         /*Declare our buffer on the stack*/
-        nav_queue_cell current;
+        nav_queue_cell queue_cell;
+        
+        /*Current cell*/
+        struct nav_cell *cell;
         
         /*Dequeue and fill our buffer*/
-        nav_queue_dequeue(&queue, &current);
+        nav_queue_dequeue(&queue, &queue_cell);
+        
+        /*Assign our current cell*/
+        cell = queue_cell.cell;
         
         /*Assign n to the flood number*/
-        current.cell->flood_num = current.n;
+        queue_cell.cell->flood_num = queue_cell.n;
         
         /*North*/
-        if (!current.cell->north && nav_is_in_bounds(array, current.row - 1, current.column))
+        if (!queue_cell.cell->north && nav_is_in_bounds(array, cell->row - 1, cell->column))
         {
-            struct nav_cell *north_cell = nav_get_cell(array, current.row - 1, current.column);
+            struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
             
             if (!nav_is_flooded(north_cell) && !nav_queue_is_queued(&queue, north_cell))
             {
-                nav_queue_enqueue(&queue, north_cell, current.row - 1, current.column, current.n + 1);
+                nav_queue_enqueue(&queue, north_cell, queue_cell.n + 1);
             }
         }
         
         /*East*/
-        if (!current.cell->east && nav_is_in_bounds(array, current.row, current.column + 1))
+        if (!queue_cell.cell->east && nav_is_in_bounds(array, cell->row, cell->column + 1))
         {
-            struct nav_cell *east_cell = nav_get_cell(array, current.row, current.column + 1);
+            struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
             
             if (!nav_is_flooded(east_cell) && !nav_queue_is_queued(&queue, east_cell))
             {
-                nav_queue_enqueue(&queue, east_cell, current.row, current.column + 1, current.n + 1);
+                nav_queue_enqueue(&queue, east_cell, queue_cell.n + 1);
             }
         }
         
         /*South*/
-        if (!current.cell->south && nav_is_in_bounds(array, current.row + 1, current.column))
+        if (!queue_cell.cell->south && nav_is_in_bounds(array, cell->row + 1, cell->column))
         {
-            struct nav_cell *south_cell = nav_get_cell(array, current.row + 1, current.column);
+            struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
             
             if (!nav_is_flooded(south_cell) && !nav_queue_is_queued(&queue, south_cell))
             {
-                nav_queue_enqueue(&queue, south_cell, current.row + 1, current.column, current.n + 1);
+                nav_queue_enqueue(&queue, south_cell, queue_cell.n + 1);
             }
         }
         
         /*West*/
-        if (!current.cell->west && nav_is_in_bounds(array, current.row , current.column - 1))
+        if (!queue_cell.cell->west && nav_is_in_bounds(array, cell->row , cell->column - 1))
         {
-            struct nav_cell *west_cell = nav_get_cell(array, current.row, current.column - 1);
+            struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
             
             if (!nav_is_flooded(west_cell) && !nav_queue_is_queued(&queue, west_cell))
             {
-                nav_queue_enqueue(&queue, west_cell, current.row, current.column - 1, current.n + 1);
+                nav_queue_enqueue(&queue, west_cell, queue_cell.n + 1);
             }
         }
     }
