@@ -40,8 +40,8 @@ int nav_is_flooded(struct nav_cell *cell);
 void nav_flood(struct nav_array *array, pos_t *start);
 
 /*Exploration Stuff*/
-void nav_explore(struct nav_array *array);
-void nav_explore_rec(struct nav_array *array);
+void nav_explore(struct nav_array *array, pos_t *start);
+void nav_explore_rec(struct nav_array *array, pos_t *current);
 
 /*Driver*/
 void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target);
