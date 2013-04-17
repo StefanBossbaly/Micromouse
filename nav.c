@@ -1,29 +1,6 @@
 #include "nav.h"
 #include "queue.h"
 #include "motor.h"
-#include <stdio.h>
-
-void print_nav_pos(struct nav_array *nav, pos_t *current)
-{
-    int i,j;
-    for (i = 0; i < nav->rows; i++)
-    {
-        for (j = 0; j < nav->columns; j++)
-        {
-            struct nav_cell *cell = nav_get_cell(nav, i, j);
-            if (current->row == i && current->column == j)
-            {
-                printf("XX ", cell->has_visited);
-            }
-            else
-            {
-                printf("%02d ", cell->has_visited);
-            }
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
@@ -266,14 +243,14 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, north);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, south);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
         }
     }
         
@@ -287,14 +264,14 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, east);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, west);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
         }
     }
     
@@ -308,14 +285,14 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, south);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, north);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
         }
     }
     
@@ -329,14 +306,14 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, west);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, east);
             motor_move_foward(current);
-            print_nav_pos(array, current);
+            
         }
     }
 }
