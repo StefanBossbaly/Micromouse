@@ -173,3 +173,10 @@ direction position_get_direction_to(pos_t *position, int row, int column)
         return west;
     }
 }
+
+void position_copy(pos_t *value, pos_t *buffer)
+{
+    buffer->row = value->row;
+    buffer->column = value->column;
+    buffer->direction = value->direction;
+}
