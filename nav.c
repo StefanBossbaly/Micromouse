@@ -1,6 +1,29 @@
 #include "nav.h"
 #include "queue.h"
 #include "motor.h"
+#include <stdio.h>
+
+void print_nav_pos(struct nav_array *nav, pos_t *current)
+{
+    int i,j;
+    for (i = 0; i < nav->rows; i++)
+    {
+        for (j = 0; j < nav->columns; j++)
+        {
+            struct nav_cell *cell = nav_get_cell(nav, i, j);
+            if (current->row == i && current->column == j)
+            {
+                printf("XX ", cell->has_visited);
+            }
+            else
+            {
+                printf("%02d ", cell->has_visited);
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
@@ -214,6 +237,106 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
         if (west->flood_num == target)
         {
            return west; 
+        }
+    }
+}
+
+void nav_explore(struct nav_array *array, pos_t *start)
+{
+    nav_explore_rec(array, start);
+}
+
+void nav_explore_rec(struct nav_array *array, pos_t *current)
+{
+    /*Get current position*/
+    struct nav_cell *cell = nav_get_cell_pos(array, current);
+    
+    /*Collect wall data*/
+    
+    /*Mark cell as visited*/
+    cell->has_visited = 1;
+    
+    /*North*/
+    if (nav_is_in_bounds(array, cell->row - 1, cell->column) && !cell->north)
+    {
+        struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
+        
+        if (!north_cell->has_visited)
+        {   
+            /*Turn to the direction and move forward*/
+            motor_turn_to_direction(current, north);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+            /*Explore new cell*/
+            nav_explore_rec(array, current);
+            
+            /*Move back to original cell*/
+            motor_turn_to_direction(current, south);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+        }
+    }
+        
+    /*East*/
+    if (nav_is_in_bounds(array, cell->row, cell->column + 1) && !cell->east)
+    {
+        struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
+        
+        if (!east_cell->has_visited)
+        {   
+            /*Turn to the direction and move forward*/
+            motor_turn_to_direction(current, east);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+            /*Explore new cell*/
+            nav_explore_rec(array, current);
+            
+            /*Move back to original cell*/
+            motor_turn_to_direction(current, west);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+        }
+    }
+    
+    /*South*/
+    if (nav_is_in_bounds(array, cell->row + 1, cell->column) && !cell->south)
+    {
+        struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
+        
+        if (!south_cell->has_visited)
+        {   
+            /*Turn to the direction and move forward*/
+            motor_turn_to_direction(current, south);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+            /*Explore new cell*/
+            nav_explore_rec(array, current);
+            
+            /*Move back to original cell*/
+            motor_turn_to_direction(current, north);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+        }
+    }
+    
+    /*West*/
+    if (nav_is_in_bounds(array, cell->row, cell->column - 1) && !cell->west)
+    {
+        struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
+        
+        if (!west_cell->has_visited)
+        {   
+            /*Turn to the direction and move forward*/
+            motor_turn_to_direction(current, west);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
+            /*Explore new cell*/
+            nav_explore_rec(array, current);
+            
+            /*Move back to original cell*/
+            motor_turn_to_direction(current, east);
+            motor_move_foward(current);
+            print_nav_pos(array, current);
         }
     }
 }
