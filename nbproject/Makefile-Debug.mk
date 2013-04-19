@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/detection.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/motor.o \
 	${OBJECTDIR}/nav.o \
@@ -65,6 +66,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/detection.o: detection.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -ansi -pedantic -MMD -MP -MF $@.d -o ${OBJECTDIR}/detection.o detection.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
