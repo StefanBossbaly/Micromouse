@@ -10,14 +10,30 @@
 
 int detect_alignment_reading_analog(alignment_ir sensor)
 {
-    /*TODO Return reading from sensor*/
-    return 1;
+    if (sensor == front_right)
+    {
+        
+    }
+    else if (sensor == front_left)
+    {
+        
+    }
 }
 
 int detect_wall_reading_analog(wall_ir sensor)
 {
-    /*TODO Return reading from sensor*/
-    return 1;
+    if (sensor == front_ir)
+    {
+        
+    }
+    else if (sensor == left_ir)
+    {
+        
+    }
+    else if (sensor == right_ir)
+    {
+        
+    }
 }
 
 alignment_reading detect_alignment_reading(alignment_ir sensor)
