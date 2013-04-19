@@ -14,6 +14,8 @@ typedef enum
     
 } adjustment;
 
+void delay_cycle();
+
 void motor_cycle_foward(adjustment adjustment);
 
 /**
