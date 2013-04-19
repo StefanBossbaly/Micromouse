@@ -1,5 +1,15 @@
 #include "motor.h"
 
+void delay_cycle()
+{
+    int i, j;
+    for(i = 0; i < 5000; i++)
+    {
+        j = 5;
+        j++;
+    }
+}
+
 void motor_cycle_foward(adjustment adjustment)
 {
     int i = 0;
