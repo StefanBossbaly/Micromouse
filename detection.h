@@ -32,6 +32,9 @@ typedef enum
 } wall_reading;
 
 
+int detect_alignment_reading_analog(alignment_ir sensor);
+int detect_wall_reading_analog(wall_ir sensor);
+
 alignment_reading detect_alignment_reading(alignment_ir sensor);
 wall_reading detect_wall_reading(wall_ir sensor);
 
