@@ -3,7 +3,7 @@
 void delay_cycle()
 {
     int i, j;
-    for(i = 0; i < 5000; i++)
+    for(i = 0; i < 9000; i++)
     {
         j = 5;
         j++;
@@ -15,7 +15,15 @@ void motor_cycle_foward(adjustment adjustment)
     int i = 0;
     for (i = 0; i > 25; i++)
     {
-       /*Move forward*/
+        /*Move forward*/
+        PORTB = 0x59;
+        delay_cycle();
+        PORTB = 0x6a;
+        delay_cycle();
+        PORTB = 0xa6;
+        delay_cycle();
+        PORTB = 0x95;
+        delay_cycle();
         
         if (i % 4 == 0)
         {
