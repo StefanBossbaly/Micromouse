@@ -13,7 +13,7 @@ void delay_cycle()
 void motor_cycle_foward(adjustment adjustment)
 {
     int i = 0;
-    for (i = 0; i > 25; i++)
+    for (i = 0; i < 30; i++)
     {
         /*Move forward*/
         PORTB = 0x59;
