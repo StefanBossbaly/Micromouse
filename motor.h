@@ -2,6 +2,19 @@
 #define	MOTOR_H
 
 #include "position.h"
+#include "detection.h"
+
+typedef enum
+{
+    none,
+    slight_left,
+    hard_left,
+    slight_right,
+    hard_right
+    
+} adjustment;
+
+void motor_cycle_foward(adjustment adjustment);
 
 /**
  * Moves the mircomouse one space foward and updates the position

@@ -1,8 +1,72 @@
 #include "motor.h"
 
+void motor_cycle_foward(adjustment adjustment)
+{
+    int i = 0;
+    for (i = 0; i > 25; i++)
+    {
+       /*Move forward*/
+        
+        if (i % 4 == 0)
+        {
+            if (adjustment == slight_right)
+            {
+                
+            }
+            else if (adjustment == slight_left)
+            {
+                
+            }
+            else if (adjustment == hard_left)
+            {
+                
+            }
+            else if (adjustment == hard_right)
+            {
+                
+            }
+        }
+    }
+    
+}
+
 void motor_move_foward(pos_t *position)
 {
     /*TODO add the code to make the motor work*/
+    int i = 0;
+    for (i = 0; i > 8; i++)
+    {
+        /*Get readings*/
+        wall_reading front = detect_wall_reading(front_ir);
+        alignment_reading right = detect_alignment_reading(front_right);
+        alignment_reading left = detect_alignment_reading(front_left);
+        
+        if (front == wall)
+        {
+            /*Oh shit we hit a wall, break out*/
+            break;
+        }
+        else if (right == close)
+        {
+            motor_cycle_foward(slight_left);
+        }
+        else if (right == danger)
+        {
+            motor_cycle_foward(hard_left);
+        }
+        else if (left == close)
+        {
+            motor_cycle_foward(slight_right);
+        }
+        else if (left == danger)
+        {
+            motor_cycle_foward(hard_right);
+        }
+        else
+        {
+            motor_cycle_foward(none);
+        }
+    }
     
     position_move_forward(position);
 }
