@@ -1,44 +1,30 @@
-/* 
- * File:   main.c
- * Author: Stefan
- *
- * Created on March 27, 2013, 10:35 PM
- */
-
-#include <stdio.h>
-#include <stdlib.h>
 #include "nav.h"
 #include "queue.h"
 #include "position.h"
+#include "timer.h"
 
-void print_nav(struct nav_array *nav)
+/*void print_nav(struct nav_array *nav)
 {
+	char temp[20];
+
     int i,j;
     for (i = 0; i < nav->rows; i++)
     {
         for (j = 0; j < nav->columns; j++)
         {
             struct nav_cell *cell = nav_get_cell(nav, i, j);
-            printf("%02d ", cell->flood_num);
-        }
-        printf("\n");
-    }
-}
 
-void print_wall(struct nav_array *nav)
-{
-    int i,j;
-    for (i = 0; i < nav->rows; i++)
-    {
-        for (j = 0; j < nav->columns; j++)
-        {
-            struct nav_cell *cell = nav_get_cell(nav, i, j);
-            if (cell->north || cell->east || cell->south || cell->west)
+            if (cell->flood_num < 10)
             {
-                printf("Index: (%i, %i) (%i, %i, %i, %i)", i, j, cell->north, cell->east, cell->south, cell->west);
-                printf("\n");
+            	Serial.print('0');
+            	Serial.print(cell->flood_num);
             }
-        };
+            else
+            {
+            	Serial.print(cell->flood_num);
+            }
+        }
+        Serial.print("\n");
     }
 }
 
@@ -77,11 +63,30 @@ void load_test_maze_walls(struct nav_array *nav, pos_t *pos)
     
     pos->row = 5;
     pos->column = 2;
-    pos->direction = north; 
+    pos->direction = north;
+}*/
+
+
+void say_hello()
+{
+    Serial.println("Hello");
 }
 
-int main(int argc, char** argv) {
-    struct nav_cell cells[3*6];
+// Micromouse.ino
+void setup() 
+{
+	//Start a serial with 115200 baud rate
+	Serial.begin(115200);
+
+    timer_init_us(1000000, say_hello);
+}
+
+uint8_t trig = 0;
+uint8_t echo = 1;
+
+void loop() 
+{ 
+    /*struct nav_cell cells[3*6];
     struct nav_array nav;
     pos_t pos;
     
@@ -91,15 +96,12 @@ int main(int argc, char** argv) {
     
     nav_init(&nav);
     
-    print_wall(&nav);
-    
-    printf("========================\n");
+    Serial.print("========================\n");
     load_test_maze_walls(&nav, &pos);
     nav_flood(&nav, &pos);
     print_nav(&nav);
     
-    printf("========================\n");
-    
-    return (EXIT_SUCCESS);
-}
+    Serial.print("========================\n");
 
+    delay(10000);*/
+}

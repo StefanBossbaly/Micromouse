@@ -4,6 +4,11 @@
 #include "position.h"
 #include "detection.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef enum
 {
     none,
@@ -31,8 +36,11 @@ void motor_move_foward(pos_t *position);
  * @param position the current position of the micromouse
  * @param direction the direction that the mircomouse will face
  */
-void motor_turn_to_direction(pos_t *position, direction direction);
+void motor_turn_to_direction(pos_t *position, dir_t direction);
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* MOTOR_H */
