@@ -161,7 +161,7 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
         struct nav_cell *next_cell = nav_get_next_neighbor(array, current.row, current.column);
         
         /*Get the direction to the next cell*/
-        direction dir = position_get_direction_to(&current, next_cell->row, next_cell->column);
+        dir_t dir = position_get_direction_to(&current, next_cell->row, next_cell->column);
         
         /*Turn to a direction*/
         motor_turn_to_direction(&current, dir);
@@ -318,7 +318,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     }
 }
 
-void nav_update_wall_cell(struct nav_cell *cell, direction dir)
+void nav_update_wall_cell(struct nav_cell *cell, dir_t dir)
 {
     if (dir == north)
     {
@@ -338,12 +338,12 @@ void nav_update_wall_cell(struct nav_cell *cell, direction dir)
     }   
 }
 
-void nav_update_wall(struct nav_array *array, pos_t *position, facing dir)
+void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir)
 {
     struct nav_cell *cell = nav_get_cell_pos(array, position);
     
     /*Convert the scalar to a direction*/
-    direction wall_dir = position_convert_to_direction(position, dir);
+    dir_t wall_dir = position_convert_to_direction(position, dir);
     
     /*Update our nav cell*/
     nav_update_wall_cell(cell, wall_dir);

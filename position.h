@@ -1,6 +1,11 @@
 #ifndef POSITION_H
 #define	POSITION_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /**
  * Coordinate system direction
  */
@@ -10,7 +15,7 @@ typedef enum
     south,
     east,
     west
-} direction;
+} dir_t;
 
 /**
  * Facing direction relative to the mouse
@@ -21,7 +26,7 @@ typedef enum
     back,
     left,
     right
-} facing;
+} facing_t;
 
 /**
  * Used to keep track of the position of the mouse
@@ -30,7 +35,7 @@ typedef struct
 {
     int row;
     int column;
-    direction direction;
+    dir_t direction;
 } pos_t;
 
 /**
@@ -72,21 +77,21 @@ void position_move_forward(pos_t *position);
  * @param dir the given direction
  * @return the direction that is 180 degrees to the given direction
  */
-direction position_invert_direciton(direction dir);
+dir_t position_invert_direciton(dir_t dir);
 
 /**
  * Returns the direction that is to the right of the given direction
  * @param dir the given direction
  * @return the direction that is to the right of the given direction
  */
-direction position_right_adj_direciton(direction dir);
+dir_t position_right_adj_direciton(dir_t dir);
 
 /**
  * Returns the direction that is to the left of the given direction
  * @param dir the given direction
  * @return the direction that is to the left of the given direction
  */
-direction position_left_adj_direciton(direction dir);
+dir_t position_left_adj_direciton(dir_t dir);
 
 /**
  * Converts the scalar value into a directional value
@@ -94,9 +99,16 @@ direction position_left_adj_direciton(direction dir);
  * @param facing which facing we want
  * @return the directional value of the facing
  */
-direction position_convert_to_direction(pos_t *position, facing facing);
+dir_t position_convert_to_direction(pos_t *position, facing_t facing);
 
-direction position_get_direction_to(pos_t *position, int row, int column);
+dir_t position_get_direction_to(pos_t *position, int row, int column);
 
 void position_copy(pos_t *value, pos_t *buffer);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
 #endif	/* POSITION_H */

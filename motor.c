@@ -13,26 +13,10 @@ void delay_cycle()
 void motor_adjust_cycle(adjustment adjustment)
 {
     if (adjustment == slight_right)
-    {
-        PORTB = 0x59;
-        delay_cycle();
-        PORTB = 0x6a;
-        delay_cycle();
-        PORTB = 0xa6;
-        delay_cycle();
-        PORTB = 0x95;
-        delay_cycle();  
+    { 
     }
     else if (adjustment == slight_left)
     {
-        PORTB = 0x59;
-        delay_cycle();
-        PORTB = 0x6a;
-        delay_cycle();
-        PORTB = 0xa6;
-        delay_cycle();
-        PORTB = 0x95;
-        delay_cycle();
     }
     else if (adjustment == hard_left)
     {
@@ -50,14 +34,6 @@ void motor_cycle_foward(adjustment adjustment)
     for (i = 0; i < 10; i++)
     {
         /*Move forward*/
-        PORTB = 0x59;
-        delay_cycle();
-        PORTB = 0x6a;
-        delay_cycle();
-        PORTB = 0xa6;
-        delay_cycle();
-        PORTB = 0x95;
-        delay_cycle();
     }
     
     motor_adjust_cycle(adjustment);
@@ -103,7 +79,7 @@ void motor_move_foward(pos_t *position)
     position_move_forward(position);
 }
 
-void motor_turn_to_direction(pos_t *position, direction direction)
+void motor_turn_to_direction(pos_t *position, dir_t direction)
 {
     /*TODO add the code to make the motor work*/
     

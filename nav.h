@@ -3,6 +3,11 @@
 
 #include "position.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 struct nav_cell
 {
     int flood_num;
@@ -48,8 +53,12 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target);
 struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int column);
 
 /*Wall*/
-void nav_update_wall_cell(struct nav_cell *cell, direction dir);
-void nav_update_wall(struct nav_array *array, pos_t *position, facing dir);
+void nav_update_wall_cell(struct nav_cell *cell, dir_t dir);
+void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* NAV_H */
-

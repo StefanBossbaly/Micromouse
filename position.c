@@ -70,7 +70,7 @@ void position_move_forward(pos_t *position)
     }
 }
 
-direction position_invert_direciton(direction dir)
+dir_t position_invert_direciton(dir_t dir)
 {
     if (dir == north)
     {
@@ -90,7 +90,7 @@ direction position_invert_direciton(direction dir)
     }
 }
 
-direction position_right_adj_direciton(direction dir)
+dir_t position_right_adj_direciton(dir_t dir)
 {
     if (dir == north)
     {
@@ -110,7 +110,7 @@ direction position_right_adj_direciton(direction dir)
     }
 }
 
-direction position_left_adj_direciton(direction dir)
+dir_t position_left_adj_direciton(dir_t dir)
 {
     if (dir == north)
     {
@@ -130,7 +130,7 @@ direction position_left_adj_direciton(direction dir)
     }
 }
 
-direction position_convert_to_direction(pos_t *position, facing dir)
+dir_t position_convert_to_direction(pos_t *position, facing_t dir)
 {
     if (dir == front)
     {
@@ -150,7 +150,7 @@ direction position_convert_to_direction(pos_t *position, facing dir)
     }
 }
 
-direction position_get_direction_to(pos_t *position, int row, int column)
+dir_t position_get_direction_to(pos_t *position, int row, int column)
 {
     /*North*/
     if (position->row - 1 == row && position->column == column)
