@@ -2,6 +2,7 @@
 #include "queue.h"
 #include "position.h"
 #include "timer.h"
+#include "Adafruit_MotorShield.h"
 
 /*void print_nav(struct nav_array *nav)
 {
@@ -66,42 +67,49 @@ void load_test_maze_walls(struct nav_array *nav, pos_t *pos)
     pos->direction = north;
 }*/
 
+volatile unsigned long start_time = 0;
+volatile uint8_t stop = 0; 
 
-void say_hello()
+Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x60);
+// Or, create it with a different I2C address (say for stacking)
+// Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
+
+// Connect a stepper motor with 200 steps per revolution (1.8 degree)
+// to motor port #2 (M3 and M4)
+Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
+Adafruit_StepperMotor *myMotor2 = AFMS.getStepper(200, 1);
+
+void handle_sensors (void)
 {
-    Serial.println("Hello");
+    Serial.print("S0: ");
+    Serial.println(analogRead(0));
+    Serial.print("S1: "); 
+    Serial.println(analogRead(1));
+    Serial.print("S2: "); 
+    Serial.println(analogRead(2));
+
+
+    unsigned long delta = millis() - start_time;
+    Serial.println(delta);
+
+    start_time = millis();
 }
+
 
 // Micromouse.ino
 void setup() 
 {
-	//Start a serial with 115200 baud rate
+	// Start a serial with 115200 baud rate
 	Serial.begin(115200);
 
-    timer_init_us(1000000, say_hello);
+    // Start the pwm
+    AFMS.begin(1000);
+
+    // Start a callback to the sensors
+    timer_init_ms(500, handle_sensors);
+    start_time = millis();
 }
 
-uint8_t trig = 0;
-uint8_t echo = 1;
-
 void loop() 
-{ 
-    /*struct nav_cell cells[3*6];
-    struct nav_array nav;
-    pos_t pos;
-    
-    nav.cells = cells;
-    nav.rows = 6;
-    nav.columns = 3;
-    
-    nav_init(&nav);
-    
-    Serial.print("========================\n");
-    load_test_maze_walls(&nav, &pos);
-    nav_flood(&nav, &pos);
-    print_nav(&nav);
-    
-    Serial.print("========================\n");
-
-    delay(10000);*/
+{
 }
