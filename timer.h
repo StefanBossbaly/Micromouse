@@ -18,6 +18,7 @@ extern "C"
 
 void timer_setup();
 void timer_init_us(unsigned long frequency, void (*function)(void));
+void timer_init_ms(unsigned long frequency, void (*function)(void));
 void timer_stop();
 
 #ifdef __cplusplus
