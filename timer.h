@@ -16,10 +16,14 @@ extern "C"
 {
 #endif
 
-void timer_setup();
-void timer_init_us(unsigned long frequency, void (*function)(void));
-void timer_init_ms(unsigned long frequency, void (*function)(void));
-void timer_stop();
+void timer2_setup();
+void timer2_init_us(unsigned long frequency, void (*function)(void));
+void timer2_init_ms(unsigned long frequency, void (*function)(void));
+void timer2_stop();
+
+void timer1_setup();
+void timer1_init_ms(unsigned long frequency, void (*function)(void));
+void timer1_stop();
 
 #ifdef __cplusplus
 }
