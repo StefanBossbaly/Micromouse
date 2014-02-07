@@ -79,22 +79,56 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x60);
 Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 Adafruit_StepperMotor *myMotor2 = AFMS.getStepper(200, 1);
 
-void handle_sensors (void)
+
+volatile int s0 = -1, s1 = -1, s2 = -1;
+
+// Forward = 1
+// Adjust Left = 2
+// Adjust Right = 3
+volatile int motor = -1;
+
+
+void calculate_motors()
 {
-    Serial.print("S0: ");
-    Serial.println(analogRead(0));
-    Serial.print("S1: "); 
-    Serial.println(analogRead(1));
-    Serial.print("S2: "); 
-    Serial.println(analogRead(2));
+    if (s1 > 240)
+    {
+        motor = 0;
+    }
+    else if (s0 > 90 && s2 > 40)
+    {
+        int sub = s0 - 40 - s2;
 
-
-    unsigned long delta = millis() - start_time;
-    Serial.println(delta);
-
-    start_time = millis();
+        if (sub > 10)
+        {
+            motor = 2;
+        }
+        else if (sub < -10)
+        {
+            motor = 3;
+        }
+        else
+        {
+            motor = 1;
+        }
+    }
+    else
+    {
+        motor = 0;
+    }
 }
 
+void handle_sensors (void)
+{
+    s0 = analogRead(0);
+    s1 = analogRead(1);
+    s2 = analogRead(2);
+
+    calculate_motors();
+    /*unsigned long delta = millis() - start_time;
+    Serial.println(delta);
+
+    start_time = millis();*/
+}
 
 // Micromouse.ino
 void setup() 
@@ -105,11 +139,34 @@ void setup()
     // Start the pwm
     AFMS.begin(1000);
 
+    handle_sensors();
+
     // Start a callback to the sensors
-    timer_init_ms(500, handle_sensors);
+    timer2_init_ms(100, handle_sensors);
     start_time = millis();
 }
 
 void loop() 
 {
+    if (motor == 0)
+    {
+
+    }
+    else if (motor == 1)
+    {
+        myMotor->onestep(FORWARD, SINGLE);
+        myMotor2->onestep(FORWARD, SINGLE);
+    }
+    else if (motor == 2)
+    {
+        myMotor->onestep(FORWARD, SINGLE);
+        myMotor2->onestep(FORWARD, SINGLE);
+        myMotor2->onestep(FORWARD, SINGLE);
+    }
+    else
+    {
+        myMotor->onestep(FORWARD, SINGLE);
+        myMotor->onestep(FORWARD, SINGLE);
+        myMotor2->onestep(FORWARD, SINGLE);
+    }
 }
