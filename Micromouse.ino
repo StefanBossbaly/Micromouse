@@ -94,6 +94,7 @@ void calculate_motors()
     {
         motor = 0;
     }
+    // Both sensors are good!
     else if (s0 > 90 && s2 > 40)
     {
         int sub = s0 - 40 - s2;
@@ -105,6 +106,38 @@ void calculate_motors()
         else if (sub < -10)
         {
             motor = 3;
+        }
+        else
+        {
+            motor = 1;
+        }
+    }
+    // We can only use s0
+    else if (s0 > 90)
+    {
+        if (s0 > 145)
+        {
+            motor = 2;
+        }
+        else if (s0 < 135)
+        {
+            motor = 3;
+        }
+        else
+        {
+            motor = 1;
+        }
+    }
+    // We can only use s2
+    else if (s2 > 40)
+    {
+        if (s2 > 110)
+        {
+            motor = 3;
+        }
+        else if (s2 < 100)
+        {
+            motor = 2;
         }
         else
         {
