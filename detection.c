@@ -1,12 +1,5 @@
 #include "detection.h"
 
-#define WALL_INVALID 4
-#define WALL_THRESHOLD 1
-
-#define ALIGNMENT_INVALID 4
-#define ALIGNMENT_IDEAL 4
-#define ALIGNMENT_CLOSE 4
-
 
 int detect_alignment_reading_analog(alignment_ir sensor)
 {
