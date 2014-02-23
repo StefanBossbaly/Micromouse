@@ -132,10 +132,13 @@ void setup()
     //timer2_init_ms(500, handle_sensors);
     //start_time = millis();
     
+    // Motor shield is at i2c address of 0x60
     shield_init(&shield, 0x60);
     
+    // Begin the pwm at a frequency of 1600
     shield_begin(&shield, 1600);
     
+    // Init our steppers
     stepper_init(&motor0, &shield, 0);
     stepper_init(&motor1, &shield, 1);
 }
