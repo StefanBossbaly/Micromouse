@@ -1,4 +1,4 @@
 BOARD_TAG    = uno
-ISP_PORT = /dev/ttyACM*
+MONITOR_PORT = /dev/ttyACM*
 
-include $(ARDMK_DIR)/arduino-mk/Arduino.mk
+include $(ARDMK_DIR)/Arduino.mk
