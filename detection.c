@@ -1,70 +1,60 @@
 #include "detection.h"
+#include "Arduino.h"
 
 
-int detect_alignment_reading_analog(alignment_ir sensor)
+volatile int selected_sensor = -1;
+
+int dectection_relay_position()
 {
-    if (sensor == front_right)
-    {
-        
-    }
-    else if (sensor == front_left)
-    {
-        
-    }
+	return selected_sensor;
 }
 
-int detect_wall_reading_analog(wall_ir sensor)
+void dectection_switch_relay(int sensor)
 {
-    if (sensor == front_ir)
-    {
-        
-    }
-    else if (sensor == left_ir)
-    {
-        
-    }
-    else if (sensor == right_ir)
-    {
-        
-    }
+	// No bad values please
+	if (sensor != S3 && sensor != S4)
+	{
+		return;
+	}
+
+	if (sensor == S3)
+	{
+		digitalWrite(S4_TRIG, LOW);
+		delay(S_CLOSE_MS);
+		digitalWrite(S3_TRIG, HIGH);
+		delay(S_OPEN_MS);
+		selected_sensor = S3;
+	}
+	else
+	{
+		digitalWrite(S3_TRIG, LOW);
+		delay(S_CLOSE_MS);
+		digitalWrite(S4_TRIG, HIGH);
+		delay(S_CLOSE_MS);
+		selected_sensor = S4;
+	}
 }
 
-alignment_reading detect_alignment_reading(alignment_ir sensor)
+int dectection_reading(int sensor)
 {
-    int reading = detect_alignment_reading_analog(sensor);
-    
-    if (reading >= ALIGNMENT_INVALID)
-    {
-        return not_available;
-    }
-    else if (reading >= ALIGNMENT_IDEAL)
-    {
-        return ideal;
-    }
-    else if (reading >= ALIGNMENT_CLOSE)
-    {
-        return close;
-    }
-    else
-    {
-        return danger;
-    }
-}
+	// Make sure the sensor is in bounds
+	if (sensor < S0 || sensor > 5)
+	{
+		return -1;
+	}
 
-wall_reading detect_wall_reading(wall_ir sensor)
-{
-    int reading = detect_wall_reading_analog(sensor);
-    
-    if (reading > WALL_INVALID)
-    {
-        return error;
-    }
-    else if (reading > WALL_THRESHOLD)
-    {
-        return wall;
-    }
-    else
-    {
-        return no_wall;
-    }
+	// If it is the from sensors then just return
+	if (sensor >= 0 && sensor < 3)
+	{
+		return analogRead(sensor);
+	}
+
+	// Switch the relays to the correct sensor
+	if (dectection_relay_position() != sensor)
+	{
+		dectection_switch_relay(sensor);
+	}
+
+	// Return the value
+	return analogRead(3);
 }
