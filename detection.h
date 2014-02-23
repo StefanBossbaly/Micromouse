@@ -3,12 +3,31 @@
 
 #include "position.h"
 
-#define WALL_INVALID 4
-#define WALL_THRESHOLD 1
+// Sensors and their unique number
+#define S0 0
+#define S1 1
+#define S2 2
+#define S3 3
+#define S4 4
 
-#define ALIGNMENT_INVALID 4
-#define ALIGNMENT_IDEAL 4
-#define ALIGNMENT_CLOSE 4
+// Digital Trigger pins for relay
+#define S3_TRIG 3
+#define S4_TRIG 4
+
+#define S_CLOSE_MS 5
+#define S_OPEN_MS 5
+
+// Upper and lower bounds of ideal for s0
+#define S0_UPPER_IDEAL 145
+#define S0_LOWER_IDEAL 135
+
+// Upper and lower bounds of ideal for s2
+#define S2_UPPER_IDEAL 110
+#define S2_LOWER_IDEAL 100
+
+// Thresholds for using the sensors
+#define S0_USE_THRESHOLD 90
+#define S2_USE_THRESHOLD 40
 
 #ifdef __cplusplus
 extern "C"
@@ -17,17 +36,12 @@ extern "C"
 
 typedef enum
 {
-    front_right,
-    front_left
-} alignment_ir;
-
-typedef enum
-{
-    ideal,
-    close,
-    danger,
-    not_available
-} alignment_reading;
+    ideal = 0,
+    close = 1,
+    danger = 2,
+    not_available = 3,
+    error = 4
+} sensor_reading;
 
 typedef enum
 {
@@ -36,19 +50,10 @@ typedef enum
     right_ir
 } wall_ir;
 
-typedef enum
-{
-    wall,
-    no_wall,
-    error
-} wall_reading;
+void dectection_switch_relay(int sensor);
+int dectection_relay_position();
+int dectection_reading(int sensor);
 
-
-int detect_alignment_reading_analog(alignment_ir sensor);
-int detect_wall_reading_analog(wall_ir sensor);
-
-alignment_reading detect_alignment_reading(alignment_ir sensor);
-wall_reading detect_wall_reading(wall_ir sensor);
 
 #ifdef __cplusplus
 }
