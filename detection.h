@@ -14,6 +14,7 @@
 #define S3_TRIG 3
 #define S4_TRIG 4
 
+// The delay for the relays
 #define S_CLOSE_MS 5
 #define S_OPEN_MS 5
 
@@ -34,26 +35,10 @@ extern "C"
 {
 #endif
 
-typedef enum
-{
-    ideal = 0,
-    close = 1,
-    danger = 2,
-    not_available = 3,
-    error = 4
-} sensor_reading;
-
-typedef enum
-{
-    front_ir,
-    left_ir,
-    right_ir
-} wall_ir;
 
 void dectection_switch_relay(int sensor);
 int dectection_relay_position();
 int dectection_reading(int sensor);
-
 
 #ifdef __cplusplus
 }
