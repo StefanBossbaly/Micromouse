@@ -3,6 +3,7 @@
 #include "position.h"
 #include "timer.h"
 #include "Adafruit_MotorShield.h"
+#include "detection.h"
 
 /*void print_nav(struct nav_array *nav)
 {
@@ -80,7 +81,7 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 Adafruit_StepperMotor *myMotor2 = AFMS.getStepper(200, 1);
 
 
-volatile int s0 = -1, s1 = -1, s2 = -1;
+volatile int s0 = -1, s1 = -1, s2 = -1, s3 = -1, s4 = -1;
 
 // Forward = 1
 // Adjust Left = 2
@@ -152,54 +153,74 @@ void calculate_motors()
 
 void handle_sensors (void)
 {
-    s0 = analogRead(0);
-    s1 = analogRead(1);
-    s2 = analogRead(2);
+    /*s0 = analogRead(A0);
+    s1 = analogRead(A1);
+    s2 = analogRead(A2);
+    s3 = analogRead(A3);
+    s4 = analogRead(A5);
 
-    calculate_motors();
+    Serial.print("S0: ");
+    Serial.println(s0);
+    Serial.print("S1: ");
+    Serial.println(s1);
+    Serial.print("S2: ");
+    Serial.println(s2);
+    Serial.print("S3: ");
+    Serial.println(s3);
+    Serial.print("S4: ");
+    Serial.println(s4);*/
+
+    for (int i = 0; i < 6; i++)
+    {
+        Serial.print(i);
+        Serial.print(":");
+        Serial.println(analogRead(i));
+    }
+
+    //calculate_motors();
     /*unsigned long delta = millis() - start_time;
     Serial.println(delta);
 
     start_time = millis();*/
 }
 
+int on_off = 0;
+
 // Micromouse.ino
 void setup() 
 {
-	// Start a serial with 115200 baud rate
-	Serial.begin(115200);
+	// Triggers for relays
+    pinMode(3, OUTPUT);
+    pinMode(4, OUTPUT);
+    
+    // Start a serial with 115200 baud rate
+    Serial.begin(115200);
 
     // Start the pwm
-    AFMS.begin(1000);
+    //AFMS.begin(1000);
 
-    handle_sensors();
+    //handle_sensors();
 
     // Start a callback to the sensors
-    timer2_init_ms(100, handle_sensors);
-    start_time = millis();
+    //timer2_init_ms(500, handle_sensors);
+    //start_time = millis();
 }
 
 void loop() 
 {
-    if (motor == 0)
-    {
-
-    }
-    else if (motor == 1)
-    {
-        myMotor->onestep(FORWARD, SINGLE);
-        myMotor2->onestep(FORWARD, SINGLE);
-    }
-    else if (motor == 2)
-    {
-        myMotor->onestep(FORWARD, SINGLE);
-        myMotor2->onestep(FORWARD, SINGLE);
-        myMotor2->onestep(FORWARD, SINGLE);
-    }
-    else
-    {
-        myMotor->onestep(FORWARD, SINGLE);
-        myMotor->onestep(FORWARD, SINGLE);
-        myMotor2->onestep(FORWARD, SINGLE);
-    }
+	Serial.println(dectection_relay_position());
+	on_off = (on_off + 1) % 2;
+	
+	if (on_off == 0)
+	{
+		dectection_switch_relay(3);
+	}
+	else
+	{
+		dectection_switch_relay(4);
+	}
+	
+	Serial.println(dectection_relay_position());
+	
+    delay(2000);
 }
