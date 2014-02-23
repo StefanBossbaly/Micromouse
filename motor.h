@@ -3,41 +3,19 @@
 
 #include "position.h"
 #include "detection.h"
+#include "stepper.h"
+
+#define TURN_ADJ 82
+#define TURN_180 164
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-typedef enum
-{
-    none,
-    slight_left,
-    hard_left,
-    slight_right,
-    hard_right
-    
-} adjustment;
-
-void delay_cycle();
-
-void motor_adjust_cycle(adjustment adjustment);
-
-void motor_cycle_foward(adjustment adjustment);
-
-/**
- * Moves the mircomouse one space foward and updates the position
- * @param position the current position of the micromouse
- */
-void motor_move_foward(pos_t *position);
-
-/**
- * Turns the micromouse to the specified direction and updates the position
- * @param position the current position of the micromouse
- * @param direction the direction that the mircomouse will face
- */
-void motor_turn_to_direction(pos_t *position, dir_t direction);
-
+void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1);
+void motor_turn_right(stepper_t *stepper0, stepper_t *stepper1);
+void motor_turn_180(stepper_t *stepper0, stepper_t *stepper1);
 
 #ifdef __cplusplus
 }
