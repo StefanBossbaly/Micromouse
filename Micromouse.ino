@@ -1,14 +1,20 @@
 #include "nav.h"
 #include "queue.h"
 #include "position.h"
+#include "motor.h"
 #include "timer.h"
 #include "stepper.h"
 #include "detection.h"
+
 
 volatile unsigned long start_time = 0;
 volatile uint8_t stop = 0; 
 
 volatile int s0 = -1, s1 = -1, s2 = -1, s3 = -1, s4 = -1;
+
+shield_t shield;
+stepper_t motor0, motor1;
+
 
 // Forward = 1
 // Adjust Left = 2
@@ -80,41 +86,24 @@ void calculate_motors()
 
 void handle_sensors (void)
 {
-    /*s0 = analogRead(A0);
-    s1 = analogRead(A1);
-    s2 = analogRead(A2);
-    s3 = analogRead(A3);
-    s4 = analogRead(A5);
-
-    Serial.print("S0: ");
-    Serial.println(s0);
-    Serial.print("S1: ");
-    Serial.println(s1);
-    Serial.print("S2: ");
-    Serial.println(s2);
-    Serial.print("S3: ");
-    Serial.println(s3);
-    Serial.print("S4: ");
-    Serial.println(s4);*/
-
-    for (int i = 0; i < 6; i++)
-    {
-        Serial.print(i);
-        Serial.print(":");
-        Serial.println(analogRead(i));
-    }
-
-    //calculate_motors();
-    /*unsigned long delta = millis() - start_time;
-    Serial.println(delta);
-
-    start_time = millis();*/
+    s0 = dectection_reading(0);
+    s1 = dectection_reading(1);
+    s2 = dectection_reading(2);
+    s3 = dectection_reading(3);
+    s4 = dectection_reading(4);
+    
+    Serial.println("");
+    Serial.print(s0);
+    Serial.print(", ");
+    Serial.print(s1);
+	Serial.print(", ");
+	Serial.print(s2);
+	Serial.print(", ");
+	Serial.print(s3);
+	Serial.print(", ");
+	Serial.print(s4);
+	Serial.println("");
 }
-
-int on_off = 0;
-
-shield_t shield;
-stepper_t motor0, motor1;
 
 // Micromouse.ino
 void setup() 
@@ -125,12 +114,6 @@ void setup()
     
     // Start a serial with 115200 baud rate
     Serial.begin(115200);
-
-    //handle_sensors();
-
-    // Start a callback to the sensors
-    //timer2_init_ms(500, handle_sensors);
-    //start_time = millis();
     
     // Motor shield is at i2c address of 0x60
     shield_init(&shield, 0x60);
@@ -141,15 +124,18 @@ void setup()
     // Init our steppers
     stepper_init(&motor0, &shield, 0);
     stepper_init(&motor1, &shield, 1);
+    
+    // Get inital sensor values
+    //handle_sensors();
+
+    // Start a callback to the sensors
+    //timer2_init_ms(1000, handle_sensors);
+    //start_time = millis();
 }
 
 void loop() 
 {
-	for (int i = 0; i < 85; i++)
-	{
-		stepper_step(&motor0, FORWARD);
-		stepper_step(&motor1, BACKWARD);
-	}
+	motor_turn_180(&motor0, &motor1);
 	
 	delay(3000);
 }
