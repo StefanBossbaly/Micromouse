@@ -33,7 +33,7 @@ int nav_size(struct nav_array *array);
 
 
 /*Init*/
-void nav_init(struct nav_array *array);
+void nav_init(struct nav_array *array, int rows, int columns);
 
 /*Getters*/
 struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position);
