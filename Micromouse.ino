@@ -7,20 +7,28 @@
 #include "detection.h"
 
 
+
 volatile unsigned long start_time = 0;
 volatile uint8_t stop = 0; 
 
 volatile int s0 = -1, s1 = -1, s2 = -1, s3 = -1, s4 = -1;
-
-shield_t shield;
-stepper_t motor0, motor1;
-
+volatile int turning = 0;
 
 // Forward = 1
 // Adjust Left = 2
 // Adjust Right = 3
 volatile int motor = -1;
 
+// Motor shield and stepper motors
+shield_t shield;
+stepper_t motor0, motor1;
+
+// Our empty maze
+struct nav_cell cells[3*6];
+struct nav_array array;
+
+// Current position
+pos_t current;
 
 void calculate_motors()
 {
@@ -86,23 +94,27 @@ void calculate_motors()
 
 void handle_sensors (void)
 {
-    s0 = dectection_reading(0);
-    s1 = dectection_reading(1);
-    s2 = dectection_reading(2);
-    s3 = dectection_reading(3);
-    s4 = dectection_reading(4);
-    
-    Serial.println("");
-    Serial.print(s0);
-    Serial.print(", ");
-    Serial.print(s1);
+	if (motor_status == MOTOR_MOVING)
+	{
+	s0 = dectection_reading(0);
+	s1 = dectection_reading(1);
+	s2 = dectection_reading(2);
+	//s3 = dectection_reading(3);
+	//s4 = dectection_reading(4);
+
+	Serial.println("");
+	Serial.print(s0);
+	Serial.print(", ");
+	Serial.print(s1);
 	Serial.print(", ");
 	Serial.print(s2);
-	Serial.print(", ");
-	Serial.print(s3);
-	Serial.print(", ");
-	Serial.print(s4);
+	//Serial.print(", ");
+	//Serial.print(s3);
+	//Serial.print(", ");
+	//Serial.print(s4);
+	//Serial.print(", ");
 	Serial.println("");
+		
 }
 
 // Micromouse.ino
@@ -125,17 +137,27 @@ void setup()
     stepper_init(&motor0, &shield, 0);
     stepper_init(&motor1, &shield, 1);
     
+    // Init shared motor values
+    motor_status = MOTOR_STANDBY;
+    motor_adjustment = MOTOR_NO_ADJ;
+    
+    // Init our empty maze
+    nav_init(&array, 3, 6);
+    
+    // Setup our position
+    current.row = 0;
+    current.column = 0;
+    current.direction = west;
+    
     // Get inital sensor values
-    //handle_sensors();
+    handle_sensors();
 
     // Start a callback to the sensors
-    //timer2_init_ms(1000, handle_sensors);
-    //start_time = millis();
+    timer2_init_ms(1000, handle_sensors);
+    start_time = millis();
 }
 
 void loop() 
 {
-	motor_turn_180(&motor0, &motor1);
 	
-	delay(3000);
 }
