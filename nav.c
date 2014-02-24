@@ -17,11 +17,15 @@ int nav_size(struct nav_array *array)
     return (array->rows * array->columns);
 }
 
-void nav_init(struct nav_array *array)
+void nav_init(struct nav_array *array, int rows, int columns)
 {
-    int i;
+    array->rows = rows;
+    array->columns = columns;
+
     int size = nav_size(array);
-    for(i = 0; i < size; i++)
+
+    int i;
+    for (i = 0; i < size; i++)
     {
         struct nav_cell *cell = &array->cells[i];
         cell->north = 0;
