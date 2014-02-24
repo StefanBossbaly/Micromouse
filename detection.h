@@ -15,8 +15,8 @@
 #define S4_TRIG 4
 
 // The delay for the relays
-#define S_CLOSE_MS 5
-#define S_OPEN_MS 5
+#define S_CLOSE_MS 10
+#define S_OPEN_MS 10
 
 // Upper and lower bounds of ideal for s0
 #define S0_UPPER_IDEAL 145
