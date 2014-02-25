@@ -35,6 +35,7 @@ void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1);
 void motor_turn_right(stepper_t *stepper0, stepper_t *stepper1);
 void motor_turn_180(stepper_t *stepper0, stepper_t *stepper1);
 void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1);
+void motor_turn_to_direction(stepper_t *stepper0, stepper_t *stepper1, pos_t *current, dir_t dir);
 
 #ifdef __cplusplus
 }
