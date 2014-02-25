@@ -93,7 +93,7 @@ void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1)
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_turn_to_direction(stepper_t *stepper0, stepper_t *stepper1, pos_t *current, dir_t dir)
+/*void motor_turn_to_direction(stepper_t *stepper0, stepper_t *stepper1, pos_t *current, dir_t dir)
 {
 	if (current->direction == dir)
 	{
@@ -111,4 +111,4 @@ void motor_turn_to_direction(stepper_t *stepper0, stepper_t *stepper1, pos_t *cu
 	{
 		motor_turn_180(stepper0, stepper1);
 	}
-}
+}*/
