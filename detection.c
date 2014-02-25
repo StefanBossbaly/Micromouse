@@ -60,22 +60,24 @@ int dectection_reading(int sensor)
 	return analogRead(3);
 }
 
-int dectection_update_adj(int s0, int s1, int s2)
+void dectection_update_adj(int s0, int s1, int s2)
 {
-	//TODO grab sensor value
-	int s0_use = 1, s1_use = 0, s2_use = 1;
+	// Values to see if sensors are usable
+	int s0_use = 0, s2_use = 0;
 
-	/*if (s0 >= 135 && s0 <= 165)
+	// See if the s0 is usable
+	if (s0 >= 135 && s0 <= 165)
 	{
 		s0_use = 1;
 	}
 
+	// See if the s2 is usable
 	if (s2 >= 85 && s2 <= 115)
 	{
 		s2_use = 1;
-	}*/
+	}
 
-
+	// If both sensors are usable
 	if (s0_use == 1 && s2_use == 1)
 	{
 		int diff = s0 - s2 - 50;
@@ -100,14 +102,10 @@ int dectection_update_adj(int s0, int s1, int s2)
 		{
 			motor_adjustment = MOTOR_H_R_ADJ;
 		}
-
-		return diff;
 	}
 	// Running blind
 	else
 	{
 		motor_adjustment = MOTOR_NO_ADJ;
-
-		return -1;
 	}
 }
