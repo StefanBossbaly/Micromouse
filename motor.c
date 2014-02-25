@@ -53,26 +53,26 @@ void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1)
 	motor_status = MOTOR_MOVING;
 
 	int i;
-	for (i = 0; i < BLOCK; i++)
+	for (i = 1; i < BLOCK; i++)
 	{
 		stepper_step(stepper0, FORWARD);
 
-		if (motor_adjustment == MOTOR_S_L_ADJ && (i % 4) == 0)
+		if (motor_adjustment == MOTOR_S_R_ADJ && (i % 8) == 0)
 		{
 			stepper_step(stepper0, FORWARD);
 		}
-		else if (motor_adjustment == MOTOR_H_L_ADJ && (i % 2) == 0)
+		else if (motor_adjustment == MOTOR_H_R_ADJ && (i % 2) == 0)
 		{
 			stepper_step(stepper0, FORWARD);
 		}
 
 		stepper_step(stepper1, FORWARD);
 
-		if (motor_adjustment == MOTOR_S_R_ADJ && (i % 4) == 0)
+		if (motor_adjustment == MOTOR_S_L_ADJ && (i % 8) == 0)
 		{
 			stepper_step(stepper1, FORWARD);
 		}
-		else if (motor_adjustment == MOTOR_H_R_ADJ && (i % 2) == 0)
+		else if (motor_adjustment == MOTOR_H_L_ADJ && (i % 2) == 0)
 		{
 			stepper_step(stepper1, FORWARD);
 		}
