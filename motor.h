@@ -25,6 +25,7 @@ extern "C"
 #define MOTOR_S_L_ADJ 2
 #define MOTOR_H_R_ADJ 3
 #define MOTOR_H_L_ADJ 4
+#define MOTOR_WALL 5
 
 // Shared values
 extern volatile int motor_status;
