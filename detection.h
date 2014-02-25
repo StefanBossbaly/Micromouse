@@ -40,6 +40,8 @@ void dectection_switch_relay(int sensor);
 int dectection_relay_position();
 int dectection_reading(int sensor);
 
+void dectection_timer_callback();
+void dectection_force_update();
 void dectection_update_adj(int s0, int s1, int s2);
 
 #ifdef __cplusplus

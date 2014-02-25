@@ -19,14 +19,8 @@ struct nav_array array;
 // Current position
 pos_t current;
 
-void handle_sensors (void)
-{
-	int s0 = dectection_reading(0);
-	int s1 = dectection_reading(1);
-	int s2 = dectection_reading(2);
-	
-	int diff = dectection_update_adj(s0, s1, s2);
-}
+int stop = 0;
+int blah = 0;
 
 // Micromouse.ino
 void setup() 
@@ -61,14 +55,33 @@ void setup()
     current.direction = west;
     
     // Get inital sensor values
-    handle_sensors();
+    dectection_force_update();
 
     // Start a callback to the sensors
-    timer2_init_ms(150, handle_sensors);
+    timer2_init_ms(150, dectection_timer_callback);
     start_time = millis();
 }
 
 void loop() 
 {
-	motor_move_forward(&motor0, &motor1);
+	if (blah == 0)
+	{
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_180(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		
+	}
+	
+	blah = 1;
+	
 }

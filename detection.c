@@ -60,6 +60,27 @@ int dectection_reading(int sensor)
 	return analogRead(3);
 }
 
+void dectection_timer_callback()
+{
+	if (motor_status != MOTOR_TURNING)
+	{
+		int s0 = dectection_reading(0);
+		int s1 = dectection_reading(1);
+		int s2 = dectection_reading(2);
+
+		dectection_update_adj(s0, s1, s2);
+	}
+}
+
+void dectection_force_update()
+{
+	int s0 = dectection_reading(0);
+	int s1 = dectection_reading(1);
+	int s2 = dectection_reading(2);
+
+	dectection_update_adj(s0, s1, s2);
+}
+
 void dectection_update_adj(int s0, int s1, int s2)
 {
 	// Values to see if sensors are usable

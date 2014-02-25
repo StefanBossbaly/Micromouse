@@ -1,4 +1,5 @@
 #include "motor.h"
+#include "detection.h"
 
 volatile int motor_status = -1;
 volatile int motor_adjustment = -1;
@@ -15,6 +16,8 @@ void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1)
 		stepper_step(stepper1, FORWARD);
 	}
 
+	dectection_force_update();
+
 	motor_status = MOTOR_STANDBY;
 }
 
@@ -30,6 +33,8 @@ void motor_turn_right(stepper_t *stepper0, stepper_t *stepper1)
 		stepper_step(stepper1, BACKWARD);
 	}
 
+	dectection_force_update();
+
 	motor_status = MOTOR_STANDBY;
 }
 
@@ -44,6 +49,8 @@ void motor_turn_180(stepper_t *stepper0, stepper_t *stepper1)
 		stepper_step(stepper0, FORWARD);
 		stepper_step(stepper1, BACKWARD);
 	}
+
+	dectection_force_update();
 
 	motor_status = MOTOR_STANDBY;
 }
