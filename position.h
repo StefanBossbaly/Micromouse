@@ -77,21 +77,21 @@ void position_move_forward(pos_t *position);
  * @param dir the given direction
  * @return the direction that is 180 degrees to the given direction
  */
-dir_t position_invert_direciton(dir_t dir);
+dir_t position_invert_direction(dir_t dir);
 
 /**
  * Returns the direction that is to the right of the given direction
  * @param dir the given direction
  * @return the direction that is to the right of the given direction
  */
-dir_t position_right_adj_direciton(dir_t dir);
+dir_t position_right_adj_direction(dir_t dir);
 
 /**
  * Returns the direction that is to the left of the given direction
  * @param dir the given direction
  * @return the direction that is to the left of the given direction
  */
-dir_t position_left_adj_direciton(dir_t dir);
+dir_t position_left_adj_direction(dir_t dir);
 
 /**
  * Converts the scalar value into a directional value
