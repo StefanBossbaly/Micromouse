@@ -18,17 +18,18 @@
 #define S_CLOSE_MS 10
 #define S_OPEN_MS 10
 
-// Upper and lower bounds of ideal for s0
-#define S0_UPPER_IDEAL 145
-#define S0_LOWER_IDEAL 135
+// Ideal center values
+#define S0_IDEAL 150
+#define S2_IDEAL 110
 
-// Upper and lower bounds of ideal for s2
-#define S2_UPPER_IDEAL 110
-#define S2_LOWER_IDEAL 100
+// Tolerance
+#define S_TOL 5
 
-// Thresholds for using the sensors
-#define S0_USE_THRESHOLD 90
-#define S2_USE_THRESHOLD 40
+// Our ranges
+#define S_S_RANGE 20
+#define S_H_RANGE 20
+
+
 
 #ifdef __cplusplus
 extern "C"

@@ -102,7 +102,7 @@ void dectection_update_adj(int s0, int s1, int s2)
 	}
 
 	// See if the s0 is usable
-	if (s0 >= 50)
+	if (s0 >= 110)
 	{
 		s0_use = 1;
 	}
@@ -118,69 +118,69 @@ void dectection_update_adj(int s0, int s1, int s2)
 	{
 		int diff = s0 - s2 - 50;
 
-		if (diff >= -5 && diff <= 5)
+		if (diff >= -S_TOL && diff <= S_TOL)
 		{
 			motor_adjustment = MOTOR_NO_ADJ;
 		}
-		else if (diff >= -5 && diff <= -15)
+		else if (diff >= -S_TOL && diff <= -S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_L_ADJ;
 		}
-		else if (diff >= 5 && diff <= 15)
+		else if (diff >= S_TOL && diff <= S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_R_ADJ;
 		}
-		else if (diff < -15)
+		else if (diff < -S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_L_ADJ;
 		}
-		else if (diff > 15)
+		else if (diff > S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_R_ADJ;
 		}
 	}
 	else if (s0_use == 1)
 	{
-		if (s0 >= 145 && s0 <= 155)
+		if (s0 >= S0_IDEAL - S_TOL && s0 <= S0_IDEAL + S_TOL)
 		{
 			motor_adjustment = MOTOR_NO_ADJ;
 		}
-		else if (s0 >= 135 && s0 <= 145)
+		else if (s0 >= S0_IDEAL + S_TOL && s0 <= S0_IDEAL + S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_L_ADJ;
 		}
-		else if (s0 >= 145 && s0 <= 155)
+		else if (s0 >= S0_IDEAL - S_S_RANGE && s0 <= S0_IDEAL - S_TOL)
 		{
 			motor_adjustment = MOTOR_S_R_ADJ;
 		}
-		else if (s0 < 135)
+		else if (s0 < S0_IDEAL - S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_L_ADJ;
 		}
-		else if (s0 > 155)
+		else if (s0 > S0_IDEAL + S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_R_ADJ;
 		}
 	}
 	else if (s2_use == 1)
 	{
-		if (s2 >= 95 && s2 <= 105)
+		if (s2 >= S2_IDEAL - S_TOL && s2 <= S2_IDEAL + S_TOL)
 		{
 			motor_adjustment = MOTOR_NO_ADJ;
 		}
-		else if (s2 >= 85 && s2 <= 95)
+		else if (s2 >= S2_IDEAL + S_TOL && s2 <= S2_IDEAL + S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_R_ADJ;
 		}
-		else if (s2 >= 105 && s2 <= 115)
+		else if (s2 >= S2_IDEAL - S_S_RANGE && s2 <= S2_IDEAL - S_TOL)
 		{
 			motor_adjustment = MOTOR_S_L_ADJ;
 		}
-		else if (s2 < 85)
+		else if (s2 < S2_IDEAL - S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_R_ADJ;
 		}
-		else if (s2 > 115)
+		else if (s2 > S2_IDEAL + S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_L_ADJ;
 		}
