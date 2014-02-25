@@ -1,4 +1,5 @@
 #include "detection.h"
+#include "motor.h"
 #include "Arduino.h"
 
 
@@ -57,4 +58,56 @@ int dectection_reading(int sensor)
 
 	// Return the value
 	return analogRead(3);
+}
+
+int dectection_update_adj(int s0, int s1, int s2)
+{
+	//TODO grab sensor value
+	int s0_use = 1, s1_use = 0, s2_use = 1;
+
+	/*if (s0 >= 135 && s0 <= 165)
+	{
+		s0_use = 1;
+	}
+
+	if (s2 >= 85 && s2 <= 115)
+	{
+		s2_use = 1;
+	}*/
+
+
+	if (s0_use == 1 && s2_use == 1)
+	{
+		int diff = s0 - s2 - 50;
+
+		if (diff >= -5 && diff <= 5)
+		{
+			motor_adjustment = MOTOR_NO_ADJ;
+		}
+		else if (diff >= -5 && diff <= -15)
+		{
+			motor_adjustment = MOTOR_S_L_ADJ;
+		}
+		else if (diff >= 5 && diff <= 15)
+		{
+			motor_adjustment = MOTOR_S_R_ADJ;
+		}
+		else if (diff < -15)
+		{
+			motor_adjustment = MOTOR_H_L_ADJ;
+		}
+		else if (diff > 15)
+		{
+			motor_adjustment = MOTOR_H_R_ADJ;
+		}
+
+		return diff;
+	}
+	// Running blind
+	else
+	{
+		motor_adjustment = MOTOR_NO_ADJ;
+
+		return -1;
+	}
 }
