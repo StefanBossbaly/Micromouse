@@ -70,7 +70,7 @@ void position_move_forward(pos_t *position)
     }
 }
 
-dir_t position_invert_direciton(dir_t dir)
+dir_t position_invert_direction(dir_t dir)
 {
     if (dir == north)
     {
@@ -90,7 +90,7 @@ dir_t position_invert_direciton(dir_t dir)
     }
 }
 
-dir_t position_right_adj_direciton(dir_t dir)
+dir_t position_right_adj_direction(dir_t dir)
 {
     if (dir == north)
     {
@@ -110,7 +110,7 @@ dir_t position_right_adj_direciton(dir_t dir)
     }
 }
 
-dir_t position_left_adj_direciton(dir_t dir)
+dir_t position_left_adj_direction(dir_t dir)
 {
     if (dir == north)
     {
@@ -138,15 +138,15 @@ dir_t position_convert_to_direction(pos_t *position, facing_t dir)
     }
     else if (dir == back)
     {
-        return position_invert_direciton(position->direction);
+        return position_invert_direction(position->direction);
     }
     else if (dir == right)
     {
-        return position_right_adj_direciton(position->direction);
+        return position_right_adj_direction(position->direction);
     }
     else
     {
-        return position_left_adj_direciton(position->direction);
+        return position_left_adj_direction(position->direction);
     }
 }
 
@@ -172,6 +172,8 @@ dir_t position_get_direction_to(pos_t *position, int row, int column)
     {
         return west;
     }
+
+    return north;
 }
 
 void position_copy(pos_t *value, pos_t *buffer)
