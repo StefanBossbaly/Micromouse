@@ -1,5 +1,8 @@
 #include "motor.h"
 
+volatile int motor_status = -1;
+volatile int motor_adjustment = -1;
+
 void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1)
 {
 	motor_status = MOTOR_TURNING;
