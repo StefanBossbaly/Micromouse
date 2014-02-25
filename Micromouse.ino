@@ -6,8 +6,6 @@
 #include "stepper.h"
 #include "detection.h"
 
-
-
 volatile unsigned long start_time = 0;
 volatile uint8_t stop = 0; 
 
@@ -101,6 +99,7 @@ void handle_sensors (void)
 	s2 = dectection_reading(2);
 	//s3 = dectection_reading(3);
 	//s4 = dectection_reading(4);
+	}
 
 	Serial.println("");
 	Serial.print(s0);
