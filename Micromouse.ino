@@ -7,15 +7,6 @@
 #include "detection.h"
 
 volatile unsigned long start_time = 0;
-volatile uint8_t stop = 0; 
-
-volatile int s0 = -1, s1 = -1, s2 = -1, s3 = -1, s4 = -1;
-volatile int turning = 0;
-
-// Forward = 1
-// Adjust Left = 2
-// Adjust Right = 3
-volatile int motor = -1;
 
 // Motor shield and stepper motors
 shield_t shield;
@@ -28,92 +19,13 @@ struct nav_array array;
 // Current position
 pos_t current;
 
-void calculate_motors()
-{
-    if (s1 > 240)
-    {
-        motor = 0;
-    }
-    // Both sensors are good!
-    else if (s0 > 90 && s2 > 40)
-    {
-        int sub = s0 - 40 - s2;
-
-        if (sub > 10)
-        {
-            motor = 2;
-        }
-        else if (sub < -10)
-        {
-            motor = 3;
-        }
-        else
-        {
-            motor = 1;
-        }
-    }
-    // We can only use s0
-    else if (s0 > 90)
-    {
-        if (s0 > 145)
-        {
-            motor = 2;
-        }
-        else if (s0 < 135)
-        {
-            motor = 3;
-        }
-        else
-        {
-            motor = 1;
-        }
-    }
-    // We can only use s2
-    else if (s2 > 40)
-    {
-        if (s2 > 110)
-        {
-            motor = 3;
-        }
-        else if (s2 < 100)
-        {
-            motor = 2;
-        }
-        else
-        {
-            motor = 1;
-        }
-    }
-    else
-    {
-        motor = 0;
-    }
-}
-
 void handle_sensors (void)
 {
-	if (motor_status == MOTOR_MOVING)
-	{
-	s0 = dectection_reading(0);
-	s1 = dectection_reading(1);
-	s2 = dectection_reading(2);
-	//s3 = dectection_reading(3);
-	//s4 = dectection_reading(4);
-	}
-
-	Serial.println("");
-	Serial.print(s0);
-	Serial.print(", ");
-	Serial.print(s1);
-	Serial.print(", ");
-	Serial.print(s2);
-	//Serial.print(", ");
-	//Serial.print(s3);
-	//Serial.print(", ");
-	//Serial.print(s4);
-	//Serial.print(", ");
-	Serial.println("");
-		
+	int s0 = dectection_reading(0);
+	int s1 = dectection_reading(1);
+	int s2 = dectection_reading(2);
+	
+	int diff = dectection_update_adj(s0, s1, s2);
 }
 
 // Micromouse.ino
@@ -152,11 +64,11 @@ void setup()
     handle_sensors();
 
     // Start a callback to the sensors
-    timer2_init_ms(1000, handle_sensors);
+    timer2_init_ms(150, handle_sensors);
     start_time = millis();
 }
 
 void loop() 
 {
-	
+	motor_move_forward(&motor0, &motor1);
 }
