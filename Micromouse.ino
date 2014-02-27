@@ -67,8 +67,7 @@ void loop()
 	if (blah == 0)
 	{
 		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
 		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
@@ -76,8 +75,24 @@ void loop()
 		motor_move_forward(&motor0, &motor1);
 		motor_turn_left(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
 		
 	}
