@@ -22,6 +22,12 @@ pos_t current;
 int stop = 0;
 int blah = 0;
 
+void callback(void)
+{
+	dectection_timer_callback();
+	Serial.println(motor_adjustment);
+}
+
 // Micromouse.ino
 void setup() 
 {
@@ -58,14 +64,12 @@ void setup()
     dectection_force_update();
 
     // Start a callback to the sensors
-    timer2_init_ms(150, dectection_timer_callback);
+    timer2_init_ms(125, dectection_timer_callback);
     start_time = millis();
 }
 
 void loop() 
 {
-	if (blah == 0)
-	{
 		motor_move_forward(&motor0, &motor1);
 		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
@@ -94,9 +98,27 @@ void loop()
 		motor_move_forward(&motor0, &motor1);
 		motor_turn_right(&motor0, &motor1);
 		motor_move_forward(&motor0, &motor1);
-		
-	}
-	
-	blah = 1;
-	
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_right(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_left(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_move_forward(&motor0, &motor1);
+		motor_turn_180(&motor0, &motor1);
+		delay(3000);
 }
