@@ -22,12 +22,15 @@
 #define S0_IDEAL 150
 #define S2_IDEAL 110
 
+#define S_OFFSET 50
+
 // Tolerance
-#define S_TOL 5
+#define S_TOL 10
 
 // Our ranges
 #define S_S_RANGE 20
-#define S_H_RANGE 20
+#define S_M_RANGE 45
+#define S_H_RANGE 45
 
 
 
@@ -44,6 +47,7 @@ int dectection_reading(int sensor);
 void dectection_timer_callback();
 void dectection_force_update();
 void dectection_update_adj(int s0, int s1, int s2);
+void dectection_centering_adj(int s0, int s2);
 
 #ifdef __cplusplus
 }
