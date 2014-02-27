@@ -135,25 +135,33 @@ void dectection_update_adj(int s0, int s1, int s2)
 
 void dectection_centering_adj(int s0, int s2)
 {
-	int diff = s0 - s2 - 50;
+	int diff = s0 - s2 - S_OFFSET;
 
 	if (diff >= -S_TOL && diff <= S_TOL)
 	{
 		motor_adjustment = MOTOR_NO_ADJ;
 	}
-	else if (diff >= -S_TOL && diff <= -S_S_RANGE)
+	else if (diff < -S_TOL && diff >= -S_S_RANGE)
 	{
 		motor_adjustment = MOTOR_S_L_ADJ;
 	}
-	else if (diff >= S_TOL && diff <= S_S_RANGE)
+	else if (diff > S_TOL && diff <= S_S_RANGE)
 	{
 		motor_adjustment = MOTOR_S_R_ADJ;
 	}
-	else if (diff < -S_H_RANGE)
+	else if (diff < -S_S_RANGE && diff >= -S_M_RANGE)
+	{
+		motor_adjustment = MOTOR_M_L_ADJ;
+	}
+	else if (diff > S_S_RANGE && diff <= S_M_RANGE)
+	{
+		motor_adjustment = MOTOR_M_R_ADJ;
+	}
+	else if (diff <= -S_H_RANGE)
 	{
 		motor_adjustment = MOTOR_H_L_ADJ;
 	}
-	else if (diff > S_H_RANGE)
+	else if (diff >= S_H_RANGE)
 	{
 		motor_adjustment = MOTOR_H_R_ADJ;
 	}
