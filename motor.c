@@ -69,7 +69,11 @@ void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1)
 
 		stepper_step(stepper0, FORWARD);
 
-		if (motor_adjustment == MOTOR_S_R_ADJ && (i % 4) == 0)
+		if (motor_adjustment == MOTOR_S_R_ADJ && (i % 12) == 0)
+		{
+			stepper_step(stepper0, FORWARD);
+		}
+		else if (motor_adjustment == MOTOR_M_R_ADJ && (i % 6) == 0)
 		{
 			stepper_step(stepper0, FORWARD);
 		}
@@ -80,7 +84,11 @@ void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1)
 
 		stepper_step(stepper1, FORWARD);
 
-		if (motor_adjustment == MOTOR_S_L_ADJ && (i % 4) == 0)
+		if (motor_adjustment == MOTOR_S_L_ADJ && (i % 12) == 0)
+		{
+			stepper_step(stepper1, FORWARD);
+		}
+		else if (motor_adjustment == MOTOR_M_L_ADJ && (i % 6) == 0)
 		{
 			stepper_step(stepper1, FORWARD);
 		}
