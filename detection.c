@@ -141,48 +141,52 @@ void dectection_update_adj(int s0, int s1, int s2)
 	}
 	else if (s0_use == 1)
 	{
-		if (s0 >= S0_IDEAL - S_TOL && s0 <= S0_IDEAL + S_TOL)
+		int diff = s0 - S2_IDEAL - 50;
+
+		if (diff >= -S_TOL && diff <= S_TOL)
 		{
 			motor_adjustment = MOTOR_NO_ADJ;
 		}
-		else if (s0 >= S0_IDEAL + S_TOL && s0 <= S0_IDEAL + S_S_RANGE)
+		else if (diff >= -S_TOL && diff <= -S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_L_ADJ;
 		}
-		else if (s0 >= S0_IDEAL - S_S_RANGE && s0 <= S0_IDEAL - S_TOL)
+		else if (diff >= S_TOL && diff <= S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_R_ADJ;
 		}
-		else if (s0 < S0_IDEAL - S_H_RANGE)
+		else if (diff < -S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_L_ADJ;
 		}
-		else if (s0 > S0_IDEAL + S_H_RANGE)
+		else if (diff > S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_R_ADJ;
 		}
 	}
 	else if (s2_use == 1)
 	{
-		if (s2 >= S2_IDEAL - S_TOL && s2 <= S2_IDEAL + S_TOL)
+		int diff = S0_IDEAL - s2 - 50;
+
+		if (diff >= -S_TOL && diff <= S_TOL)
 		{
 			motor_adjustment = MOTOR_NO_ADJ;
 		}
-		else if (s2 >= S2_IDEAL + S_TOL && s2 <= S2_IDEAL + S_S_RANGE)
-		{
-			motor_adjustment = MOTOR_S_R_ADJ;
-		}
-		else if (s2 >= S2_IDEAL - S_S_RANGE && s2 <= S2_IDEAL - S_TOL)
+		else if (diff >= -S_TOL && diff <= -S_S_RANGE)
 		{
 			motor_adjustment = MOTOR_S_L_ADJ;
 		}
-		else if (s2 < S2_IDEAL - S_H_RANGE)
+		else if (diff >= S_TOL && diff <= S_S_RANGE)
 		{
-			motor_adjustment = MOTOR_H_R_ADJ;
+			motor_adjustment = MOTOR_S_R_ADJ;
 		}
-		else if (s2 > S2_IDEAL + S_H_RANGE)
+		else if (diff < -S_H_RANGE)
 		{
 			motor_adjustment = MOTOR_H_L_ADJ;
+		}
+		else if (diff > S_H_RANGE)
+		{
+			motor_adjustment = MOTOR_H_R_ADJ;
 		}
 	}
 	// Running blind
