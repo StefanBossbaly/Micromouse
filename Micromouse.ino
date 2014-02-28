@@ -48,6 +48,9 @@ void setup()
     stepper_init(&motor0, &shield, 0);
     stepper_init(&motor1, &shield, 1);
     
+    // Give the stepper to our motor functions
+    motor_init(&motor0, &motor1);
+    
     // Init shared motor values
     motor_status = MOTOR_STANDBY;
     motor_adjustment = MOTOR_NO_ADJ;
@@ -70,55 +73,56 @@ void setup()
 
 void loop() 
 {
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_180(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_right(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_left(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_move_forward(&motor0, &motor1);
-		motor_turn_180(&motor0, &motor1);
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_&motor0, &motor1right();
+		motor_move_forward();
+		motor_turn_180();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_move_forward();
+		motor_move_forward();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_move_forward();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_turn_right();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_move_forward();
+		motor_move_forward();
+		motor_move_forward();
+		motor_turn_left();
+		motor_move_forward();
+		motor_move_forward();
+		motor_turn_180();
+		
 		delay(3000);
 }
