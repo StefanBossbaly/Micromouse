@@ -222,6 +222,9 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
            return west; 
         }
     }
+
+    // This should never happen
+    return 0;
 }
 
 void nav_explore(struct nav_array *array, pos_t *start)
