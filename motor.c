@@ -109,7 +109,7 @@ void motor_move_forward()
 	motor_status = MOTOR_STANDBY;
 }
 
-/*void motor_turn_to_direction(stepper_t *stepper0, stepper_t *stepper1, pos_t *current, dir_t dir)
+void motor_turn_to_direction(pos_t *current, dir_t dir)
 {
 	if (current->direction == dir)
 	{
@@ -118,13 +118,16 @@ void motor_move_forward()
 	else if (position_right_adj_direciton(current->direction) == dir)
 	{
 		motor_turn_right(stepper0, stepper1);
+		current->direction = dir;
 	}
 	else if (position_left_adj_direciton(current->direction) == dir)
 	{
 		motor_turn_left(stepper0, stepper1);
+		current->direction = dir;
 	}
 	else
 	{
 		motor_turn_180(stepper0, stepper1);
+		current->direction = dir;
 	}
-}*/
+}
