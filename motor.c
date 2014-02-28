@@ -4,7 +4,15 @@
 volatile int motor_status = -1;
 volatile int motor_adjustment = -1;
 
-void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1)
+stepper_t *stepper0, *stepper1;
+
+void motor_init(stepper_t *left, stepper_t *right)
+{
+	stepper0 = left;
+	stepper1 = right;
+}
+
+void motor_turn_left()
 {
 	motor_status = MOTOR_TURNING;
 
@@ -21,7 +29,7 @@ void motor_turn_left(stepper_t *stepper0, stepper_t *stepper1)
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_turn_right(stepper_t *stepper0, stepper_t *stepper1)
+void motor_turn_right()
 {
 	motor_status = MOTOR_TURNING;
 
@@ -38,7 +46,7 @@ void motor_turn_right(stepper_t *stepper0, stepper_t *stepper1)
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_turn_180(stepper_t *stepper0, stepper_t *stepper1)
+void motor_turn_180()
 {
 	motor_status = MOTOR_TURNING;
 
@@ -55,7 +63,7 @@ void motor_turn_180(stepper_t *stepper0, stepper_t *stepper1)
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_move_forward(stepper_t *stepper0, stepper_t *stepper1)
+void motor_move_forward()
 {
 	motor_status = MOTOR_MOVING;
 
