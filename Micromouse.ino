@@ -76,7 +76,7 @@ void loop()
 		motor_move_forward();
 		motor_turn_right();
 		motor_move_forward();
-		motor_turn_&motor0, &motor1right();
+		motor_turn_right();
 		motor_move_forward();
 		motor_turn_180();
 		motor_move_forward();
