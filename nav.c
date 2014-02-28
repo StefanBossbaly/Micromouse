@@ -169,9 +169,11 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
         
         /*Turn to a direction*/
         motor_turn_to_direction(&current, dir);
+        current.direction = dir;
         
         /*Move forward*/
-        motor_move_foward(&current);
+        motor_move_forward();
+        position_move_forward(&current);
     }
 }
 
@@ -232,8 +234,6 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*Get current position*/
     struct nav_cell *cell = nav_get_cell_pos(array, current);
     
-    /*Collect wall data*/
-    
     /*Mark cell as visited*/
     cell->has_visited = 1;
     
@@ -246,15 +246,20 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
         {   
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, north);
-            motor_move_foward(current);
+            current->direction = north;
+
+            motor_move_forward();
+            position_move_forward(current);
             
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, south);
-            motor_move_foward(current);
-            
+            current->direction = south;
+
+            motor_move_forward();
+            position_move_forward(current);
         }
     }
         
@@ -267,14 +272,20 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
         {   
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, east);
-            motor_move_foward(current);
+            current->direction = east;
+
+            motor_move_forward();
+            position_move_forward(current);
             
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, west);
-            motor_move_foward(current);
+            current->direction = west;
+
+            motor_move_forward();
+            position_move_forward(current);
             
         }
     }
@@ -288,15 +299,20 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
         {   
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, south);
-            motor_move_foward(current);
+            current->direction = south;
             
+            motor_move_forward();
+            position_move_forward(current);
+
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, north);
-            motor_move_foward(current);
+            current->direction = north;
             
+            motor_move_forward();
+            position_move_forward(current);
         }
     }
     
@@ -309,14 +325,20 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
         {   
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, west);
-            motor_move_foward(current);
+            current->direction = west;
+
+            motor_move_forward();
+            position_move_forward(current);
             
             /*Explore new cell*/
             nav_explore_rec(array, current);
             
             /*Move back to original cell*/
             motor_turn_to_direction(current, east);
-            motor_move_foward(current);
+            current->direction = east;
+
+            motor_move_forward();
+            position_move_forward(current);
             
         }
     }
