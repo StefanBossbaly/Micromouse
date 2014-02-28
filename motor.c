@@ -118,16 +118,13 @@ void motor_turn_to_direction(pos_t *current, dir_t dir)
 	else if (position_right_adj_direciton(current->direction) == dir)
 	{
 		motor_turn_right(stepper0, stepper1);
-		current->direction = dir;
 	}
 	else if (position_left_adj_direciton(current->direction) == dir)
 	{
 		motor_turn_left(stepper0, stepper1);
-		current->direction = dir;
 	}
 	else
 	{
 		motor_turn_180(stepper0, stepper1);
-		current->direction = dir;
 	}
 }
