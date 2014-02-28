@@ -26,8 +26,8 @@ int blah = 0;
 void setup() 
 {
 	// Triggers for relays
-    pinMode(3, OUTPUT);
-    pinMode(4, OUTPUT);
+    pinMode(S3_TRIG, OUTPUT);
+    pinMode(S4_TRIG, OUTPUT);
     
     // Start a serial with 115200 baud rate
     Serial.begin(115200);
