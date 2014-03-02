@@ -1,6 +1,10 @@
 #include "nav.h"
 #include "queue.h"
 #include "motor.h"
+#include "Arduino.h"
+
+extern "C"
+{
 
 int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 {
@@ -9,7 +13,7 @@ int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
 
 int nav_is_in_bounds(struct nav_array *array, int row, int column)
 {
-    return (row >= 0) && (column >=0) && (row < array->rows) && (column < array->columns);
+    return (row >= 0) && (column >= 0) && (row < array->rows) && (column < array->columns);
 }
 
 int nav_size(struct nav_array *array)
@@ -17,10 +21,11 @@ int nav_size(struct nav_array *array)
     return (array->rows * array->columns);
 }
 
-void nav_init(struct nav_array *array, int rows, int columns)
+void nav_init(struct nav_array *array, struct nav_cell *cells, int rows, int columns)
 {
     array->rows = rows;
     array->columns = columns;
+    array->cells = cells;
 
     int size = nav_size(array);
 
@@ -34,8 +39,8 @@ void nav_init(struct nav_array *array, int rows, int columns)
         cell->west = 0;
         cell->has_visited = 0;
         cell->flood_num = -1;
-        cell->row = i / array->columns;
-        cell->column = i % array->columns;
+        cell->row = (i / array->columns);
+        cell->column = (i % array->columns);
     }
 }
 
@@ -172,7 +177,7 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
         current.direction = dir;
         
         /*Move forward*/
-        motor_move_forward();
+        motor_move_forward(array, &current);
         position_move_forward(&current);
     }
 }
@@ -236,32 +241,45 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
 {
     /*Get current position*/
     struct nav_cell *cell = nav_get_cell_pos(array, current);
-    
+
+    //TODO remove me
+    //nav_update_wall(array, current, north);
+    //nav_update_wall(array, current, south);
+
+    Serial.print("At post: ");
+    Serial.print(current->row);
+    Serial.print(", ");
+    Serial.print(current->column);
+    Serial.println("");
+
+
     /*Mark cell as visited*/
     cell->has_visited = 1;
     
     /*North*/
     if (nav_is_in_bounds(array, cell->row - 1, cell->column) && !cell->north)
     {
+    	Serial.println("Checking north cell");
         struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
         
         if (!north_cell->has_visited)
         {   
-            /*Turn to the direction and move forward*/
+        	Serial.println("Heading north");
+            // Turn to the direction and move forward
             motor_turn_to_direction(current, north);
             current->direction = north;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
             
-            /*Explore new cell*/
+            // Explore new cell
             nav_explore_rec(array, current);
             
-            /*Move back to original cell*/
+            // Move back to original cell
             motor_turn_to_direction(current, south);
             current->direction = south;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
         }
     }
@@ -269,15 +287,17 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*East*/
     if (nav_is_in_bounds(array, cell->row, cell->column + 1) && !cell->east)
     {
+    	Serial.println("Checking east cell");
         struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
         
         if (!east_cell->has_visited)
         {   
+        	Serial.println("Heading east");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, east);
             current->direction = east;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
             
             /*Explore new cell*/
@@ -287,24 +307,26 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             motor_turn_to_direction(current, west);
             current->direction = west;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
             
         }
     }
-    
+
     /*South*/
     if (nav_is_in_bounds(array, cell->row + 1, cell->column) && !cell->south)
     {
+    	Serial.println("Checking south cell");
         struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
         
         if (!south_cell->has_visited)
         {   
+        	Serial.println("Heading south");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, south);
             current->direction = south;
             
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
 
             /*Explore new cell*/
@@ -314,23 +336,25 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             motor_turn_to_direction(current, north);
             current->direction = north;
             
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
         }
     }
-    
+
     /*West*/
     if (nav_is_in_bounds(array, cell->row, cell->column - 1) && !cell->west)
     {
+    	Serial.println("Checking west cell");
         struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
         
         if (!west_cell->has_visited)
         {   
+        	Serial.println("Heading west");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, west);
             current->direction = west;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
             
             /*Explore new cell*/
@@ -340,7 +364,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
             motor_turn_to_direction(current, east);
             current->direction = east;
 
-            motor_move_forward();
+            motor_move_forward(array, current);
             position_move_forward(current);
             
         }
@@ -399,4 +423,5 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir)
         struct nav_cell *west_cell = nav_get_cell(array, position->row, position->column - 1);
         nav_update_wall_cell(west_cell, east);
     } 
+}
 }

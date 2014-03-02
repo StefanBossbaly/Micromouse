@@ -1,5 +1,6 @@
 #include "motor.h"
 #include "detection.h"
+#include "position.h"
 
 volatile int motor_status = -1;
 volatile int motor_adjustment = -1;
@@ -63,7 +64,7 @@ void motor_turn_180()
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_move_forward()
+void motor_move_forward(struct nav_array *array, pos_t *current)
 {
 	motor_status = MOTOR_MOVING;
 
@@ -104,7 +105,14 @@ void motor_move_forward()
 		{
 			stepper_step(stepper1, FORWARD);
 		}
+
+		if (i == 70)
+		{
+			detection_update_walls(array, current);
+		}
 	}
+
+	detection_update_front_wall(array, current);
 
 	motor_status = MOTOR_STANDBY;
 }
@@ -115,11 +123,11 @@ void motor_turn_to_direction(pos_t *current, dir_t dir)
 	{
 		return;
 	}
-	else if (position_right_adj_direciton(current->direction) == dir)
+	else if (position_right_adj_direction(current->direction) == dir)
 	{
 		motor_turn_right(stepper0, stepper1);
 	}
-	else if (position_left_adj_direciton(current->direction) == dir)
+	else if (position_left_adj_direction(current->direction) == dir)
 	{
 		motor_turn_left(stepper0, stepper1);
 	}

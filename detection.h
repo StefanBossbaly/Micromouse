@@ -2,6 +2,7 @@
 #define	DETECTION_H
 
 #include "position.h"
+#include "nav.h"
 
 // Sensors and their unique number
 #define S0 0
@@ -48,6 +49,8 @@ void dectection_timer_callback();
 void dectection_force_update();
 void dectection_update_adj(int s0, int s1, int s2);
 void dectection_centering_adj(int s0, int s2);
+void detection_update_walls(struct nav_array *array, pos_t *current);
+void detection_update_front_wall(struct nav_array *array, pos_t *current);
 
 #ifdef __cplusplus
 }

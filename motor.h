@@ -4,6 +4,7 @@
 #include "position.h"
 #include "detection.h"
 #include "stepper.h"
+#include "nav.h"
 
 #define TURN_ADJ 82
 #define TURN_180 164
@@ -37,7 +38,7 @@ void motor_init(stepper_t *left, stepper_t *right);
 void motor_turn_left();
 void motor_turn_right();
 void motor_turn_180();
-void motor_move_forward();
+void motor_move_forward(struct nav_array *array, pos_t *current);
 void motor_turn_to_direction(pos_t *current, dir_t dir);
 
 #ifdef __cplusplus
