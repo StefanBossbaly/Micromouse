@@ -22,10 +22,36 @@ pos_t current;
 int stop = 0;
 int blah = 0;
 
+void print_maze(struct nav_array *array)
+{
+	int i, j;
+	for (i = 0; i < array->rows; i++)
+	{
+		for (j = 0; j < array->columns; j++)
+		{
+			struct nav_cell *cell = nav_get_cell(array, i, j);
+			
+			Serial.print("(");
+			Serial.print(cell->row);
+			Serial.print(",");
+			Serial.print(cell->column);
+			Serial.print(") ");
+		}
+		
+		Serial.println("");
+	}
+}
+
 void callback(void)
 {
-	dectection_timer_callback();
-	Serial.println(motor_adjustment);
+	int s0 = dectection_reading(0);
+	int s2 = dectection_reading(2);
+	
+	Serial.println("");
+	Serial.print(s0);
+	Serial.print(",");
+	Serial.print(s2);
+	Serial.println("");
 }
 
 // Micromouse.ino
@@ -56,73 +82,34 @@ void setup()
     motor_adjustment = MOTOR_NO_ADJ;
     
     // Init our empty maze
-    nav_init(&array, 3, 6);
+    nav_init(&array, cells, 6, 3);
     
     // Setup our position
-    current.row = 0;
-    current.column = 0;
+    current.row = 5;
+    current.column = 2;
+    current.direction = north;
+    
+    nav_update_wall(&array, &current, left);
+    nav_update_wall(&array, &current, right);
+    
     current.direction = west;
     
     // Get inital sensor values
     dectection_force_update();
 
     // Start a callback to the sensors
-    timer2_init_ms(125, dectection_timer_callback);
+    timer2_init_ms(150, dectection_timer_callback);
     start_time = millis();
 }
 
 void loop() 
 {
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_180();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_move_forward();
-		motor_move_forward();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_move_forward();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_turn_right();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_move_forward();
-		motor_move_forward();
-		motor_move_forward();
-		motor_turn_left();
-		motor_move_forward();
-		motor_move_forward();
-		motor_turn_180();
-		
-		delay(3000);
+	//delay(4000);
+	if (blah == 0)
+	{
+		print_maze(&array);
+		//nav_explore(&array, &current);
+	}
+	
+	blah = 1;
 }

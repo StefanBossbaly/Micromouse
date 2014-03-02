@@ -166,3 +166,37 @@ void dectection_centering_adj(int s0, int s2)
 		motor_adjustment = MOTOR_H_R_ADJ;
 	}
 }
+
+void detection_update_walls(struct nav_array *array, pos_t *current)
+{
+	int s0 = dectection_reading(0);
+	int s2 = dectection_reading(2);
+
+	pos_t buffer;
+	position_copy(current, &buffer);
+	position_move_forward(&buffer);
+
+	if (s0 > 100)
+	{
+		nav_update_wall(array, &buffer, position_left_adj_direction(buffer.direction));
+	}
+
+	if (s2 > 50)
+	{
+		nav_update_wall(array, &buffer, position_right_adj_direction(buffer.direction));
+	}
+}
+
+void detection_update_front_wall(struct nav_array *array, pos_t *current)
+{
+	int s1 = dectection_reading(1);
+
+	pos_t buffer;
+	position_copy(current, &buffer);
+	position_move_forward(&buffer);
+
+	if (s1 >= 200)
+	{
+		nav_update_wall(array, &buffer, buffer.direction);
+	}
+}
