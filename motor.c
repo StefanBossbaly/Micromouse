@@ -3,7 +3,9 @@
 #include "position.h"
 
 volatile int motor_status = -1;
-volatile int motor_adjustment = -1;
+volatile int motor_adj_status = -1;
+volatile int motor_correction = -1;
+volatile int motor_correction_dir = -1;
 
 stepper_t *stepper0, *stepper1;
 
@@ -71,39 +73,25 @@ void motor_move_forward(struct nav_array *array, pos_t *current)
 	int i;
 	for (i = 1; i < BLOCK; i++)
 	{
-		if (motor_adjustment == MOTOR_WALL)
+		// Don't hit the wall
+		if (motor_adj_status == MOTOR_WALL)
 		{
 			break;
 		}
 
 		stepper_step(stepper0, FORWARD);
-
-		if (motor_adjustment == MOTOR_S_R_ADJ && (i % 12) == 0)
-		{
-			stepper_step(stepper0, FORWARD);
-		}
-		else if (motor_adjustment == MOTOR_M_R_ADJ && (i % 6) == 0)
-		{
-			stepper_step(stepper0, FORWARD);
-		}
-		else if (motor_adjustment == MOTOR_H_R_ADJ && (i % 2) == 0)
-		{
-			stepper_step(stepper0, FORWARD);
-		}
-
 		stepper_step(stepper1, FORWARD);
 
-		if (motor_adjustment == MOTOR_S_L_ADJ && (i % 12) == 0)
+		if (motor_adj_status == MOTOR_EXP_COR && ((i % motor_correction) == 0))
 		{
-			stepper_step(stepper1, FORWARD);
-		}
-		else if (motor_adjustment == MOTOR_M_L_ADJ && (i % 6) == 0)
-		{
-			stepper_step(stepper1, FORWARD);
-		}
-		else if (motor_adjustment == MOTOR_H_L_ADJ && (i % 2) == 0)
-		{
-			stepper_step(stepper1, FORWARD);
+			if (motor_correction_dir == MOTOR_ADJ_LEFT)
+			{
+				stepper_step(stepper0, FORWARD);
+			}
+			else if (motor_correction_dir == MOTOR_ADJ_RIGHT)
+			{
+				stepper_step(stepper1, FORWARD);
+			}
 		}
 
 		if (i == 80)

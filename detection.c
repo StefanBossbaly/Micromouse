@@ -1,9 +1,7 @@
 #include "detection.h"
 #include "motor.h"
 #include "Arduino.h"
-
-extern "C"
-{
+#include "math.h"
 
 volatile int selected_sensor = -1;
 
@@ -91,7 +89,7 @@ void dectection_update_adj(int s0, int s1, int s2)
 	// We are at the end of the road
 	if (s1 >= 250)
 	{
-		motor_adjustment = MOTOR_WALL;
+		motor_adj_status = MOTOR_WALL;
 		return;
 	}
 
@@ -99,7 +97,7 @@ void dectection_update_adj(int s0, int s1, int s2)
 	// they are dirty lairs
 	if (s1 >= 160)
 	{
-		motor_adjustment = MOTOR_NO_ADJ;
+		motor_adj_status = MOTOR_NO_ADJ;
 		return;
 	}
 
@@ -131,7 +129,7 @@ void dectection_update_adj(int s0, int s1, int s2)
 	// Running blind
 	else
 	{
-		motor_adjustment = MOTOR_NO_ADJ;
+		motor_adj_status = MOTOR_NO_ADJ;
 	}
 }
 
@@ -141,31 +139,21 @@ void dectection_centering_adj(int s0, int s2)
 
 	if (diff >= -S_TOL && diff <= S_TOL)
 	{
-		motor_adjustment = MOTOR_NO_ADJ;
+		motor_adj_status = MOTOR_NO_ADJ;
 	}
-	else if (diff < -S_TOL && diff >= -S_S_RANGE)
+	else if (diff > S_TOL || diff < -S_TOL)
 	{
-		motor_adjustment = MOTOR_S_L_ADJ;
-	}
-	else if (diff > S_TOL && diff <= S_S_RANGE)
-	{
-		motor_adjustment = MOTOR_S_R_ADJ;
-	}
-	else if (diff < -S_S_RANGE && diff >= -S_M_RANGE)
-	{
-		motor_adjustment = MOTOR_M_L_ADJ;
-	}
-	else if (diff > S_S_RANGE && diff <= S_M_RANGE)
-	{
-		motor_adjustment = MOTOR_M_R_ADJ;
-	}
-	else if (diff <= -S_H_RANGE)
-	{
-		motor_adjustment = MOTOR_H_L_ADJ;
-	}
-	else if (diff >= S_H_RANGE)
-	{
-		motor_adjustment = MOTOR_H_R_ADJ;
+		motor_adj_status = MOTOR_EXP_COR;
+		motor_correction = (int) (88.556 * pow(fabs(diff), -0.855));
+
+		if (diff > S_TOL)
+		{
+			motor_correction_dir = MOTOR_ADJ_LEFT;
+		}
+		else if (diff < -S_TOL)
+		{
+			motor_correction_dir = MOTOR_ADJ_RIGHT;
+		}
 	}
 }
 
@@ -178,26 +166,13 @@ void detection_update_walls(struct nav_array *array, pos_t *current)
 	position_copy(current, &buffer);
 	position_move_forward(&buffer);
 
-    Serial.print("Checking wall for pos: ");
-    Serial.print(buffer.row);
-    Serial.print(", ");
-    Serial.print(buffer.column);
-    Serial.println("");
-
-    Serial.print(s0);
-    Serial.print(", ");
-    Serial.print(s2);
-    Serial.println("");
-
 	if (s0 > 130)
 	{
-		Serial.println("Left wall detected");
 		nav_update_wall(array, &buffer, left);
 	}
 
 	if (s2 > 80)
 	{
-		Serial.println("Right wall detected");
 		nav_update_wall(array, &buffer, right);
 	}
 }
@@ -214,5 +189,4 @@ void detection_update_front_wall(struct nav_array *array, pos_t *current)
 	{
 		nav_update_wall(array, &buffer, front);
 	}
-}
 }

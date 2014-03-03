@@ -20,19 +20,20 @@ extern "C"
 #define MOTOR_MOVING 1
 #define MOTOR_TURNING 2
 
-//Slight right adjustment
+// Adjustment status
 #define MOTOR_NO_ADJ 0
-#define MOTOR_S_R_ADJ 1
-#define MOTOR_S_L_ADJ 2
-#define MOTOR_M_R_ADJ 3
-#define MOTOR_M_L_ADJ 3
-#define MOTOR_H_R_ADJ 5
-#define MOTOR_H_L_ADJ 6
-#define MOTOR_WALL 7
+#define MOTOR_EXP_COR 1
+#define MOTOR_WALL 2
+
+// Adjustment direction
+#define MOTOR_ADJ_LEFT 0
+#define MOTOR_ADJ_RIGHT 1
 
 // Shared values
 extern volatile int motor_status;
-extern volatile int motor_adjustment;
+extern volatile int motor_adj_status;
+extern volatile int motor_correction;
+extern volatile int motor_correction_dir;
 
 void motor_init(stepper_t *left, stepper_t *right);
 void motor_turn_left();

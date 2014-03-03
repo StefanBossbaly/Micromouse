@@ -61,14 +61,23 @@ void print_flood(struct nav_array *array)
 
 void callback(void)
 {
-	int s0 = dectection_reading(0);
-	int s2 = dectection_reading(2);
+	dectection_timer_callback();
 	
-	Serial.println("");
-	Serial.print(s0);
-	Serial.print(",");
-	Serial.print(s2);
-	Serial.println("");
+	if (motor_adj_status == MOTOR_EXP_COR)
+	{
+		Serial.println("");
+		Serial.print(motor_correction);
+		if (motor_correction_dir == MOTOR_ADJ_LEFT)
+		{
+			Serial.println(" left");
+		}
+		else if (motor_correction_dir == MOTOR_ADJ_RIGHT)
+		{
+			Serial.println(" right");
+		}
+		
+		Serial.println("");
+	}
 }
 
 // Micromouse.ino
@@ -98,15 +107,15 @@ void setup()
     
     // Init shared motor values
     motor_status = MOTOR_STANDBY;
-    motor_adjustment = MOTOR_NO_ADJ;
+    motor_adj_status = MOTOR_NO_ADJ;
     
     // Init our empty maze
     nav_init(&array, cells, 6, 3);
     
     // Setup our position
-    current.row = 5;
-    current.column = 2;
-    current.direction = west;
+    current.row = 0;
+    current.column = 0;
+    current.direction = east;
     
     target.row = 2;
     target.column = 1;
@@ -128,12 +137,12 @@ void setup()
 
 void loop() 
 {
-	delay(4000);
+	/*delay(4000);
 	if (blah == 0)
 	{
 		nav_explore(&array, &current);
 		motor_turn_180();
-		current.direction = west;
+		current.direction = east;
 		dectection_force_update();
 		nav_flood(&array, &target);
 		print_flood(&array);
@@ -141,5 +150,7 @@ void loop()
 		nav_drive_to_target(&array, &current, &target);
 	}
 	
-	blah = 1;
+	blah = 1;*/
+	
+	motor_move_forward(&array, &current);
 }
