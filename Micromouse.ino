@@ -17,7 +17,7 @@ struct nav_cell cells[3*6];
 struct nav_array array;
 
 // Current position
-pos_t current;
+pos_t current, target;
 
 int stop = 0;
 int blah = 0;
@@ -42,6 +42,23 @@ void print_maze(struct nav_array *array)
 	}
 }
 
+void print_flood(struct nav_array *array)
+{
+	int i, j;
+	for (i = 0; i < array->rows; i++)
+	{
+		for (j = 0; j < array->columns; j++)
+		{
+			struct nav_cell *cell = nav_get_cell(array, i, j);
+			
+			Serial.print(cell->flood_num);
+			Serial.print(" ");
+		}
+		
+		Serial.println("");
+	}
+}
+
 void callback(void)
 {
 	int s0 = dectection_reading(0);
@@ -57,6 +74,8 @@ void callback(void)
 // Micromouse.ino
 void setup() 
 {
+	Serial.println("setup() called");
+	
 	// Triggers for relays
     pinMode(S3_TRIG, OUTPUT);
     pinMode(S4_TRIG, OUTPUT);
@@ -87,12 +106,14 @@ void setup()
     // Setup our position
     current.row = 5;
     current.column = 2;
-    current.direction = north;
+    current.direction = west;
+    
+    target.row = 2;
+    target.column = 1;
+    target.direction = east;
     
     nav_update_wall(&array, &current, left);
     nav_update_wall(&array, &current, right);
-    
-    current.direction = west;
     
     // Get inital sensor values
     dectection_force_update();
@@ -100,15 +121,24 @@ void setup()
     // Start a callback to the sensors
     timer2_init_ms(150, dectection_timer_callback);
     start_time = millis();
+    
+    Serial.println("setup() complete");
 }
+
 
 void loop() 
 {
-	//delay(4000);
+	delay(4000);
 	if (blah == 0)
 	{
-		print_maze(&array);
-		//nav_explore(&array, &current);
+		nav_explore(&array, &current);
+		motor_turn_180();
+		current.direction = west;
+		dectection_force_update();
+		nav_flood(&array, &target);
+		print_flood(&array);
+		delay(5000);
+		nav_drive_to_target(&array, &current, &target);
 	}
 	
 	blah = 1;
