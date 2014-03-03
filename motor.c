@@ -106,7 +106,7 @@ void motor_move_forward(struct nav_array *array, pos_t *current)
 			stepper_step(stepper1, FORWARD);
 		}
 
-		if (i == 70)
+		if (i == 80)
 		{
 			detection_update_walls(array, current);
 		}
