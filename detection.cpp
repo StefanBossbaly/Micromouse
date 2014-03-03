@@ -2,6 +2,8 @@
 #include "motor.h"
 #include "Arduino.h"
 
+extern "C"
+{
 
 volatile int selected_sensor = -1;
 
@@ -176,14 +178,27 @@ void detection_update_walls(struct nav_array *array, pos_t *current)
 	position_copy(current, &buffer);
 	position_move_forward(&buffer);
 
-	if (s0 > 100)
+    Serial.print("Checking wall for pos: ");
+    Serial.print(buffer.row);
+    Serial.print(", ");
+    Serial.print(buffer.column);
+    Serial.println("");
+
+    Serial.print(s0);
+    Serial.print(", ");
+    Serial.print(s2);
+    Serial.println("");
+
+	if (s0 > 130)
 	{
-		nav_update_wall(array, &buffer, position_left_adj_direction(buffer.direction));
+		Serial.println("Left wall detected");
+		nav_update_wall(array, &buffer, left);
 	}
 
-	if (s2 > 50)
+	if (s2 > 80)
 	{
-		nav_update_wall(array, &buffer, position_right_adj_direction(buffer.direction));
+		Serial.println("Right wall detected");
+		nav_update_wall(array, &buffer, right);
 	}
 }
 
@@ -197,6 +212,7 @@ void detection_update_front_wall(struct nav_array *array, pos_t *current)
 
 	if (s1 >= 200)
 	{
-		nav_update_wall(array, &buffer, buffer.direction);
+		nav_update_wall(array, &buffer, front);
 	}
+}
 }
