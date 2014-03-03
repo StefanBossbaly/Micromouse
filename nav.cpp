@@ -88,7 +88,7 @@ void nav_flood(struct nav_array *array, pos_t *start)
     nav_queue_init(&queue, cells, 256);
     
     /*Start at the first cell and queue it*/
-    first =  nav_get_cell_pos(array, start);
+    first = nav_get_cell_pos(array, start);
     
     /*Add it to the queue*/
     nav_queue_enqueue(&queue, first, 0);
@@ -166,6 +166,8 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
     
     while(! position_equal_location(&current, target))
     {
+    	Serial.println("Location doesn't equal location");
+
         /*Get the next lowest neighbor*/
         struct nav_cell *next_cell = nav_get_next_neighbor(array, current.row, current.column);
         
@@ -245,12 +247,6 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     //TODO remove me
     //nav_update_wall(array, current, north);
     //nav_update_wall(array, current, south);
-
-    Serial.print("At post: ");
-    Serial.print(current->row);
-    Serial.print(", ");
-    Serial.print(current->column);
-    Serial.println("");
 
 
     /*Mark cell as visited*/
