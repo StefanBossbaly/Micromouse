@@ -13,10 +13,10 @@ extern "C"
  */
 typedef enum
 {
-    north,
-    south,
-    east,
-    west
+    north = 0,
+    south = 1,
+    east = 2,
+    west = 3
 } dir_t;
 
 /**
@@ -24,10 +24,10 @@ typedef enum
  */
 typedef enum
 {
-    front,
-    back,
-    left,
-    right
+    front = 0,
+    back = 1,
+    left = 2,
+    right = 3
 } facing_t;
 
 /**
