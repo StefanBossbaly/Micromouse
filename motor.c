@@ -93,13 +93,9 @@ void motor_move_forward(struct nav_array *array, pos_t *current)
 				stepper_step(stepper1, FORWARD);
 			}
 		}
-
-		if (i == 80)
-		{
-			detection_update_walls(array, current);
-		}
 	}
 
+	detection_update_side_wall(array, current);
 	detection_update_front_wall(array, current);
 
 	motor_status = MOTOR_STANDBY;

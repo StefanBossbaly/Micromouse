@@ -3,21 +3,20 @@
 #include "Arduino.h"
 #include "math.h"
 
+extern "C"
+{
+
 int dectection_reading(int sensor)
 {
-	// Make sure the sensor is in bounds
-	if (sensor < S0 || sensor > S2)
-	{
-		return -1;
-	}
-
 	// If it is the from sensors then just return
 	if (sensor >= 0 && sensor < 3)
 	{
 		return analogRead(sensor);
 	}
-
-	return -1;
+	else
+	{
+		return digitalRead(sensor);
+	}
 }
 
 void dectection_timer_callback()
@@ -93,6 +92,28 @@ void dectection_update_adj(int s0, int s1, int s2)
 	}
 }
 
+void detection_update_side_wall(struct nav_array *array, pos_t *current)
+{
+	int s3 = dectection_reading(S3);
+	int s4 = dectection_reading(S4);
+
+	pos_t buffer;
+	position_copy(current, &buffer);
+	position_move_forward(&buffer);
+
+	if (s3 == 0)
+	{
+		nav_update_wall(array, &buffer, left);
+		Serial.println("Left wall detected");
+	}
+
+	if (s4 == 0)
+	{
+		nav_update_wall(array, &buffer, right);
+		Serial.println("Right wall detected");
+	}
+}
+
 void dectection_centering_adj(int s0, int s2)
 {
 	int diff = s0 - s2 - S_OFFSET;
@@ -117,26 +138,6 @@ void dectection_centering_adj(int s0, int s2)
 	}
 }
 
-void detection_update_walls(struct nav_array *array, pos_t *current)
-{
-	int s0 = dectection_reading(0);
-	int s2 = dectection_reading(2);
-
-	pos_t buffer;
-	position_copy(current, &buffer);
-	position_move_forward(&buffer);
-
-	if (s0 > 130)
-	{
-		nav_update_wall(array, &buffer, left);
-	}
-
-	if (s2 > 80)
-	{
-		nav_update_wall(array, &buffer, right);
-	}
-}
-
 void detection_update_front_wall(struct nav_array *array, pos_t *current)
 {
 	int s1 = dectection_reading(1);
@@ -149,4 +150,5 @@ void detection_update_front_wall(struct nav_array *array, pos_t *current)
 	{
 		nav_update_wall(array, &buffer, front);
 	}
+}
 }
