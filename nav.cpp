@@ -108,7 +108,7 @@ void nav_flood(struct nav_array *array, pos_t *start)
         queue_cell.cell->flood_num = queue_cell.n;
         
         /*North*/
-        if (!queue_cell.cell->north && nav_is_in_bounds(array, cell->row - 1, cell->column))
+        if (!nav_north_wall(queue_cell.cell) && nav_is_in_bounds(array, cell->row - 1, cell->column))
         {
             struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
             
@@ -119,7 +119,7 @@ void nav_flood(struct nav_array *array, pos_t *start)
         }
         
         /*East*/
-        if (!queue_cell.cell->east && nav_is_in_bounds(array, cell->row, cell->column + 1))
+        if (!nav_east_wall(queue_cell.cell) && nav_is_in_bounds(array, cell->row, cell->column + 1))
         {
             struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
             
@@ -130,7 +130,7 @@ void nav_flood(struct nav_array *array, pos_t *start)
         }
         
         /*South*/
-        if (!queue_cell.cell->south && nav_is_in_bounds(array, cell->row + 1, cell->column))
+        if (!nav_south_wall(queue_cell.cell) && nav_is_in_bounds(array, cell->row + 1, cell->column))
         {
             struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
             
@@ -141,7 +141,7 @@ void nav_flood(struct nav_array *array, pos_t *start)
         }
         
         /*West*/
-        if (!queue_cell.cell->west && nav_is_in_bounds(array, cell->row , cell->column - 1))
+        if (!nav_west_wall(queue_cell.cell) && nav_is_in_bounds(array, cell->row , cell->column - 1))
         {
             struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
             
@@ -250,7 +250,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     cell->has_visited = 1;
     
     /*North*/
-    if (nav_is_in_bounds(array, cell->row - 1, cell->column) && !cell->north)
+    if (nav_is_in_bounds(array, cell->row - 1, cell->column) && !nav_north_wall(cell))
     {
     	Serial.println("Checking north cell");
         struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
@@ -278,7 +278,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     }
         
     /*East*/
-    if (nav_is_in_bounds(array, cell->row, cell->column + 1) && !cell->east)
+    if (nav_is_in_bounds(array, cell->row, cell->column + 1) && !nav_east_wall(cell))
     {
     	Serial.println("Checking east cell");
         struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
@@ -307,7 +307,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     }
 
     /*South*/
-    if (nav_is_in_bounds(array, cell->row + 1, cell->column) && !cell->south)
+    if (nav_is_in_bounds(array, cell->row + 1, cell->column) && !nav_south_wall(cell))
     {
     	Serial.println("Checking south cell");
         struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
@@ -335,7 +335,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     }
 
     /*West*/
-    if (nav_is_in_bounds(array, cell->row, cell->column - 1) && !cell->west)
+    if (nav_is_in_bounds(array, cell->row, cell->column - 1) && !nav_west_wall(cell))
     {
     	Serial.println("Checking west cell");
         struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
@@ -368,19 +368,19 @@ void nav_update_wall_cell(struct nav_cell *cell, dir_t dir)
 {
     if (dir == north)
     {
-        cell->north = 1;
+    	cell->wall |= 0x01;
     }
     else if (dir == east)
     {
-        cell->east = 1;
+    	cell->wall |= 0x02;
     }
     else if (dir == south)
     {
-        cell->south = 1;
+    	cell->wall |= 0x04;
     }
     else
     {
-        cell->west = 1;
+    	cell->wall |= 0x08;
     }   
 }
 
