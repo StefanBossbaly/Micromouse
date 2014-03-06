@@ -84,10 +84,6 @@ void callback(void)
 void setup() 
 {
 	Serial.println("setup() called");
-	
-	// Triggers for relays
-    pinMode(S3_TRIG, OUTPUT);
-    pinMode(S4_TRIG, OUTPUT);
     
     // Start a serial with 115200 baud rate
     Serial.begin(115200);
