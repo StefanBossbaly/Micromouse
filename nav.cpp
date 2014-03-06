@@ -163,8 +163,6 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
     
     while(! position_equal_location(&current, target))
     {
-    	Serial.println("Location doesn't equal location");
-
         /*Get the next lowest neighbor*/
         struct nav_cell *next_cell = nav_get_next_neighbor(array, current.row, current.column);
         
@@ -252,12 +250,10 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*North*/
     if (nav_is_in_bounds(array, cell->row - 1, cell->column) && !nav_north_wall(cell))
     {
-    	Serial.println("Checking north cell");
         struct nav_cell *north_cell = nav_get_cell(array, cell->row - 1, cell->column);
         
         if (!north_cell->has_visited)
         {   
-        	Serial.println("Heading north");
             // Turn to the direction and move forward
             motor_turn_to_direction(current, north);
             current->direction = north;
@@ -280,12 +276,10 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*East*/
     if (nav_is_in_bounds(array, cell->row, cell->column + 1) && !nav_east_wall(cell))
     {
-    	Serial.println("Checking east cell");
         struct nav_cell *east_cell = nav_get_cell(array, cell->row, cell->column + 1);
         
         if (!east_cell->has_visited)
         {   
-        	Serial.println("Heading east");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, east);
             current->direction = east;
@@ -309,12 +303,10 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*South*/
     if (nav_is_in_bounds(array, cell->row + 1, cell->column) && !nav_south_wall(cell))
     {
-    	Serial.println("Checking south cell");
         struct nav_cell *south_cell = nav_get_cell(array, cell->row + 1, cell->column);
         
         if (!south_cell->has_visited)
         {   
-        	Serial.println("Heading south");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, south);
             current->direction = south;
@@ -337,12 +329,10 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*West*/
     if (nav_is_in_bounds(array, cell->row, cell->column - 1) && !nav_west_wall(cell))
     {
-    	Serial.println("Checking west cell");
         struct nav_cell *west_cell = nav_get_cell(array, cell->row, cell->column - 1);
         
         if (!west_cell->has_visited)
         {   
-        	Serial.println("Heading west");
             /*Turn to the direction and move forward*/
             motor_turn_to_direction(current, west);
             current->direction = west;
