@@ -86,8 +86,8 @@ void setup()
 	Serial.println("setup() called");
 	
 	// Triggers for relays
-    pinMode(S3_TRIG, OUTPUT);
-    pinMode(S4_TRIG, OUTPUT);
+    pinMode(S3, INPUT);
+    pinMode(S4, INPUT);
     
     // Start a serial with 115200 baud rate
     Serial.begin(115200);
@@ -137,7 +137,7 @@ void setup()
 
 void loop() 
 {
-	/*delay(4000);
+	delay(4000);
 	if (blah == 0)
 	{
 		nav_explore(&array, &current);
@@ -150,7 +150,5 @@ void loop()
 		nav_drive_to_target(&array, &current, &target);
 	}
 	
-	blah = 1;*/
-	
-	motor_move_forward(&array, &current);
+	blah = 1;
 }
