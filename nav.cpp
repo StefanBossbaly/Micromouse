@@ -239,6 +239,12 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*Get current position*/
     struct nav_cell *cell = nav_get_cell_pos(array, current);
 
+    Serial.print("At position ");
+    Serial.print(cell->row);
+    Serial.print(",");
+    Serial.print(cell->column);
+    Serial.println("");
+
     /*Mark cell as visited*/
     cell->has_visited = 1;
     
