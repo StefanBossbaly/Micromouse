@@ -12,7 +12,7 @@ extern "C"
 struct nav_cell
 {
     int flood_num;
-    int has_visited;
+    uint8_t has_visited;
     uint8_t wall;
     int row;
     int column;
