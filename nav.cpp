@@ -11,7 +11,7 @@ int nav_is_pos_in_bounds(struct nav_array *array, pos_t *position)
     return (position->column >= 0) && (position->row >= 0) && (position->column < array->columns) && (position->row < array->rows);
 }
 
-int nav_is_in_bounds(struct nav_array *array, int row, int column)
+int nav_is_in_bounds(struct nav_array *array, int8_t row, int8_t column)
 {
     return (row >= 0) && (column >= 0) && (row < array->rows) && (column < array->columns);
 }
@@ -21,7 +21,7 @@ int nav_size(struct nav_array *array)
     return (array->rows * array->columns);
 }
 
-void nav_init(struct nav_array *array, struct nav_cell *cells, int rows, int columns)
+void nav_init(struct nav_array *array, struct nav_cell *cells, int8_t rows, int8_t columns)
 {
     array->rows = rows;
     array->columns = columns;
@@ -46,7 +46,7 @@ struct nav_cell *nav_get_cell_pos(struct nav_array *array, pos_t *position)
     return nav_get_cell(array, position->row, position->column);
 }
 
-struct nav_cell *nav_get_cell(struct nav_array *array, int row, int column)
+struct nav_cell *nav_get_cell(struct nav_array *array, int8_t row, int8_t column)
 {
     int index;
     /*if (! nav_is_in_bounds(array, row, column))
@@ -181,7 +181,7 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
     }
 }
 
-struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int column)
+struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int8_t row, int8_t column)
 {
     struct nav_cell *cell = nav_get_cell(array, row, column);
     int target = cell->flood_num - 1;
