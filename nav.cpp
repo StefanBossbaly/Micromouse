@@ -33,10 +33,7 @@ void nav_init(struct nav_array *array, struct nav_cell *cells, int rows, int col
     for (i = 0; i < size; i++)
     {
         struct nav_cell *cell = &array->cells[i];
-        cell->north = 0;
-        cell->south = 0;
-        cell->east = 0;
-        cell->west = 0;
+        cell->wall = 0;
         cell->has_visited = 0;
         cell->flood_num = -1;
         cell->row = (i / array->columns);
@@ -420,4 +417,25 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir)
         nav_update_wall_cell(west_cell, east);
     } 
 }
+
+inline uint8_t nav_north_wall(struct nav_cell *cell)
+{
+	return cell->wall & 0x01;
+}
+
+inline uint8_t nav_east_wall(struct nav_cell *cell)
+{
+	return cell->wall & 0x02;
+}
+
+inline uint8_t nav_south_wall(struct nav_cell *cell)
+{
+	return cell->wall & 0x04;
+}
+
+inline uint8_t nav_west_wall(struct nav_cell *cell)
+{
+	return cell->wall & 0x08;
+}
+
 }

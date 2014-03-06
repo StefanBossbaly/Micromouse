@@ -2,6 +2,7 @@
 #define	NAV_H
 
 #include "position.h"
+#include "inttypes.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -12,10 +13,7 @@ struct nav_cell
 {
     int flood_num;
     int has_visited;
-    int north;
-    int south;
-    int east;
-    int west;
+    uint8_t wall;
     int row;
     int column;
 };
@@ -55,6 +53,11 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int row, int col
 /*Wall*/
 void nav_update_wall_cell(struct nav_cell *cell, dir_t dir);
 void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir);
+
+inline uint8_t nav_north_wall(struct nav_cell *cell);
+inline uint8_t nav_east_wall(struct nav_cell *cell);
+inline uint8_t nav_south_wall(struct nav_cell *cell);
+inline uint8_t nav_west_wall(struct nav_cell *cell);
 
 
 #ifdef __cplusplus
