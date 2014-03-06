@@ -182,7 +182,7 @@ void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
 struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int8_t row, int8_t column)
 {
     struct nav_cell *cell = nav_get_cell(array, row, column);
-    int target = cell->flood_num - 1;
+    int8_t target = cell->flood_num - 1;
     
     /*North*/
     if (nav_is_in_bounds(array, row - 1, column))
