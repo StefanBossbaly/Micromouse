@@ -3,20 +3,61 @@
 #include "Arduino.h"
 #include "math.h"
 
-extern "C"
+volatile int selected_sensor = -1;
+
+int dectection_relay_position()
 {
+	return selected_sensor;
+}
+
+void dectection_switch_relay(int sensor)
+{
+	// No bad values please
+	if (sensor != S3 && sensor != S4)
+	{
+		return;
+	}
+
+	if (sensor == S3)
+	{
+		digitalWrite(S4_TRIG, LOW);
+		delay(S_CLOSE_MS);
+		digitalWrite(S3_TRIG, HIGH);
+		delay(S_OPEN_MS);
+		selected_sensor = S3;
+	}
+	else
+	{
+		digitalWrite(S3_TRIG, LOW);
+		delay(S_CLOSE_MS);
+		digitalWrite(S4_TRIG, HIGH);
+		delay(S_CLOSE_MS);
+		selected_sensor = S4;
+	}
+}
 
 int dectection_reading(int sensor)
 {
+	// Make sure the sensor is in bounds
+	if (sensor < S0 || sensor > 5)
+	{
+		return -1;
+	}
+
 	// If it is the from sensors then just return
 	if (sensor >= 0 && sensor < 3)
 	{
 		return analogRead(sensor);
 	}
-	else
+
+	// Switch the relays to the correct sensor
+	if (dectection_relay_position() != sensor)
 	{
-		return digitalRead(sensor);
+		dectection_switch_relay(sensor);
 	}
+
+	// Return the value
+	return analogRead(3);
 }
 
 void dectection_timer_callback()
@@ -92,28 +133,6 @@ void dectection_update_adj(int s0, int s1, int s2)
 	}
 }
 
-void detection_update_side_wall(struct nav_array *array, pos_t *current)
-{
-	int s3 = dectection_reading(S3);
-	int s4 = dectection_reading(S4);
-
-	pos_t buffer;
-	position_copy(current, &buffer);
-	position_move_forward(&buffer);
-
-	if (s3 == 0)
-	{
-		nav_update_wall(array, &buffer, left);
-		Serial.println("Left wall detected");
-	}
-
-	if (s4 == 0)
-	{
-		nav_update_wall(array, &buffer, right);
-		Serial.println("Right wall detected");
-	}
-}
-
 void dectection_centering_adj(int s0, int s2)
 {
 	int diff = s0 - s2 - S_OFFSET;
@@ -138,6 +157,26 @@ void dectection_centering_adj(int s0, int s2)
 	}
 }
 
+void detection_update_walls(struct nav_array *array, pos_t *current)
+{
+	int s0 = dectection_reading(0);
+	int s2 = dectection_reading(2);
+
+	pos_t buffer;
+	position_copy(current, &buffer);
+	position_move_forward(&buffer);
+
+	if (s0 > 130)
+	{
+		nav_update_wall(array, &buffer, left);
+	}
+
+	if (s2 > 80)
+	{
+		nav_update_wall(array, &buffer, right);
+	}
+}
+
 void detection_update_front_wall(struct nav_array *array, pos_t *current)
 {
 	int s1 = dectection_reading(1);
@@ -150,5 +189,4 @@ void detection_update_front_wall(struct nav_array *array, pos_t *current)
 	{
 		nav_update_wall(array, &buffer, front);
 	}
-}
 }

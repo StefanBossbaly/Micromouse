@@ -7,12 +7,10 @@ extern "C"
 {
 #endif
 
-#include "inttypes.h"
-
 typedef struct
 {
     struct nav_cell *cell;
-    int8_t n;
+    int n;
 } nav_queue_cell;
 
 typedef struct

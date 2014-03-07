@@ -5,7 +5,6 @@
 #include "timer.h"
 #include "stepper.h"
 #include "detection.h"
-#include "MemoryFree.h"
 
 volatile unsigned long start_time = 0;
 
@@ -62,7 +61,7 @@ void print_flood(struct nav_array *array)
 
 void callback(void)
 {
-	/*dectection_timer_callback();
+	dectection_timer_callback();
 	
 	if (motor_adj_status == MOTOR_EXP_COR)
 	{
@@ -78,19 +77,20 @@ void callback(void)
 		}
 		
 		Serial.println("");
-	}*/
+	}
 }
 
 // Micromouse.ino
 void setup() 
 {
 	Serial.println("setup() called");
+	
+	// Triggers for relays
+    pinMode(S3_TRIG, OUTPUT);
+    pinMode(S4_TRIG, OUTPUT);
     
     // Start a serial with 115200 baud rate
     Serial.begin(115200);
-    
-    pinMode(S3, INPUT);
-    pinMode(S4, INPUT);
     
     // Motor shield is at i2c address of 0x60
     shield_init(&shield, 0x60);
@@ -137,21 +137,20 @@ void setup()
 
 void loop() 
 {
-	delay(4000);
-	
+	/*delay(4000);
 	if (blah == 0)
 	{
 		nav_explore(&array, &current);
-		/*motor_turn_180();
+		motor_turn_180();
 		current.direction = east;
 		dectection_force_update();
 		nav_flood(&array, &target);
 		print_flood(&array);
 		delay(5000);
-		nav_drive_to_target(&array, &current, &target);*/
+		nav_drive_to_target(&array, &current, &target);
 	}
 	
-	blah = 1;
+	blah = 1;*/
 	
-	//motor_move_forward(&array, &current);*/
+	motor_move_forward(&array, &current);
 }

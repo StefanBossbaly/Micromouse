@@ -11,6 +11,14 @@
 #define S3 3
 #define S4 4
 
+// Digital Trigger pins for relay
+#define S3_TRIG 3
+#define S4_TRIG 4
+
+// The delay for the relays
+#define S_CLOSE_MS 10
+#define S_OPEN_MS 10
+
 // Ideal center values
 #define S0_IDEAL 150
 #define S2_IDEAL 110
@@ -32,13 +40,16 @@ extern "C"
 {
 #endif
 
+
+void dectection_switch_relay(int sensor);
+int dectection_relay_position();
 int dectection_reading(int sensor);
 
 void dectection_timer_callback();
 void dectection_force_update();
 void dectection_update_adj(int s0, int s1, int s2);
 void dectection_centering_adj(int s0, int s2);
-void detection_update_side_wall(struct nav_array *array, pos_t * current);
+void detection_update_walls(struct nav_array *array, pos_t *current);
 void detection_update_front_wall(struct nav_array *array, pos_t *current);
 
 #ifdef __cplusplus
