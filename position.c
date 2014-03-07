@@ -150,7 +150,7 @@ dir_t position_convert_to_direction(pos_t *position, facing_t dir)
     }
 }
 
-dir_t position_get_direction_to(pos_t *position, int row, int column)
+dir_t position_get_direction_to(pos_t *position, int8_t row, int8_t column)
 {
     /*North*/
     if (position->row - 1 == row && position->column == column)

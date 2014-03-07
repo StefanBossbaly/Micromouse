@@ -1,6 +1,8 @@
 #ifndef POSITION_H
 #define	POSITION_H
 
+#include "inttypes.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -33,8 +35,8 @@ typedef enum
  */
 typedef struct
 {
-    int row;
-    int column;
+	int8_t row;
+	int8_t column;
     dir_t direction;
 } pos_t;
 
@@ -101,7 +103,7 @@ dir_t position_left_adj_direction(dir_t dir);
  */
 dir_t position_convert_to_direction(pos_t *position, facing_t facing);
 
-dir_t position_get_direction_to(pos_t *position, int row, int column);
+dir_t position_get_direction_to(pos_t *position, int8_t row, int8_t column);
 
 void position_copy(pos_t *value, pos_t *buffer);
 
