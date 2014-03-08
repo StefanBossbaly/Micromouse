@@ -295,6 +295,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     struct nav_cell *cell = nav_get_cell_pos(array, current);
 
     //Update the wall detection
+    delay(10);
 	detection_update_walls(array, current);
 	detection_update_front_wall(array, current);
 
