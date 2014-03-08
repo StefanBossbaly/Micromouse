@@ -239,10 +239,9 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     /*Get current position*/
     struct nav_cell *cell = nav_get_cell_pos(array, current);
 
-    //TODO remove me
-    //nav_update_wall(array, current, north);
-    //nav_update_wall(array, current, south);
-
+    //Update the wall detection
+	detection_update_walls(array, current);
+	detection_update_front_wall(array, current);
 
     /*Mark cell as visited*/
     cell->has_visited = 1;

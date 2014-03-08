@@ -1,5 +1,4 @@
 #include "motor.h"
-#include "detection.h"
 #include "position.h"
 
 volatile int motor_status = -1;
@@ -94,9 +93,6 @@ void motor_move_forward(struct nav_array *array, pos_t *current)
 			}
 		}
 	}
-
-	detection_update_walls(array, current);
-	detection_update_front_wall(array, current);
 
 	motor_status = MOTOR_STANDBY;
 }

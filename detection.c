@@ -123,18 +123,14 @@ void detection_update_walls(struct nav_array *array, pos_t *current)
 	int s3 = dectection_reading(S3);
 	int s4 = dectection_reading(S4);
 
-	pos_t buffer;
-	position_copy(current, &buffer);
-	position_move_forward(&buffer);
-
 	if (s3 == 0)
 	{
-		nav_update_wall(array, &buffer, left);
+		nav_update_wall(array, current, left);
 	}
 
 	if (s4 == 0)
 	{
-		nav_update_wall(array, &buffer, right);
+		nav_update_wall(array, current, right);
 	}
 }
 
@@ -142,12 +138,8 @@ void detection_update_front_wall(struct nav_array *array, pos_t *current)
 {
 	int s1 = dectection_reading(1);
 
-	pos_t buffer;
-	position_copy(current, &buffer);
-	position_move_forward(&buffer);
-
 	if (s1 >= 200)
 	{
-		nav_update_wall(array, &buffer, front);
+		nav_update_wall(array, current, front);
 	}
 }
