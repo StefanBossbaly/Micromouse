@@ -3,6 +3,8 @@
 #include "motor.h"
 #include "Arduino.h"
 
+#define DEBUG
+
 extern "C"
 {
 
@@ -184,46 +186,99 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int8_t row, int8
     struct nav_cell *cell = nav_get_cell(array, row, column);
     int target = cell->flood_num - 1;
     
+#ifdef DEBUG
+    Serial.println("Checking north");
+#endif
+
     /*North*/
-    if (nav_is_in_bounds(array, row - 1, column))
+    if (nav_is_in_bounds(array, row - 1, column) && !nav_north_wall(cell))
     {
+#ifdef DEBUG
+    	Serial.println("Seeing if North is target");
+#endif
         struct nav_cell *north = nav_get_cell(array, row - 1, column);
         
         if (north->flood_num == target)
         {
+
+#ifdef DEBUG
+    	Serial.println("North is target");
+#endif
            return north; 
         }
     }
+
+#ifdef DEBUG
+    Serial.println("Checking East");
+#endif
+
     /*East*/
-    if (nav_is_in_bounds(array, row, column + 1))
+    if (nav_is_in_bounds(array, row, column + 1) && !nav_east_wall(cell))
     {
+
+#ifdef DEBUG
+    	Serial.println("Seeing if East is target");
+#endif
         struct nav_cell *east = nav_get_cell(array, row, column + 1);
         
         if (east->flood_num == target)
         {
+#ifdef DEBUG
+    	Serial.println("East is target");
+#endif
            return east; 
         }
     }
+
+#ifdef DEBUG
+    Serial.println("Checking South");
+#endif
+
     /*South*/
-    if (nav_is_in_bounds(array, row + 1, column))
+    if (nav_is_in_bounds(array, row + 1, column) && !nav_south_wall(cell))
     {
         struct nav_cell *south = nav_get_cell(array, row + 1, column);
         
+#ifdef DEBUG
+    	Serial.println("Seeing if South is target");
+#endif
+
         if (south->flood_num == target)
         {
+
+#ifdef DEBUG
+    	Serial.println("South is target");
+#endif
            return south; 
         }
     }
+
+#ifdef DEBUG
+    Serial.println("Checking West");
+#endif
     /*West*/
-    if (nav_is_in_bounds(array, row, column - 1))
+    if (nav_is_in_bounds(array, row, column - 1) && !nav_west_wall(cell))
     {
+
+#ifdef DEBUG
+    	Serial.println("Seeing if West is target");
+#endif
         struct nav_cell *west = nav_get_cell(array, row, column - 1);
         
         if (west->flood_num == target)
         {
+#ifdef DEBUG
+    	Serial.println("West is target");
+#endif
            return west; 
         }
     }
+
+#ifdef DEBUG
+    	Serial.println("---- ERROR ----");
+    	Serial.println("Reached end of condition");
+    	Serial.println("---- ERROR ----");
+#endif
 
     // This should never happen
     return 0;
