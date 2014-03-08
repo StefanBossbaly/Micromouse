@@ -65,7 +65,7 @@ void motor_turn_180()
 	motor_status = MOTOR_STANDBY;
 }
 
-void motor_move_forward(struct nav_array *array, pos_t *current)
+void motor_move_forward()
 {
 	motor_status = MOTOR_MOVING;
 
