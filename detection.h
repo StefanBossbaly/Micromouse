@@ -18,7 +18,7 @@
 #define S_OFFSET 50
 
 // Tolerance
-#define S_TOL 10
+#define S_TOL 5
 
 // Our ranges
 #define S_S_RANGE 20

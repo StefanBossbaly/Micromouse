@@ -105,7 +105,7 @@ void dectection_centering_adj(int s0, int s2)
 	else if (diff > S_TOL || diff < -S_TOL)
 	{
 		motor_adj_status = MOTOR_EXP_COR;
-		motor_correction = (int) (88.556 * pow(fabs(diff), -0.855));
+		motor_correction = (int) (125.1 * pow(fabs(diff), -0.94));
 
 		if (diff > S_TOL)
 		{
