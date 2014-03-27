@@ -6,9 +6,9 @@
 #include "stepper.h"
 #include "nav.h"
 
-#define TURN_ADJ 82
-#define TURN_180 164
-#define BLOCK 233
+#define TURN_ADJ 81
+#define TURN_180 167
+#define BLOCK 235
 
 #ifdef __cplusplus
 extern "C"
