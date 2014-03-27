@@ -12,10 +12,10 @@
 #define S4 4
 
 // Ideal center values
-#define S0_IDEAL 150
+#define S0_IDEAL 125
 #define S2_IDEAL 110
 
-#define S_OFFSET 50
+#define S_OFFSET 15
 
 // Tolerance
 #define S_TOL 5

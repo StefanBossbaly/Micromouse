@@ -56,14 +56,14 @@ void dectection_update_adj(int s0, int s1, int s2)
 
 	// Approaching a wall don't listen to s0 or s2
 	// they are dirty lairs
-	if (s1 >= 160)
+	if (s1 >= 110)
 	{
 		motor_adj_status = MOTOR_NO_ADJ;
 		return;
 	}
 
 	// See if the s0 is usable
-	if (s0 >= 110)
+	if (s0 >= 85)
 	{
 		s0_use = 1;
 	}
