@@ -157,27 +157,21 @@ void nav_flood(struct nav_array *array, pos_t *start)
 
 void nav_drive_to_target(struct nav_array *array, pos_t *start, pos_t *target)
 {
-    pos_t current;
-    
-    current.row = start->row;
-    current.column = start->column;
-    current.direction = start->direction;
-    
-    while(! position_equal_location(&current, target))
+    while(! position_equal_location(start, target))
     {
         /*Get the next lowest neighbor*/
-        struct nav_cell *next_cell = nav_get_next_neighbor(array, current.row, current.column);
+        struct nav_cell *next_cell = nav_get_next_neighbor(array, start->row, start->column);
         
         /*Get the direction to the next cell*/
-        dir_t dir = position_get_direction_to(&current, next_cell->row, next_cell->column);
+        dir_t dir = position_get_direction_to(start, next_cell->row, next_cell->column);
         
         /*Turn to a direction*/
-        motor_turn_to_direction(&current, dir);
-        current.direction = dir;
+        motor_turn_to_direction(start, dir);
+        start->direction = dir;
         
         /*Move forward*/
         motor_move_forward();
-        position_move_forward(&current);
+        position_move_forward(start);
     }
 }
 
@@ -295,7 +289,7 @@ void nav_explore_rec(struct nav_array *array, pos_t *current)
     struct nav_cell *cell = nav_get_cell_pos(array, current);
 
     //Update the wall detection
-    delay(10);
+    //delay(250);
 	detection_update_walls(array, current);
 	detection_update_front_wall(array, current);
 
@@ -463,22 +457,22 @@ void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir)
     } 
 }
 
-inline uint8_t nav_north_wall(struct nav_cell *cell)
+uint8_t nav_north_wall(struct nav_cell *cell)
 {
 	return cell->wall & 0x01;
 }
 
-inline uint8_t nav_east_wall(struct nav_cell *cell)
+uint8_t nav_east_wall(struct nav_cell *cell)
 {
 	return cell->wall & 0x02;
 }
 
-inline uint8_t nav_south_wall(struct nav_cell *cell)
+uint8_t nav_south_wall(struct nav_cell *cell)
 {
 	return cell->wall & 0x04;
 }
 
-inline uint8_t nav_west_wall(struct nav_cell *cell)
+uint8_t nav_west_wall(struct nav_cell *cell)
 {
 	return cell->wall & 0x08;
 }

@@ -11,7 +11,7 @@ extern "C"
 
 struct nav_cell
 {
-    int flood_num;
+    int16_t flood_num;
     uint8_t has_visited;
     uint8_t wall;
     int8_t row;
@@ -54,10 +54,10 @@ struct nav_cell *nav_get_next_neighbor(struct nav_array *array, int8_t row, int8
 void nav_update_wall_cell(struct nav_cell *cell, dir_t dir);
 void nav_update_wall(struct nav_array *array, pos_t *position, facing_t dir);
 
-inline uint8_t nav_north_wall(struct nav_cell *cell);
-inline uint8_t nav_east_wall(struct nav_cell *cell);
-inline uint8_t nav_south_wall(struct nav_cell *cell);
-inline uint8_t nav_west_wall(struct nav_cell *cell);
+uint8_t nav_north_wall(struct nav_cell *cell);
+uint8_t nav_east_wall(struct nav_cell *cell);
+uint8_t nav_south_wall(struct nav_cell *cell);
+uint8_t nav_west_wall(struct nav_cell *cell);
 
 
 #ifdef __cplusplus
