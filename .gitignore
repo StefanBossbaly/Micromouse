@@ -1,1 +1,2 @@
-build-uno/
+# Ignore makefile output
+build-*/
