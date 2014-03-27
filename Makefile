@@ -1,4 +1,4 @@
-BOARD_TAG    = uno
+BOARD_TAG    = mega2560
 MONITOR_PORT = /dev/ttyACM*
 ARDUINO_LIBS = MemoryFree Wire
 
