@@ -7,7 +7,7 @@ void nav_queue_init(nav_queue *queue, nav_queue_cell *cells, int capicity)
   queue->capicity = capicity;
 }
 
-void nav_queue_enqueue(nav_queue *queue, struct nav_cell *cell, int n)
+void nav_queue_enqueue(nav_queue *queue, struct nav_cell *cell, int16_t n)
 { 
     nav_queue_cell *queue_cell;
     if (queue->capicity < queue->current + 1)
