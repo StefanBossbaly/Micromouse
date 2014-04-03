@@ -6,9 +6,14 @@
 #include "stepper.h"
 #include "nav.h"
 
-#define TURN_ADJ 81
-#define TURN_180 167
-#define BLOCK 235
+// Hardik told me to do this
+/*#define TURN_ADJ 79
+#define TURN_180 160
+#define BLOCK 230*/
+
+#define TURN_ADJ 82
+#define TURN_180 163
+#define BLOCK 230
 
 #ifdef __cplusplus
 extern "C"
