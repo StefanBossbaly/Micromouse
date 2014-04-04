@@ -19,10 +19,9 @@ struct nav_array array;
 
 // Current position
 pos_t current;
-pos_t targets[5];
-int index = 0;
 
-uint8_t calibrated = 0;
+// Target position
+pos_t target;
 
 void print_pos(pos_t *position) {
 	Serial.print("(");
@@ -150,26 +149,18 @@ void setup() {
 
 	// Give the stepper to our motor functions
 	motor_init(&motor0, &motor1);
+	
+	// Init shared motor values
+	motor_status = MOTOR_STANDBY;
+	motor_adj_status = MOTOR_NO_ADJ;
 
 	// Setup our position
 	current.row = 0;
 	current.column = 0;
 	current.direction = east;
-
-	targets[0].row = 5;
-	targets[0].column = 2;
-
-	targets[1].row = 0;
-	targets[1].column = 0;
-
-	targets[2].row = 2;
-	targets[2].column = 1;
-
-	targets[3].row = 4;
-	targets[3].column = 1;
-
-	targets[4].row = 0;
-	targets[4].column = 2;
+	
+	//TODO pick a target
+	
 
 	// Start a callback to the sensors
 	timer2_init_ms(150, dectection_timer_callback);
@@ -183,68 +174,22 @@ void loop() {
 
 	// Init our maze
 	nav_init(&array, cells, 6, 3);
-
-	Serial.print("Current is ");
-	print_pos(&current);
-	Serial.print("Target is ");
-	print_pos(&targets[index]);
-
-	// Init shared motor values
-	motor_status = MOTOR_STANDBY;
-	motor_adj_status = MOTOR_NO_ADJ;
-
-	// See if there are any walls in front
-	detection_update_walls(&array, &current);
-	detection_update_front_wall(&array, &current);
-
-	// Right walls
-	motor_turn_to_direction(&current,
-			position_right_adj_direction(current.direction));
-	current.direction = position_right_adj_direction(current.direction);
-	detection_update_walls(&array, &current);
-	detection_update_front_wall(&array, &current);
-
-	// Left walls
-	motor_turn_to_direction(&current,
-			position_invert_direction(current.direction));
-	current.direction = position_invert_direction(current.direction);
-	detection_update_walls(&array, &current);
-	detection_update_front_wall(&array, &current);
-
-	// Explore the maze
-	nav_explore(&array, &current);
-
-	// Turn 180
-	motor_turn_180();
-	current.direction = position_invert_direction(current.direction);
-
-	// Force an update
-	dectection_force_update();
-
-	// Run flood algo
-	nav_flood(&array, &targets[index]);
-	print_flood(&array);
-	delay(100);
-
-	// Drive to target
-	nav_drive_to_target(&array, &current, &targets[index]);
-
-	//Do a dance
-	motor_turn_180();
-	motor_turn_180();
-	motor_turn_180();
-	current.direction = position_invert_direction(current.direction);
-
-	Serial.print("Current is: ");
-	print_pos(&current);
-
-	Serial.print("Picking new target: ");
-
-	index = (index + 1) % 5;
-
-	print_pos(&targets[index]);
-
-	delay(10000);
-
-	Serial.println("loop() complete");
+	
+	
+	// Update the start walls
+	nav_update_wall(&array, &current, left);
+	nav_update_wall(&array, &current, right);
+	
+	while (!position_equal_location(&current, &target))
+	{
+		nav_flood(&array, &target);
+		
+		struct nav_cell *cell = nav_get_next_neighbor(&array, current.row, current.column);
+		
+		
+		// Move
+		
+		detection_update_walls(&array, &current);
+		detection_update_front_wall(&array, &current);
+	}
 }
