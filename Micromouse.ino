@@ -14,13 +14,12 @@ shield_t shield;
 stepper_t motor0, motor1;
 
 // Our empty maze
-struct nav_cell cells[3 * 6];
+struct nav_cell cells[8 * 8];
 struct nav_array array;
 
 // Current position
 pos_t current;
-pos_t targets[5];
-int index = 0;
+pos_t target;
 
 uint8_t calibrated = 0;
 
@@ -156,20 +155,8 @@ void setup() {
 	current.column = 0;
 	current.direction = east;
 
-	targets[0].row = 5;
-	targets[0].column = 2;
-
-	targets[1].row = 0;
-	targets[1].column = 0;
-
-	targets[2].row = 2;
-	targets[2].column = 1;
-
-	targets[3].row = 4;
-	targets[3].column = 1;
-
-	targets[4].row = 0;
-	targets[4].column = 2;
+	target.row = 7;
+	target.column = 7;
 
 	// Start a callback to the sensors
 	timer2_init_ms(150, dectection_timer_callback);
@@ -182,12 +169,12 @@ void loop() {
 	Serial.println("loop() called");
 
 	// Init our maze
-	nav_init(&array, cells, 6, 3);
+	nav_init(&array, cells, 8, 8);
 
 	Serial.print("Current is ");
 	print_pos(&current);
 	Serial.print("Target is ");
-	print_pos(&targets[index]);
+	print_pos(&target);
 
 	// Init shared motor values
 	motor_status = MOTOR_STANDBY;
@@ -222,12 +209,12 @@ void loop() {
 	dectection_force_update();
 
 	// Run flood algo
-	nav_flood(&array, &targets[index]);
+	nav_flood(&array, &target);
 	print_flood(&array);
 	delay(100);
 
 	// Drive to target
-	nav_drive_to_target(&array, &current, &targets[index]);
+	nav_drive_to_target(&array, &current, &target);
 
 	//Do a dance
 	motor_turn_180();
@@ -235,16 +222,8 @@ void loop() {
 	motor_turn_180();
 	current.direction = position_invert_direction(current.direction);
 
-	Serial.print("Current is: ");
-	print_pos(&current);
-
-	Serial.print("Picking new target: ");
-
-	index = (index + 1) % 5;
-
-	print_pos(&targets[index]);
-
 	delay(10000);
 
 	Serial.println("loop() complete");
+	
 }

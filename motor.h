@@ -11,9 +11,9 @@
 #define TURN_180 160
 #define BLOCK 230*/
 
-#define TURN_ADJ 82
+#define TURN_ADJ 81
 #define TURN_180 163
-#define BLOCK 230
+#define BLOCK 215
 
 #ifdef __cplusplus
 extern "C"
