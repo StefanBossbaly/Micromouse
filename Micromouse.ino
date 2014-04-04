@@ -14,7 +14,7 @@ shield_t shield;
 stepper_t motor0, motor1;
 
 // Our empty maze
-struct nav_cell cells[3 * 6];
+struct nav_cell cells[7 * 7];
 struct nav_array array;
 
 // Current position
@@ -157,9 +157,11 @@ void setup() {
 	// Setup our position
 	current.row = 0;
 	current.column = 0;
-	current.direction = east;
+	current.direction = north;
 	
 	//TODO pick a target
+	target.row = 3;
+	target.column = 3;
 	
 
 	// Start a callback to the sensors
@@ -180,15 +182,25 @@ void loop() {
 	nav_update_wall(&array, &current, left);
 	nav_update_wall(&array, &current, right);
 	
+	// While we are not at the target location
 	while (!position_equal_location(&current, &target))
 	{
+		// Flood the maze starting with the target
 		nav_flood(&array, &target);
 		
+		// Get the neighbor cell that has current - 1
 		struct nav_cell *cell = nav_get_next_neighbor(&array, current.row, current.column);
 		
+		// Turn towards the new cell
+		dir_t direction = position_get_direction_to(&current, cell->row, cell->column);
+		motor_turn_to_direction(&current, direction);
+		current.direction = direction;
 		
-		// Move
+		// Move forward
+		motor_move_forward();
+		position_move_forward(&current);
 		
+		// Update walls
 		detection_update_walls(&array, &current);
 		detection_update_front_wall(&array, &current);
 	}
