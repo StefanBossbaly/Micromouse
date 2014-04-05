@@ -16,6 +16,7 @@ struct nav_cell
     uint8_t wall;
     int8_t row;
     int8_t column;
+    uint8_t has_explored;
 };
 
 struct nav_array

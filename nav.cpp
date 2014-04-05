@@ -37,6 +37,7 @@ void nav_init(struct nav_array *array, struct nav_cell *cells, int8_t rows, int8
         struct nav_cell *cell = &array->cells[i];
         cell->wall = 0;
         cell->has_visited = 0;
+        cell->has_explored = 0;
         cell->flood_num = -1;
         cell->row = (i / array->columns);
         cell->column = (i % array->columns);

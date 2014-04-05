@@ -157,6 +157,7 @@ void setup() {
 	motor_status = MOTOR_STANDBY;
 	motor_adj_status = MOTOR_NO_ADJ;
 	
+	// Set the starting position
 	start.row = 0;
 	start.column = 0;
 	start.direction = east;
@@ -170,7 +171,6 @@ void setup() {
 	target.row = 7;
 	target.column = 7;
 	
-
 	// Start a callback to the sensors
 	timer2_init_ms(150, dectection_timer_callback);
 	start_time = millis();
@@ -184,19 +184,25 @@ void loop() {
 	// Init our maze
 	nav_init(&array, cells, 16, 16);
 	
-	
 	// Update the start walls
 	nav_update_wall(&array, &current, left);
 	nav_update_wall(&array, &current, right);
 	
+	// We are at the starting postion
+	struct nav_cell *current_cell = nav_get_cell(&array, current.row, current.column);
+	current_cell->has_explored = 1;
+	
 	// While we are not at the target location
 	while (!position_equal_location(&current, &target))
-	{
+	{	
 		// Flood the maze starting with the target
 		nav_flood(&array, &target);
 		
 		// Get the neighbor cell that has current - 1
 		struct nav_cell *cell = nav_get_next_neighbor(&array, current.row, current.column);
+		
+		// Mark the current cell as explored
+		cell->has_explored = 1;
 		
 		// Turn towards the new cell
 		dir_t direction = position_get_direction_to(&current, cell->row, cell->column);
@@ -220,6 +226,9 @@ void loop() {
 		
 		// Get the neighbor cell that has current - 1
 		struct nav_cell *cell = nav_get_next_neighbor(&array, current.row, current.column);
+		
+		// Mark the current cell as explored
+		cell->has_explored = 1;
 				
 		// Turn towards the new cell
 		dir_t direction = position_get_direction_to(&current, cell->row, cell->column);
@@ -235,12 +244,30 @@ void loop() {
 		detection_update_front_wall(&array, &current);
 	}
 	
+	//insert walls around all unexplored cells
+	for (int8_t i = 0; i < array.rows; i++)
+	{
+		for (int8_t j = 0; j < array.columns; j++)
+		{
+			struct nav_cell *cell = nav_get_cell(&array, i, j);
+			
+			if (cell->has_explored != 1)
+			{
+				nav_update_wall_cell(cell, north);
+				nav_update_wall_cell(cell, south);
+				nav_update_wall_cell(cell, east);
+				nav_update_wall_cell(cell, west);
+			}
+		}
+	}
+	
 	// We are at the start position
 	nav_flood(&array, &target);
 	
+	//"smart" move to target using all of the known wall locations
 	nav_drive_to_target(&array, &current, &target);
 	
-	
+	//victory dance :D
 	motor_turn_180();
 	motor_turn_180();
 	motor_turn_180();
