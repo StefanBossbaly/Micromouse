@@ -14,8 +14,11 @@ shield_t shield;
 stepper_t motor0, motor1;
 
 // Our empty maze
-struct nav_cell cells[7 * 7];
+struct nav_cell cells[16 * 16];
 struct nav_array array;
+
+// Starting postion
+pos_t start;
 
 // Current position
 pos_t current;
@@ -153,15 +156,19 @@ void setup() {
 	// Init shared motor values
 	motor_status = MOTOR_STANDBY;
 	motor_adj_status = MOTOR_NO_ADJ;
+	
+	start.row = 0;
+	start.column = 0;
+	start.direction = east;
 
 	// Setup our position
 	current.row = 0;
 	current.column = 0;
-	current.direction = north;
+	current.direction = east;
 	
 	//TODO pick a target
-	target.row = 3;
-	target.column = 3;
+	target.row = 7;
+	target.column = 7;
 	
 
 	// Start a callback to the sensors
@@ -175,7 +182,7 @@ void loop() {
 	Serial.println("loop() called");
 
 	// Init our maze
-	nav_init(&array, cells, 6, 3);
+	nav_init(&array, cells, 16, 16);
 	
 	
 	// Update the start walls
@@ -204,4 +211,42 @@ void loop() {
 		detection_update_walls(&array, &current);
 		detection_update_front_wall(&array, &current);
 	}
+	
+	// Ok we are at the target now flood back to the starting position
+	while (!position_equal_location(&current, &start))
+	{
+		// Flood the maze starting with the start
+		nav_flood(&array, &start);
+		
+		// Get the neighbor cell that has current - 1
+		struct nav_cell *cell = nav_get_next_neighbor(&array, current.row, current.column);
+				
+		// Turn towards the new cell
+		dir_t direction = position_get_direction_to(&current, cell->row, cell->column);
+		motor_turn_to_direction(&current, direction);
+		current.direction = direction;
+				
+		// Move forward
+		motor_move_forward();
+		position_move_forward(&current);
+				
+		// Update walls
+		detection_update_walls(&array, &current);
+		detection_update_front_wall(&array, &current);
+	}
+	
+	// We are at the start position
+	nav_flood(&array, &target);
+	
+	nav_drive_to_target(&array, &current, &target);
+	
+	
+	motor_turn_180();
+	motor_turn_180();
+	motor_turn_180();
+	motor_turn_180();
+	
+	delay(10000);
+	
+	
 }
